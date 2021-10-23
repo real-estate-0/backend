@@ -1,0 +1,61 @@
+{
+  "env": "development",
+  "timeZone": "Asia/Seoul",
+  "file_path": {
+    "bot": "C:\\bot_engine",
+    "topic": "C:\\topics",
+    "group": "C:\\groups",
+    "user": "C:\\users"
+  },
+  "ssl": {
+    "enable": true,
+    "key": "...",
+    "cert": "..."
+  },
+  "api": {
+    "bot": {
+      "port": 6000
+    }
+  },
+  "socket": {
+    "url": "ws://127.0.0.1:5000"
+  },
+  "log": {
+    "path": "/data/logs/share",
+    "maxSize": "200m",
+    "maxFiles": "5",
+    "level": "debug"
+  },
+  "jwt": {
+    "secretKey": "abcd",
+    "accessExpireMinutes": 3600,
+    "refreshExpireDays": 3600,
+    "verifyEmailExpirationMinutes": 30
+  },
+  "mongodb": {
+    "url": "mongodb://r2labs:todnRkd1!@r2labs.koreasouth.cloudapp.azure.com:27010",
+    "dbName": "share"
+  },
+  "redis": {
+    "auth": {
+      "host": "r2labs.koreasouth.cloudapp.azure.com",
+      "port": 7001,
+      "password": "dnjsvjs1@"
+    },
+    "app": {
+      "host": "r2labs.koreasouth.cloudapp.azure.com",
+      "port": 7000,
+      "password": "dnjsvjs1@"
+    },
+    "socket": {
+      "host": "r2labs.koreasouth.cloudapp.azure.com",
+      "port": 7000,
+      "password": "dnjsvjs1@"
+    },
+    "queue": {
+      "host": "r2labs.koreasouth.cloudapp.azure.com",
+      "port": 7000,
+      "password": "dnjsvjs1@"
+    }
+  }
+}
