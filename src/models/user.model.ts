@@ -14,17 +14,9 @@ const logger = createLogger("user", "models");
 class User extends Model {
   private userDefault: IUser = {
     userId: null,
-    userName: null,
+    name: null,
     password: null,
-    email: null,
-    termsConfirm: null,
     role: null,
-    verifiedEmail: null,
-    joinedGroups: [],
-    topics: [],
-    createdTime: null,
-    settings: {},
-    joinRequest: [],
   };
 
   constructor() {
@@ -38,9 +30,8 @@ class User extends Model {
    */
   create = async (userData: IUser): Promise<IUser> => {
     // default value proper hard code?
+    console.log("user.model create", userData);
     userData.role = "user";
-    userData.verifiedEmail = false;
-    userData.joinedGroups = [];
     userData.password = await bcrypt.hash(userData.password, 8);
     const data = { ...this.userDefault, ...userData };
 

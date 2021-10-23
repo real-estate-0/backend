@@ -8,11 +8,16 @@
  */
 
 const ERROR_CODE = {
+  EXISTS_USER_ID: {
+    error: "user-01",
+    message: "user id exists",
+    detail: "Ensure that the user id",
+  },
   GROUP_NAME_EXISTS: {
-    "error": "group-01",
-    "message": "group name is exists",
-    "detail": "Ensure that the groupname"
-  }, 
+    error: "group-01",
+    message: "group name is exists",
+    detail: "Ensure that the groupname",
+  },
   AE01: "User id already exists",
   AE02: "Email already exists",
   AE03: "Please authenticate",
@@ -24,11 +29,11 @@ const ERROR_CODE = {
   BE01: "Bot name or id already exists",
   FE01: "File service error",
   UNKNOWN: {
-    "error": "unknown-01",
-    "message": "unknown error",
-    "detail": "unknown error",
+    error: "unknown-01",
+    message: "unknown error",
+    detail: "unknown error",
   },
-  RESOURCE_NOT_FOUND: "Resource is not found"
+  RESOURCE_NOT_FOUND: "Resource is not found",
 };
 
 export { ERROR_CODE };

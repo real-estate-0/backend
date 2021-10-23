@@ -40,7 +40,7 @@ abstract class Model {
     logger.debug(`[start] find:${collectionName}` + JSON.stringify(query));
     const result = await this.db
       .collection(collectionName)
-      .find(query)
+      .find(query, { projection: { password: 0 } })
       .toArray();
     logger.debug("[end] find:" + JSON.stringify(result));
     return result;
@@ -105,9 +105,12 @@ abstract class Model {
         ", operation:" +
         JSON.stringify(operation)
     );
-    const result = await this.db
+    let result = await this.db
       .collection(collectionName)
-      .findOneAndUpdate(filter, operation, { returnDocument: "after" });
+      .findOneAndUpdate(filter, operation, {
+        returnDocument: "after",
+        projection: { password: 0 },
+      });
     logger.debug("[end] updateOne:" + JSON.stringify(result));
     return result.value;
   }

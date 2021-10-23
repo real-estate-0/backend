@@ -17,11 +17,18 @@ const schema = Joi.object({
 });
 
 const createUser = {
-  body: Joi.object().keys({}),
+  body: Joi.object().keys({
+    userId: Joi.string().required(),
+    name: Joi.string().required(),
+    password: Joi.string().required(),
+    role: Joi.string().required(),
+  }),
 };
 
 const getUsers = {
-  params: Joi.object().keys({}),
+  query: Joi.object().keys({
+    userObjectId: Joi.string(),
+  }),
 };
 
 const getUser = {
@@ -43,8 +50,7 @@ const updateUser = {
   body: Joi.object().keys({
     password: Joi.string(),
     roll: Joi.string(),
-    dept: Joi.string(),
-    cellPhone: Joi.string(),
+    name: Joi.string(),
   }),
 };
 
@@ -62,9 +68,9 @@ const getUserMails = {
   params: Joi.object().keys({
     userObjectId: Joi.string().custom(objectId),
   }),
-  query:Joi.object().keys({
-    view: Joi.string().valid('send', 'receive')
-  })
+  query: Joi.object().keys({
+    view: Joi.string().valid("send", "receive"),
+  }),
 };
 
 const createUserMail = {
@@ -74,7 +80,7 @@ const createUserMail = {
   body: Joi.object().keys({
     subject: Joi.string().required(),
     contents: Joi.string().required(),
-    to: Joi.array()
+    to: Joi.array(),
   }),
 };
 
@@ -91,7 +97,7 @@ const updateUserMail = {
     mailObjectId: Joi.string().custom(objectId),
   }),
   body: Joi.object().keys({
-    isRedad: Joi.boolean()
+    isRedad: Joi.boolean(),
   }),
 };
 
@@ -100,9 +106,9 @@ const deleteUserMail = {
     userObjectId: Joi.string().custom(objectId),
     mailObjectId: Joi.string().custom(objectId),
   }),
-  query:Joi.object().keys({
-    view: Joi.string().valid('send', 'receive')
-  })
+  query: Joi.object().keys({
+    view: Joi.string().valid("send", "receive"),
+  }),
 };
 
 export {

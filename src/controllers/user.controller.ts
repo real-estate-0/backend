@@ -1,8 +1,6 @@
 import httpStatus from "http-status";
 import { catchAsync } from "../utils/catchAsync";
-import {
-  userService,
-} from "../services";
+import { userService } from "../services";
 import { createLogger } from "../logger";
 import { ApiError } from "../utils/ApiError";
 import Controller from "./base.controller";
@@ -10,52 +8,33 @@ import Controller from "./base.controller";
 const logger = createLogger("controller", "user.controller");
 
 class UserController extends Controller {
-  /**
-   * @returns {ResultForm} {result: IUser}
-   */
-  getUser = catchAsync(async (req, res) => {
-    const user = await userService.getUserByObjectId(req.params.userObjectId);
-    res.status(httpStatus.OK).send({ result: user });
+  createUser = catchAsync(async (req, res) => {
+    console.log("createUser", JSON.stringify(req.body));
+    const user = await userService.createUser(req.body);
+    console.log("user", user);
+    res.status(httpStatus.OK).send({ result: { user: user } });
   });
-
   /**
    * @returns {ResultForm} {result: IUser[]}
    */
   getUsers = catchAsync(async (req, res) => {
-    const user = await userService.getUsers();
-    res.status(httpStatus.OK).send({ result: user });
+    console.log("getUsers", req.query);
+    const users = await userService.getUsers();
+    res.status(httpStatus.OK).send({ result: { users: users } });
   });
 
-  /**
-   *
-   */
-  getUserGroups = catchAsync(async (req, res) => {
-    const user = await userService.getUserByObjectId<IUser>(
-      req.params.userObjectId
+  updateUser = catchAsync(async (req, res) => {
+    const user = await userService.updateUser(
+      req.params.userObjectId,
+      req.body
     );
-    //const groups = await groupService.getGroupsByObjectIds(user.joinedGroups);
-    res.status(httpStatus.OK).send({ });
+    console.log("updated user", user);
+    res.status(httpStatus.OK).send({ result: { user: user } });
   });
 
-  /**
-   * @returns {ResultForm} {}
-const updateUser = catchAsync(async (req, res) => {
-  const user = await userService.updateUser(req.params.userObjectId, req.body);
-  res.status(httpStatus.OK).send()
-});
-
-
-const deleteUser = catchAsync(async (req, res) => {
-  const user = await userService.deleteUser(req.params.userObjectId);
-  res.status(httpStatus.OK).send()
-});
-*/
-
-  getUserMemos = catchAsync(async (req, res) => {
-    logger.debug(`[start]: {req.params.userObjectId}`);
-    //const memos = await memoService.getUserMemos(req.params.userObjectId);
-    logger.debug(`[start]: {memos}`);
-    res.status(httpStatus.OK).send({ });
+  deleteUser = catchAsync(async (req, res) => {
+    const user = await userService.deleteUser(req.params.userObjectId);
+    res.status(httpStatus.OK).send();
   });
 }
 

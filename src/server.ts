@@ -79,7 +79,6 @@ class AppServer {
       res.status(202).json({ message: "it's me" });
     });
 
-
     //console.log("routes", routes);
 
     /*
@@ -112,13 +111,10 @@ class AppServer {
       next(new ApiError(httpStatus.NOT_FOUND, "RE01"));
     });
 
-
     this.app.use((error, req, res, next) => {
       logger.error("error handler:" + JSON.stringify(error));
       if (error) {
-        return res
-          .status(error.statusCode)
-          .json(error.detailComment);
+        return res.status(error.statusCode).json(error.errorResponse);
       }
       return res.status(500);
     });

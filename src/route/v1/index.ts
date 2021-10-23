@@ -1,6 +1,7 @@
 import express from "express";
 import config from "config";
 import authRouter from "./auth.router";
+import userRouter from "./user.router";
 import topicRouter from "./topic.router";
 //import mailRouter from "./mail.router";
 //import { topicRouter } from "./topic.router";
@@ -15,6 +16,10 @@ const defaultRoutes = [
   {
     path: "/auth",
     route: authRouter,
+  },
+  {
+    path: "/users",
+    route: userRouter,
   },
 ];
 

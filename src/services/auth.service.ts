@@ -12,41 +12,6 @@ import { createLogger } from "../logger";
 const logger = createLogger("auth", "service");
 
 class AuthService extends Service {
-
-  register = async (req, res) => {
-    logger.debug(`[start] register: ${req.body}`);
-    const user = await userService.createUser(req.body);
-    logger.debug(`user document: ${user}`);
-    const tokens = await tokenService.generateAuthTokens(String(user._id));
-  };
-
-  verifyEmail = async (userId: string, token: string) => {
-    console.log("verifyEmail", userId, token);
-    const isValidToken = await tokenService.verifyToken(
-      parseInt(token),
-      tokenTypes.VERIFY_EMAIL
-    );
-    if (isValidToken) {
-      userService.verifiedEmailByUserId(userId);
-      return true;
-    }
-  };
-
-  /**
-   * generate tempPassword
-   * @param {string} userId
-   * @return {string} password (no encrypted)
-   */
-  generateTempPasswordWithSave = async (userId: string) => {
-    const password = Math.random().toString(36).slice(-8);
-    userService.updatePassword(userId, password);
-    return password;
-  };
-
-  /**
-   *
-   */
-
   comparePassword = async (password, origin) => {
     return bcrypt.compare(password, origin);
   };

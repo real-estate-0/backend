@@ -34,7 +34,7 @@
   },
   "mongodb": {
     "url": "mongodb://r2labs:todnRkd1!@r2labs.koreasouth.cloudapp.azure.com:27010",
-    "dbName": "share"
+    "dbName": "real"
   },
   "redis": {
     "auth": {
