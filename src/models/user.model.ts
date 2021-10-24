@@ -33,6 +33,7 @@ class User extends Model {
     console.log("user.model create", userData);
     userData.role = "user";
     userData.password = await bcrypt.hash(userData.password, 8);
+    userData.createdTime = new Date();
     const data = { ...this.userDefault, ...userData };
 
     const doc = await this.insertOne(data);
