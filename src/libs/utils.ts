@@ -24,7 +24,10 @@ export function validatePassword(input: string, origin: string) {
 }
 
 export function generateJWTToken(userId: string) {
-  const SECRET_KEY = config.get('SECRET_KEY')
+/*
+  const SECRET_KEY = config.get('jwt.secretKey')
   console.log('generate sk', SECRET_KEY)
   return jwt.sign({ userId: userId }, SECRET_KEY)
+*/
+return null
 }

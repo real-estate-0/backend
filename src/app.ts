@@ -41,11 +41,6 @@ app.use(cors());
 passport.use(jwtStrategy);
 app.use(passport.initialize());
 
-if (runMode == "production") {
-  app.use("/v1/auth", authLimiter);
-}
-
-app.use(fileUpload());
 /*
  * route
  */
