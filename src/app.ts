@@ -3,18 +3,14 @@ import config from "config";
 import morgan from "morgan";
 import compression from "compression";
 import cors from "cors";
-import xss from "xss-clean";
 import passport from "passport";
 import routes from "./route/v1";
-import { errorConverter } from "./middlewares/error";
 import { ApiError } from "./utils/ApiError";
 import { jwtStrategy } from "./config/passport";
-import { authLimiter } from "./middlewares/rateLimiter";
 import httpStatus from "http-status";
 import { Request, Response } from "express";
 import { createLogger } from "./logger";
 import { accessLogStream } from "./logger/morgan";
-import fileUpload from "express-fileupload";
 
 const app: express.Application = express();
 
