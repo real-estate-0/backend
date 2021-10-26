@@ -35,27 +35,5 @@
   "mongodb": {
     "url": "mongodb://r2labs:todnRkd1!@r2labs.koreasouth.cloudapp.azure.com:27010",
     "dbName": "real"
-  },
-  "redis": {
-    "auth": {
-      "host": "r2labs.koreasouth.cloudapp.azure.com",
-      "port": 7001,
-      "password": "dnjsvjs1@"
-    },
-    "app": {
-      "host": "r2labs.koreasouth.cloudapp.azure.com",
-      "port": 7000,
-      "password": "dnjsvjs1@"
-    },
-    "socket": {
-      "host": "r2labs.koreasouth.cloudapp.azure.com",
-      "port": 7000,
-      "password": "dnjsvjs1@"
-    },
-    "queue": {
-      "host": "r2labs.koreasouth.cloudapp.azure.com",
-      "port": 7000,
-      "password": "dnjsvjs1@"
-    }
   }
 }

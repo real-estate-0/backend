@@ -2,7 +2,6 @@ import { Db } from "mongodb";
 import { ObjectID } from "bson";
 import { MongoConnector } from "../connector/mongo";
 import { createLogger } from "../logger";
-
 const logger = createLogger("base.model", "models");
 
 abstract class Model {
@@ -27,6 +26,7 @@ abstract class Model {
     collectionName: string = this.collectionName
   ): Promise<T> {
     logger.debug("[start] findOne:" + JSON.stringify(query));
+    logger.debug("query to "+collectionName);
     const result = await this.db.collection(collectionName).findOne(query);
     logger.debug("[end] findOne:" + JSON.stringify(result));
     if (!result) return null;

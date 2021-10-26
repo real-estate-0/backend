@@ -9,8 +9,7 @@
     "prettier-watch": "onchange \"**/*.ts\" -- prettier --write {{changed}}",
     "lint": "yarn eslint . --ext .ts",
     "build": "tsc",
-    "test:socket": "yarn mocha -r ts-node/register tests/socket//*.test.ts --exit",
-    "test:load": "yarn artillery dino"
+    "test:app": "yarn mocha -r ts-node/register tests/*.test.ts --exit"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

@@ -8,6 +8,16 @@
  */
 
 const ERROR_CODE = {
+  NOT_FOUND_USER:{
+    error: "user-03",
+    message: "user not exists",
+    detail: "Ensure thar userid"
+  },
+  INCORRECT_USER_INFO: {
+    error: "user-02",
+    message: "user id or password is incorrect",
+    detail: "Ensure thar userid, passowrd"
+  },
   EXISTS_USER_ID: {
     error: "user-01",
     message: "user id exists",

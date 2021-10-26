@@ -41,9 +41,14 @@ class UserService extends Service {
   };
 
   getUserByUserId = async <T>(userId: string): Promise<T> => {
-    return await User.findOne({
+    const user = await User.findOne<T>({
       userId: userId,
     });
+  
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, "NOT_FOUND_USER");
+    }
+    return user;
   };
 
   deleteUser = async (userObjectId: string) => {

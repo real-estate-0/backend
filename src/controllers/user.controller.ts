@@ -12,7 +12,7 @@ class UserController extends Controller {
     console.log("createUser", JSON.stringify(req.body));
     const user = await userService.createUser(req.body);
     console.log("user", user);
-    res.status(httpStatus.OK).send({ result: { user: user } });
+    res.status(httpStatus.CREATED).send({ result: { user: user } });
   });
   /**
    * @returns {ResultForm} {result: IUser[]}

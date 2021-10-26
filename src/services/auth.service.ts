@@ -32,8 +32,8 @@ class AuthService extends Service {
     );
     console.log("login result", user, passwordCompareResult);
     //개발
-    if (config.get("env") != "development" && !passwordCompareResult) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, "AE03");
+    if (!passwordCompareResult) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, "INCORRECT_USER_INFO");
     }
     return user;
   };
