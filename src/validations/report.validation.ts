@@ -10,33 +10,28 @@ const schema = Joi.object({
 
 const createReport = {
   body: Joi.object().keys({
-    ReportId: Joi.string().required(),
-    name: Joi.string().required(),
-    password: Joi.string().required(),
-    role: Joi.string().required(),
+    paragraphs: Joi.array().items(Joi.any())
   }),
 };
 
 const getReports = {
   query: Joi.object().keys({
-    ReportObjectId: Joi.string(),
+    _id: Joi.string(),
   }),
 };
 
 const updateReport = {
   params: Joi.object().keys({
-    ReportObjectId: Joi.string().custom(objectId),
+    reportObjectId: Joi.string().custom(objectId),
   }),
   body: Joi.object().keys({
-    password: Joi.string(),
-    roll: Joi.string(),
-    name: Joi.string(),
+    paragraphs: Joi.array().items(Joi.any())
   }),
 };
 
 const deleteReport = {
   params: Joi.object().keys({
-    ReportObjectId: Joi.string().custom(objectId),
+    reportObjectId: Joi.string().custom(objectId),
   }),
 };
 

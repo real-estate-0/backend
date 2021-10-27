@@ -14,8 +14,9 @@ const logger = createLogger("report", "models");
 class Report extends Model {
   private reportDefault: IReport = {
     createUserObjectId: null, 
+    updateUserObjectId: null,
     title: null,
-    contents: [],
+    paragraphs: [],
     createdTime: null,
     updatedTime: null,
   };
@@ -29,12 +30,14 @@ class Report extends Model {
   /**
    * @returns {IReport} Reportif insert successed
    */
-  create = async (reportData: IReport): Promise<IReport> => {
+  create = async (reportData: IReport, userObjectId: string): Promise<IReport> => {
     // default value proper hard code?
     console.log("Report.model create", reportData);
     let data = { ...this.reportDefault, ...reportData };
     data.createdTime = new Date();
     data.updatedTime = new Date();
+    data.createUserObjectId = userObjectId;
+    data.updateUserObjectId = userObjectId;
     const doc = await this.insertOne(data);
     return doc;
   };

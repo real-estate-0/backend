@@ -8,9 +8,10 @@ import Controller from "./base.controller";
 const logger = createLogger("controller", "report.controller");
 
 class ReportController extends Controller {
+
   createReport = catchAsync(async (req, res) => {
     console.log("createReport", JSON.stringify(req.body));
-    const report = await reportService.createReport(req.body);
+    const report = await reportService.createReport(req.body, req.user.userObjectId);
     console.log("Report", report);
     res.status(httpStatus.OK).send({ result: { report: report } });
   });
@@ -33,7 +34,8 @@ class ReportController extends Controller {
   updateReport = catchAsync(async (req, res) => {
     const report = await reportService.updateReport(
       req.params.reportObjectId,
-      req.body
+      req.body,
+      req.user.userObjectId
     );
     res.status(httpStatus.OK).send({ result: { report: report } });
   });

@@ -3,15 +3,6 @@ type Content = {
   content?: any;
 }
 
-type IReport = {
-  _id?: string;
-  createUserObjectId?: string;
-  title?: string;
-  contents?: Contnt[];
-  createdTime?: Date;
-  updatedTime?: Date;
-};
-
 type IUser = {
   _id?: string;
   userId?: string;
@@ -20,6 +11,25 @@ type IUser = {
   role?: string;
   createdTime?: Date;
 };
+
+
+interface IParagraph {
+  type: string;
+  title?: string;
+  text?: string;
+  body?: any 
+  column?: string;
+}
+
+interface IReport {
+  _id?: string,
+  paragraphs: []  
+  title: string,
+  createUserObjectId: string,
+  updateUserObjectId: string,
+  createdTime: Date,
+  updatedTime: Date,
+}
 
 type AppState = {
   accessToken: string | undefined;

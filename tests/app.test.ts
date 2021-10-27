@@ -11,7 +11,8 @@ describe("app.ts", () => {
 
    before(async () => {
       await MongoConnector.connect();
-    
+      const db = await MongoConnector.getDb();
+      db.collection('users').deleteMany({}); 
     });
     after(async () => {
     });
@@ -31,12 +32,24 @@ describe("app.ts", () => {
         .send(userInfo)
         .expect(httpStatus.OK);
     });
-    it("should return 401 ", async () => {
+
+    it("should return 401 if unauthorized", async () => {
       const userInfo = { userId: 'admin', password: 'xxxxx' }
       const res = await request(app)
         .post("/api/v1/auth/login")
         .send(userInfo)
         .expect(httpStatus.UNAUTHORIZED);
     });
+
+    it("should return 200 if users exists", async () => {
+      const res = await request(app)
+        .get("/api/v1/users")
+        .expect((res) =>{
+            console.log('users',res.body)
+         })
+        .expect(httpStatus.OK);
+    });
+
+
   });
 });
