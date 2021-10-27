@@ -1,7 +1,7 @@
 type Content = {
-  type?: "table" | "image" | "text" ;
+  type?: "table" | "image" | "text";
   content?: any;
-}
+};
 
 type IUser = {
   _id?: string;
@@ -12,23 +12,23 @@ type IUser = {
   createdTime?: Date;
 };
 
-
 interface IParagraph {
   type: string;
   title?: string;
   text?: string;
-  body?: any 
-  column?: string;
+  tableBody?: any;
+  tableColumn?: string;
+  image?: string;
 }
 
 interface IReport {
-  _id?: string,
-  paragraphs: []  
-  title: string,
-  createUserObjectId: string,
-  updateUserObjectId: string,
-  createdTime: Date,
-  updatedTime: Date,
+  _id?: string;
+  paragraphs: [];
+  title: string;
+  createUserObjectId: string;
+  updateUserObjectId: string;
+  createdTime: Date;
+  updatedTime: Date;
 }
 
 type AppState = {
@@ -45,6 +45,4 @@ type ReduxState = {
   appReducer: AppState;
 };
 
-type TERROR_RESPONSE = {
-
-};
+type TERROR_RESPONSE = {};
