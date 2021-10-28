@@ -12,7 +12,7 @@ class ReportController extends Controller {
     console.log("createReport", JSON.stringify(req.body));
     const report = await reportService.createReport(req.body, "admin");
     console.log("Report", report);
-    res.status(httpStatus.OK).send({ result: { report: report } });
+    res.status(httpStatus.OK).send({ result: { report } });
   });
 
   /**
@@ -23,7 +23,7 @@ class ReportController extends Controller {
     if (req.query._id) {
       const ids = req.query._id.split(",");
       const reports = await reportService.getReportByObjectIds(ids);
-      res.status(httpStatus.OK).send({ result: { reports: reports } });
+      res.status(httpStatus.OK).send({ result: { reports } });
       return;
     }
     const reports = await reportService.getReports();
