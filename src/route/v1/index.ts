@@ -2,6 +2,7 @@ import express from "express";
 import config from "config";
 import authRouter from "./auth.router";
 import userRouter from "./user.router";
+import reportRouter from "./report.router";
 //import mailRouter from "./mail.router";
 //import { topicRouter } from "./topic.router";
 
@@ -19,6 +20,10 @@ const defaultRoutes = [
   {
     path: "/users",
     route: userRouter,
+  },
+  {
+    path: "/reports",
+    route: reportRouter,
   },
 ];
 

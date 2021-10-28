@@ -8,10 +8,9 @@ import Controller from "./base.controller";
 const logger = createLogger("controller", "report.controller");
 
 class ReportController extends Controller {
-
   createReport = catchAsync(async (req, res) => {
     console.log("createReport", JSON.stringify(req.body));
-    const report = await reportService.createReport(req.body, req.user.userObjectId);
+    const report = await reportService.createReport(req.body, "admin");
     console.log("Report", report);
     res.status(httpStatus.OK).send({ result: { report: report } });
   });
@@ -21,14 +20,15 @@ class ReportController extends Controller {
    */
   getReports = catchAsync(async (req, res) => {
     console.log("getReports", req.query);
-    if(req.query._id){
+    if (req.query._id) {
       const ids = req.query._id.split(",");
       const reports = await reportService.getReportByObjectIds(ids);
       res.status(httpStatus.OK).send({ result: { reports: reports } });
       return;
     }
     const reports = await reportService.getReports();
-    res.status(httpStatus.OK).send({ result: { reports: reports } });
+    console.log("getReports result", reports);
+    res.status(httpStatus.OK).send({ result: { reports } });
   });
 
   updateReport = catchAsync(async (req, res) => {
