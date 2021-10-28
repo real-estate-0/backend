@@ -34,7 +34,7 @@
   },
   "mongodb": {
     "_url": "mongodb://r2labs:todnRkd1!@r2labs.koreasouth.cloudapp.azure.com:27010",
-    "url": "mongodb://real:butHyK8ejPAmwJurTXbLu0CeS23RnKZwkgU57S8m2dxy1Ufh6g4PAaiggIkEq21GNdFMxI2fi0aJpAtPBvrhpA==@real.mongo.cosmos.azure.com:10255/?ssl=true&retrywrites=false&maxIdleTimeMS=120000&appName=@real@",
+    "url": "mongodb://real:butHyK8ejPAmwJurTXbLu0CeS23RnKZwkgU57S8m2dxy1Ufh6g4PAaiggIkEq21GNdFMxI2fi0aJpAtPBvrhpA==@real.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@real@",
     "dbName": "real"
   }
 }

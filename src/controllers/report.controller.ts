@@ -10,7 +10,7 @@ const logger = createLogger("controller", "report.controller");
 class ReportController extends Controller {
   createReport = catchAsync(async (req, res) => {
     console.log("createReport", JSON.stringify(req.body));
-    const report = await reportService.createReport(req.body, "admin");
+    const report = await reportService.createReport(req.body, "6179e27324df1a74636fdc76");
     console.log("Report", report);
     res.status(httpStatus.OK).send({ result: { report } });
   });
@@ -35,7 +35,7 @@ class ReportController extends Controller {
     const report = await reportService.updateReport(
       req.params.reportObjectId,
       req.body,
-      req.user.userObjectId
+      "6179e27324df1a74636fdc76"
     );
     res.status(httpStatus.OK).send({ result: { report: report } });
   });

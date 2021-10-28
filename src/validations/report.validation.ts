@@ -10,6 +10,7 @@ const schema = Joi.object({
 
 const createReport = {
   body: Joi.object().keys({
+    title: Joi.string(),
     paragraphs: Joi.array().items(Joi.any())
   }),
 };
