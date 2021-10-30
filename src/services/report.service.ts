@@ -15,14 +15,18 @@ class ReportService extends Service {
 
   createReport = async (reportData: IReport, userObjectId: string) => {
     logger.debug(`[start] createReport: ${reportData}`);
-    
+
     // default value proper hard code?
     //FIX
     return await Report.create(reportData, userObjectId);
   };
 
-  updateReport = async (reportObjectId: string, reportInfo: IReport, userObjectId: string) => {
-    console.log("will update Report", reportObjectId, reportInfo);
+  updateReport = async (
+    reportObjectId: string,
+    reportInfo: IReport,
+    userObjectId: string
+  ) => {
+    console.log("will update Report", reportObjectId);
     return await Report.updateOne(
       { _id: new ObjectID(reportObjectId) },
       { $set: { ...reportInfo } }

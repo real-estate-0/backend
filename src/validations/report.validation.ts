@@ -5,13 +5,12 @@ import { password, objectId } from "./custom.validation";
  */
 const schema = Joi.object({
   _id: Joi.string().required(),
-
 });
 
 const createReport = {
   body: Joi.object().keys({
     title: Joi.string(),
-    paragraphs: Joi.array().items(Joi.any())
+    paragraphs: Joi.array().items(Joi.any()),
   }),
 };
 
@@ -26,7 +25,8 @@ const updateReport = {
     reportObjectId: Joi.string().custom(objectId),
   }),
   body: Joi.object().keys({
-    paragraphs: Joi.array().items(Joi.any())
+    title: Joi.string().allow(null),
+    paragraphs: Joi.array().items(Joi.any()),
   }),
 };
 
@@ -36,10 +36,4 @@ const deleteReport = {
   }),
 };
 
-export {
-  schema,
-  createReport,
-  getReports,
-  updateReport,
-  deleteReport,
-};
+export { schema, createReport, getReports, updateReport, deleteReport };

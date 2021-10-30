@@ -53,8 +53,8 @@ class AppServer {
      * middleware
      */
     this.app.use(morgan("combined", { stream: accessLogStream }));
-    this.app.use(express.urlencoded({ extended: false }));
-    this.app.use(express.json());
+    this.app.use(express.urlencoded({ limit: "14mb", extended: false }));
+    this.app.use(express.json({ limit: "14mb" }));
 
     //error handler
     //app.use(errorConverter);

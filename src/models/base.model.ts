@@ -26,7 +26,7 @@ abstract class Model {
     collectionName: string = this.collectionName
   ): Promise<T> {
     logger.debug("[start] findOne:" + JSON.stringify(query));
-    logger.debug("query to "+collectionName);
+    logger.debug("query to " + collectionName);
     const result = await this.db.collection(collectionName).findOne(query);
     logger.debug("[end] findOne:" + JSON.stringify(result));
     if (!result) return null;
@@ -99,19 +99,14 @@ abstract class Model {
     operation: object,
     collectionName: string = this.collectionName
   ): Promise<T> {
-    logger.debug(
-      "[start] updateOne:" +
-        JSON.stringify(filter) +
-        ", operation:" +
-        JSON.stringify(operation)
-    );
+    logger.debug("[start] updateOne:" + JSON.stringify(filter));
     let result = await this.db
       .collection(collectionName)
       .findOneAndUpdate(filter, operation, {
         returnDocument: "after",
         projection: { password: 0 },
       });
-    logger.debug("[end] updateOne:" + JSON.stringify(result));
+    logger.debug("[end] updateOne:");
     return result.value;
   }
 
