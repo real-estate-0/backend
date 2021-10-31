@@ -157,11 +157,9 @@ abstract class Model {
     collectionName: string = this.collectionName
   ): Promise<any> {
     logger.debug("[start] deleteOne:" + JSON.stringify(filter));
-    const result = await this.db
-      .collection(collectionName)
-      .findOneAndDelete(filter, {});
-    logger.debug("[end] deleteOne:" + JSON.stringify(result));
-    return result.value;
+    const result = await this.db.collection(collectionName).deleteOne(filter);
+    logger.debug("[end] deleteOne:" + JSON.stringify(filter));
+    return result;
   }
 }
 
