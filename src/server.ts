@@ -125,7 +125,7 @@ class AppServer {
   }
 
   private loadConfiguration() {
-    this.PORT = Number(process.env.PORT); //config.get("server.api.port");
+    this.PORT = Number(process.env.PORT || 4000); //config.get("server.api.port");
   }
 
   /*
@@ -154,4 +154,7 @@ class AppServer {
   }
 }
 
-export default AppServer;
+const appServer = new AppServer();
+appServer.run();
+
+//export default AppServer;

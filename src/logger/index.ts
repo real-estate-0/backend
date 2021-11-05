@@ -56,6 +56,8 @@ export function createLogger(
     level: level, //env === "development" ? "debug" : "info",
     format: formatter,
     transports: [
+      new winston.transports.Console(),
+      /*
       new DailyRotateFile({
         dirname: dir,
         filename: fileName + "-%DATE%.log",
@@ -64,6 +66,7 @@ export function createLogger(
         maxSize: maxSize,
         maxFiles: logFileCount,
       }),
+      */
     ],
   });
 

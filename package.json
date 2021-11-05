@@ -5,8 +5,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=development PORT=4000 nodemon --exec ts-node --files ./src/entry.ts",
-    "serve": "node dist/entry.js",
+    "start": "cross-env NODE_ENV=development PORT=4000 nodemon --exec ts-node --files ./src/server.ts",
+    "serve": "node dist/server.js",
     "prettier-watch": "onchange \"**/*.ts\" -- prettier --write {{changed}}",
     "lint": "yarn eslint . --ext .ts",
     "build": "tsc",
