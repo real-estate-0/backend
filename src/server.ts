@@ -2,7 +2,6 @@ import express, { Request, Response, NextFunction } from "express";
 import config from "config";
 import { catchAsync } from "./utils/catchAsync";
 import { createServer } from "http";
-import { Server, Socket } from "socket.io";
 import { configSchema } from "./validations/config.validation";
 import { MongoConnector } from "./connector/mongo";
 //import { app } from "./app";
@@ -17,7 +16,6 @@ import httpStatus from "http-status";
 import { createLogger } from "./logger";
 import { accessLogStream } from "./logger/morgan";
 
-import Redis from "ioredis";
 /**
  * Enviroment check
  * - config setting

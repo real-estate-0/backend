@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "@types/uuid": "^8.3.1",
+    "@types/winston": "^2.4.4",
     "bcrypt": "^5.0.1",
     "compression": "^1.7.4",
     "config": "^3.3.6",
@@ -64,6 +65,8 @@
     "nanoid": "^3.1.28",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
-    "rotating-file-stream": "^2.1.5"
+    "rotating-file-stream": "^2.1.5",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.5"
   }
 }
