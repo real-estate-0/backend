@@ -1,4 +1,5 @@
 *.log
+.github/
 yarn.lock
 node_modules
 .nyc_output
