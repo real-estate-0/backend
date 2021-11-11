@@ -37,7 +37,7 @@ class UserService extends Service {
   };
 
   getUsers = async () => {
-    return await User.find({});
+    return await User.find({}, []);
   };
 
   getUserByUserId = async <T>(userId: string): Promise<T> => {

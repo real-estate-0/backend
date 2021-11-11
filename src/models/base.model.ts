@@ -22,28 +22,40 @@ abstract class Model {
   };
 
   async findOne<T>(
-    query: object,
+    query: Record<string, unknown>,
     collectionName: string = this.collectionName
   ): Promise<T> {
     logger.debug("[start] findOne:" + JSON.stringify(query));
     logger.debug("query to " + collectionName);
     const result = await this.db.collection(collectionName).findOne(query);
-    logger.debug("[end] findOne:" + JSON.stringify(result));
+    logger.debug("[end] findOne result ok");
     if (!result) return null;
     return result;
   }
 
   async find<T>(
-    query: object,
+    query: Record<string, unknown>,
+    fields: string [],
     collectionName: string = this.collectionName
   ): Promise<T[]> {
     logger.debug(`[start] find:${collectionName}` + JSON.stringify(query));
+
+    let projection = { password: 0 };
+    for (let i = 0; i < fields.length; i++){
+      projection[fields[i]] = 0;
+    }
+
+    console.log('projection', projection)
+    try{
     const result = await this.db
       .collection(collectionName)
-      .find(query, { projection: { password: 0 } })
+      .find(query, { projection: projection })
       .toArray();
-    logger.debug("[end] find:" + JSON.stringify(result));
-    return result;
+      logger.debug("[end] find:"+result.length );
+      return result;
+    }catch(err){
+      console.log('find error', err)
+    }
   }
 
   async findById<T>(
@@ -54,35 +66,41 @@ abstract class Model {
     const result = await this.db
       .collection(collectionName)
       .findOne({ _id: new ObjectID(objectId) });
-    logger.debug("[end] findById:" + JSON.stringify(result));
+    logger.debug("[end] findById: ok");
     return result;
   }
 
   async findByIds<T>(
     objectIds: string[],
-    field = "_id",
+    fields = [],
+    key = "_id",
     collectionName: string = this.collectionName
   ): Promise<T[]> {
     logger.debug(`[start] findByIds: ${JSON.stringify(objectIds)}`);
+    let projection = { password: 0  };
+    for (let i = 0; i < fields.length; i++){
+      projection[fields[i]] = 0;
+    }
     const ids =
-      field == "_id"
+      key == "_id"
         ? objectIds.map((_id: string) => new ObjectID(_id))
         : objectIds;
     logger.debug(
       `[params] collection: ${
         this.collectionName
-      } findByIds:${field} ids:${JSON.stringify(ids)}`
+      } findByIds:${key} ids:${JSON.stringify(ids)}`
     );
+    
     const result = await this.db
       .collection(collectionName)
-      .find({ [field]: { $in: ids } })
+      .find({ [key]: { $in: ids } }, { projection })
       .toArray();
-    logger.debug(`[end] findByIds: ${JSON.stringify(result)}`);
+    logger.debug(`[end] findByIds: ${result} `);
     return result;
   }
 
   async insertOne(
-    data: object,
+    data: Record<string, unknown>,
     collectionName: string = this.collectionName
   ): Promise<any> {
     logger.debug("[start] base insertOne:" + JSON.stringify(data));
@@ -95,8 +113,8 @@ abstract class Model {
   }
 
   async updateOne<T>(
-    filter: object,
-    operation: object,
+    filter: Record<string, unknown>,
+    operation: Record<string, unknown>,
     collectionName: string = this.collectionName
   ): Promise<T> {
     logger.debug("[start] updateOne:" + JSON.stringify(filter));
@@ -111,7 +129,7 @@ abstract class Model {
   }
 
   async append(
-    filter: object,
+    filter: Record<string, unknown>,
     field: string,
     data: any,
     collectionName: string = this.collectionName
@@ -132,7 +150,7 @@ abstract class Model {
   }
 
   async pull(
-    filter: object,
+    filter: Record<string, unknown>,
     field: string,
     data: any,
     collectionName: string = this.collectionName
@@ -153,7 +171,7 @@ abstract class Model {
   }
 
   async deleteOne(
-    filter: object,
+    filter: Record<string, unknown>,
     collectionName: string = this.collectionName
   ): Promise<any> {
     logger.debug("[start] deleteOne:" + JSON.stringify(filter));

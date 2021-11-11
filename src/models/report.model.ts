@@ -35,7 +35,7 @@ class Report extends Model {
     userObjectId: string
   ): Promise<IReport> => {
     // default value proper hard code?
-    console.log("Report.model create", reportData);
+    //console.log("Report.model create", reportData);
     let data = { ...this.reportDefault, ...reportData };
     data.createdTime = new Date();
     data.updatedTime = new Date();

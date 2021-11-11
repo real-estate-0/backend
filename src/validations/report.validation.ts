@@ -17,6 +17,7 @@ const createReport = {
 const getReports = {
   query: Joi.object().keys({
     _id: Joi.string(),
+    fields: Joi.string()
   }),
 };
 

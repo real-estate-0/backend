@@ -33,12 +33,12 @@ class ReportService extends Service {
     );
   };
 
-  getReports = async () => {
-    return await Report.find({});
+  getReports = async (fields: string[]) => {
+    return await Report.find({}, fields);
   };
 
-  getReportByObjectIds = async (reportObjectIds: string[]) => {
-    return await Report.findByIds(reportObjectIds);
+  getReportByObjectIds = async (reportObjectIds: string[], fields: string[]) => {
+    return await Report.findByIds(reportObjectIds, fields);
   };
 
   deleteReport = async (reportObjectId: string) => {

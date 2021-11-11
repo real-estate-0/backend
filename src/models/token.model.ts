@@ -11,7 +11,7 @@ class Token extends Model {
     return await this.insertOne(token);
   };
 
-  isExists = async (filter: object) => {
+  isExists = async (filter: Record<string, unknown>) => {
     console.log("isExists", filter);
     return await this.findOne(filter);
   }
