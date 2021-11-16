@@ -16,6 +16,7 @@ class Report extends Model {
     createUserObjectId: null,
     updateUserObjectId: null,
     title: null,
+    price: 0,
     paragraphs: [],
     createdTime: null,
     updatedTime: null,
