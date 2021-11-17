@@ -26,7 +26,7 @@ class ReportService extends Service {
     reportInfo: IReport,
     userObjectId: string
   ) => {
-    console.log("will update Report", reportObjectId);
+    console.log("will update Report", reportObjectId, reportInfo);
     return await Report.updateOne(
       { _id: new ObjectID(reportObjectId) },
       { $set: { ...reportInfo } }
@@ -37,7 +37,10 @@ class ReportService extends Service {
     return await Report.find({}, fields);
   };
 
-  getReportByObjectIds = async (reportObjectIds: string[], fields: string[]) => {
+  getReportByObjectIds = async (
+    reportObjectIds: string[],
+    fields: string[]
+  ) => {
     return await Report.findByIds(reportObjectIds, fields);
   };
 
