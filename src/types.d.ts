@@ -26,6 +26,7 @@ interface IReport {
   paragraphs: [];
   title: string;
   price: number;
+  tags: string[],
   createUserObjectId: string;
   updateUserObjectId: string;
   createdTime: Date;
