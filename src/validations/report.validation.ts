@@ -11,7 +11,7 @@ const createReport = {
   body: Joi.object().keys({
     title: Joi.string(),
     price: Joi.number(),
-    building: Joi.object().keys({}).unknown(true),
+    information: Joi.object().keys({}).unknown(true),
     rent: Joi.array().items(Joi.any()),
     tags: Joi.array().items(Joi.string()),
     paragraphs: Joi.array().items(Joi.any()),
