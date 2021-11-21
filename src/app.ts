@@ -11,6 +11,7 @@ import httpStatus from "http-status";
 import { Request, Response } from "express";
 import { createLogger } from "./logger";
 import { accessLogStream } from "./logger/morgan";
+import path from 'path';
 
 const app: express.Application = express();
 
@@ -92,17 +93,15 @@ routes.stack.forEach((mid) => {
 
 app.use("/api/v1", routes);
 
+
+app.get('*', function (req, res) {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+})
 /*
  * Common Error
  */
 
 //send 404 error for unknkow api request
-app.use((req: Request, res: Response, next: NextFunction) => {
-  logger.error("NOT FOUND header:" + JSON.stringify(req.headers));
-  logger.error("NOT FOUND param:" + JSON.stringify(req.param));
-  logger.error("NOT FOUND body:" + JSON.stringify(req.body));
-  next(new ApiError(httpStatus.NOT_FOUND, "RE01"));
-});
 
 app.use((error, req, res, next) => {
   logger.error("error handler:" + JSON.stringify(error));
