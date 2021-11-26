@@ -12,6 +12,8 @@ import { Request, Response } from "express";
 import { createLogger } from "./logger";
 import { accessLogStream } from "./logger/morgan";
 import path from 'path';
+import axios from 'axios';
+import url from 'url';
 
 const app: express.Application = express();
 
@@ -53,6 +55,22 @@ app.get("/", (req: Request, res: Response) => {
 /**
  * it give server information to client
  */
+
+app.post("/api/v1/address", async (req: Request, res: Response) =>{
+  const API_KEY = "devU01TX0FVVEgyMDIxMTEyNjA2MzczNjExMTk1NTI="
+  const ADD_URL = "https://www.juso.go.kr/addrlink/addrLinkApi.do"
+
+  //@ts-ignore
+  const result = await axios.post(ADD_URL, new url.URLSearchParams({
+    confmKey: API_KEY,
+    currentPage: 1,
+    countPerPage: 10,
+    keyword: req.body.address,
+    resultType: "json",
+  }))
+  //@ts-ignore
+  console.log('address', result)
+})
 
 app.get("/server", (req: Request, res: Response) => {
   res.status(200).json({
