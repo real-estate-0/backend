@@ -378,7 +378,7 @@ class DataController extends Controller {
         console.log("getBUildInfo", building.response.body.items);
         return res
           .status(httpStatus.OK)
-          .send({ result: { building: building.response.body.items.item } });
+          .send({ building: building.response.body.items.item } );
       }
     }
   });
