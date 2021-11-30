@@ -8,6 +8,192 @@ import axios from "axios";
 import { URLSearchParams } from "url";
 const logger = createLogger("controller", "report.controller");
 
+export function parseXml(xml: any) {
+  var dom = null;
+  if (window.DOMParser) {
+    try {
+      dom = new DOMParser().parseFromString(xml, "text/xml");
+    } catch (e) {
+      dom = null;
+    }
+  } else alert("cannot parse xml string!");
+  /*
+  else if (window.ActiveXObject) {
+     try {
+        dom = new ActiveXObject('Microsoft.XMLDOM');
+        dom.async = false;
+        if (!dom.loadXML(xml)) // parse error ..
+
+           window.alert(dom.parseError.reason + dom.parseError.srcText);
+     } 
+     catch (e) { dom = null; }
+  }
+  */
+  return dom;
+}
+
+// Changes XML to JSON
+export function xml2json(xml: any, tab: any) {
+  var X = {
+    toObj: function (xml: any) {
+      var o: any = {};
+      if (xml.nodeType == 1) {
+        // element node ..
+        if (xml.attributes.length)
+          // element with attributes  ..
+          for (var i = 0; i < xml.attributes.length; i++)
+            o["@" + xml.attributes[i].nodeName] = (
+              xml.attributes[i].nodeValue || ""
+            ).toString();
+        if (xml.firstChild) {
+          // element has child nodes ..
+          var textChild = 0,
+            cdataChild = 0,
+            hasElementChild = false;
+          for (var n = xml.firstChild; n; n = n.nextSibling) {
+            if (n.nodeType == 1) hasElementChild = true;
+            else if (n.nodeType == 3 && n.nodeValue.match(/[^ \f\n\r\t\v]/))
+              textChild++;
+            // non-whitespace text
+            else if (n.nodeType == 4) cdataChild++; // cdata section node
+          }
+          if (hasElementChild) {
+            if (textChild < 2 && cdataChild < 2) {
+              // structured element with evtl. a single text or/and cdata node ..
+              X.removeWhite(xml);
+              for (var n = xml.firstChild; n; n = n.nextSibling) {
+                if (n.nodeType == 3)
+                  // text node
+                  o["#text"] = X.escape(n.nodeValue);
+                else if (n.nodeType == 4)
+                  // cdata node
+                  o["#cdata"] = X.escape(n.nodeValue);
+                else if (o[n.nodeName]) {
+                  // multiple occurence of element ..
+                  if (o[n.nodeName] instanceof Array)
+                    o[n.nodeName][o[n.nodeName].length] = X.toObj(n);
+                  else o[n.nodeName] = [o[n.nodeName], X.toObj(n)];
+                } // first occurence of element..
+                else o[n.nodeName] = X.toObj(n);
+              }
+            } else {
+              // mixed content
+              if (!xml.attributes.length) o = X.escape(X.innerXml(xml));
+              else o["#text"] = X.escape(X.innerXml(xml));
+            }
+          } else if (textChild) {
+            // pure text
+            if (!xml.attributes.length) o = X.escape(X.innerXml(xml));
+            else o["#text"] = X.escape(X.innerXml(xml));
+          } else if (cdataChild) {
+            // cdata
+            if (cdataChild > 1) o = X.escape(X.innerXml(xml));
+            else
+              for (var n = xml.firstChild; n; n = n.nextSibling)
+                o["#cdata"] = X.escape(n.nodeValue);
+          }
+        }
+        if (!xml.attributes.length && !xml.firstChild) o = null;
+      } else if (xml.nodeType == 9) {
+        // document.node
+        o = X.toObj(xml.documentElement);
+      } else alert("unhandled node type: " + xml.nodeType);
+      return o;
+    },
+    toJson: function (o: any, name: any, ind: any) {
+      var json = name ? '"' + name + '"' : "";
+      if (o instanceof Array) {
+        for (var i = 0, n = o.length; i < n; i++)
+          o[i] = X.toJson(o[i], "", ind + "\t");
+        json +=
+          (name ? ":[" : "[") +
+          (o.length > 1
+            ? "\n" + ind + "\t" + o.join(",\n" + ind + "\t") + "\n" + ind
+            : o.join("")) +
+          "]";
+      } else if (o == null) json += (name && ":") + "null";
+      else if (typeof o == "object") {
+        var arr = [];
+        for (var m in o) arr[arr.length] = X.toJson(o[m], m, ind + "\t");
+        json +=
+          (name ? ":{" : "{") +
+          (arr.length > 1
+            ? "\n" + ind + "\t" + arr.join(",\n" + ind + "\t") + "\n" + ind
+            : arr.join("")) +
+          "}";
+      } else if (typeof o == "string")
+        json += (name && ":") + '"' + o.toString() + '"';
+      else json += (name && ":") + o.toString();
+      return json;
+    },
+    innerXml: function (node: any) {
+      var s = "";
+      if ("innerHTML" in node) s = node.innerHTML;
+      else {
+        var asXml = function (n: any) {
+          var s = "";
+          if (n.nodeType == 1) {
+            s += "<" + n.nodeName;
+            for (var i = 0; i < n.attributes.length; i++)
+              s +=
+                " " +
+                n.attributes[i].nodeName +
+                '="' +
+                (n.attributes[i].nodeValue || "").toString() +
+                '"';
+            if (n.firstChild) {
+              s += ">";
+              for (var c = n.firstChild; c; c = c.nextSibling) s += asXml(c);
+              s += "</" + n.nodeName + ">";
+            } else s += "/>";
+          } else if (n.nodeType == 3) s += n.nodeValue;
+          else if (n.nodeType == 4) s += "<![CDATA[" + n.nodeValue + "]]>";
+          return s;
+        };
+        for (var c = node.firstChild; c; c = c.nextSibling) s += asXml(c);
+      }
+      return s;
+    },
+    escape: function (txt: any) {
+      return txt
+        .replace(/[\\]/g, "\\\\")
+        .replace(/[\"]/g, '\\"')
+        .replace(/[\n]/g, "\\n")
+        .replace(/[\r]/g, "\\r");
+    },
+    removeWhite: function (e: any) {
+      e.normalize();
+      for (var n = e.firstChild; n; ) {
+        if (n.nodeType == 3) {
+          // text node
+          if (!n.nodeValue.match(/[^ \f\n\r\t\v]/)) {
+            // pure whitespace text node
+            var nxt = n.nextSibling;
+            e.removeChild(n);
+            n = nxt;
+          } else n = n.nextSibling;
+        } else if (n.nodeType == 1) {
+          // element node
+          X.removeWhite(n);
+          n = n.nextSibling;
+        } // any other node
+        else n = n.nextSibling;
+      }
+      return e;
+    },
+  };
+  if (xml.nodeType == 9)
+    // document node
+    xml = xml.documentElement;
+  var json = X.toJson(X.toObj(X.removeWhite(xml)), xml.nodeName, "\t");
+  return JSON.parse(
+    "{\n" +
+      tab +
+      (tab ? json.replace(/\t/g, tab) : json.replace(/\t|\n/g, "")) +
+      "\n}"
+  );
+}
+
 class DataController extends Controller {
   /**
    * @returns {ResultForm} {result: IReport[]}
@@ -154,9 +340,7 @@ class DataController extends Controller {
         }
       );
       console.log("getAddress", address.data);
-      return res
-        .status(httpStatus.OK)
-        .send({ result: { address, fields: this.JUSO_FIELD } });
+      return res.status(httpStatus.OK).send({ result: { address } });
     }
   });
 
@@ -171,35 +355,45 @@ class DataController extends Controller {
         "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
       const URL =
         "http://apis.data.go.kr/1613000/BldRgstService_v2/getBrTitleInfo";
-      const building = axios.get(URL, {
+
+      const bun = req.body.bun.padStart(4, "0");
+      const ji = req.body.ji.padStart(4, "0");
+
+      const result = await axios.get(URL, {
         params: new URLSearchParams({
           serviceKey: KEY,
           sigunguCd: req.body.sigunguCd,
           bjdongCd: req.body.bjdongCd,
-          bun: req.body.bun, //4자리 00패딩
-          ji: req.body.ji, //4자리 00패딩
+          bun: bun, //4자리 00패딩
+          ji: ji, //4자리 00패딩
+          format: "json",
         }),
         headers: {
           Accept: "*",
         },
       });
-      return res
-        .status(httpStatus.OK)
-        .send({ result: { building, fields: this.BUILD_FIELD } });
+      if (result.data) {
+        console.log("getBuild result", result.data, parseXml(result.data));
+        const building = xml2json(parseXml(result.data), "");
+        console.log("getBUildInfo", building.response.body.items);
+        return res
+          .status(httpStatus.OK)
+          .send({ result: { building: building.response.body.items.item } });
+      }
     }
   });
 
-  getLandPrice = catchAsync(async (req, res) => {
-    if (req.body.pnu && req.body.stdrYear) {
+  getLandPriceInfo = catchAsync(async (req, res) => {
+    if (req.body.pnu && req.body.year) {
       const KEY =
         "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
-      const URL =
+      const API_URL =
         "http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr";
-      const price = axios.get(URL, {
+      const result = await axios.get(API_URL, {
         params: new URLSearchParams({
           serviceKey: KEY,
-          pnu: req.body.pnu,
-          stdrYear: req.body.stdrYear,
+          pnu: req.body.pnu, //"1111017700102110000",
+          stdrYear: req.body.year,
           format: "json",
           numOfRows: "10",
           pageNoe: "1",
@@ -208,9 +402,45 @@ class DataController extends Controller {
           Accept: "*",
         },
       });
-      return res
-        .status(httpStatus.OK)
-        .send({ result: { price, fields: this.PRICE_FIELD } });
+      if (result.data) {
+        //@ts-ignore
+        console.log("getLandPrice", result.data);
+        //@ts-ignore
+        return res
+          .status(httpStatus.OK)
+          .send({ price: result.data.indvdLandPrices.field });
+      }
+    }
+  });
+
+  getLandPlanInfo = catchAsync(async (req, res) => {
+    if (req.body.pnu) {
+      const KEY =
+        "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
+      const API_URL =
+        "http://apis.data.go.kr/1611000/nsdi/LandUseService/attr/getLandUseAttr";
+
+      const result = await axios.get(API_URL, {
+        params: new URLSearchParams({
+          serviceKey: KEY,
+          pnu: req.body.pnu,
+          cnflcAt: "1",
+          format: "json",
+          numOfRows: "100",
+          pageNoe: "1",
+        }),
+        headers: {
+          Accept: "*",
+        },
+      });
+      if (result.data) {
+        //@ts-ignore
+        console.log("getLandPlan", result.data);
+        //@ts-ignore
+        return res
+          .status(httpStatus.OK)
+          .send({ landPlan: result.data.landUses.field });
+      }
     }
   });
 }
