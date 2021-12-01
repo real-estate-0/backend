@@ -6,11 +6,13 @@ import { ApiError } from "../utils/ApiError";
 import Controller from "./base.controller";
 import axios from "axios";
 import { URLSearchParams } from "url";
+import { DOMParser } from 'xmldom';
+
 const logger = createLogger("controller", "report.controller");
 
 export function parseXml(xml: any) {
-  var dom = null;
-  if (window.DOMParser) {
+  let dom = null;
+  if (DOMParser) {
     try {
       dom = new DOMParser().parseFromString(xml, "text/xml");
     } catch (e) {
@@ -345,6 +347,7 @@ class DataController extends Controller {
   });
 
   getBuildInfo = catchAsync(async (req, res) => {
+    console.log('getBuildInfo', req.body)
     if (
       req.body.sigunguCd &&
       req.body.bjdongCd &&
@@ -356,22 +359,24 @@ class DataController extends Controller {
       const URL =
         "http://apis.data.go.kr/1613000/BldRgstService_v2/getBrTitleInfo";
 
-      const bun = req.body.bun.padStart(4, "0");
-      const ji = req.body.ji.padStart(4, "0");
+      //const bun = req.body.bun.padStart(4, "0");
+      //const ji = req.body.ji.padStart(4, "0");
 
+      try{
       const result = await axios.get(URL, {
         params: new URLSearchParams({
           serviceKey: KEY,
           sigunguCd: req.body.sigunguCd,
           bjdongCd: req.body.bjdongCd,
-          bun: bun, //4자리 00패딩
-          ji: ji, //4자리 00패딩
+          bun: req.body.bun, //4자리 00패딩
+          ji: req.body.ji, //4자리 00패딩
           format: "json",
         }),
         headers: {
           Accept: "*",
         },
       });
+      console.log('getBuildInfo', result.data)
       if (result.data) {
         console.log("getBuild result", result.data, parseXml(result.data));
         const building = xml2json(parseXml(result.data), "");
@@ -379,6 +384,9 @@ class DataController extends Controller {
         return res
           .status(httpStatus.OK)
           .send({ building: building.response.body.items.item } );
+      }
+      }catch(err){
+        console.log('err', err)
       }
     }
   });
