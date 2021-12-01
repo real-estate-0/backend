@@ -341,7 +341,6 @@ class DataController extends Controller {
           resultType: "json",
         }
       );
-      console.log("getAddress", address.data);
       return res.status(httpStatus.OK).send({ result: { address } });
     }
   });
@@ -376,11 +375,8 @@ class DataController extends Controller {
           Accept: "*",
         },
       });
-      console.log('getBuildInfo', result.data)
       if (result.data) {
-        console.log("getBuild result", result.data, parseXml(result.data));
         const building = xml2json(parseXml(result.data), "");
-        console.log("getBUildInfo", building.response.body.items);
         return res
           .status(httpStatus.OK)
           .send({ building: building.response.body.items.item } );
@@ -412,8 +408,6 @@ class DataController extends Controller {
       });
       if (result.data) {
         //@ts-ignore
-        console.log("getLandPrice", result.data);
-        //@ts-ignore
         return res
           .status(httpStatus.OK)
           .send({ price: result.data.indvdLandPrices.field });
@@ -442,8 +436,6 @@ class DataController extends Controller {
         },
       });
       if (result.data) {
-        //@ts-ignore
-        console.log("getLandPlan", result.data);
         //@ts-ignore
         return res
           .status(httpStatus.OK)
