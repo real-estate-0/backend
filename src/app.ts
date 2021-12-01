@@ -14,6 +14,7 @@ import { accessLogStream } from "./logger/morgan";
 import path from "path";
 import axios from "axios";
 import url from "url";
+import proxy from 'html2canvas-proxy';
 
 const app: express.Application = express();
 
@@ -51,6 +52,8 @@ app.use(passport.initialize());
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "it's me" });
 });
+
+app.use('/capture', proxy());
 
 /**
  * it give server information to client
