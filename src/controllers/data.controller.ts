@@ -345,6 +345,48 @@ class DataController extends Controller {
     }
   });
 
+  getBuildFloorInfo = catchAsync(async (req, res) => {
+    console.log('getBuildInfo', req.body)
+    if (
+      req.body.sigunguCd &&
+      req.body.bjdongCd &&
+      req.body.bun &&
+      req.body.ji
+    ) {
+      const KEY =
+        "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
+      const URL =
+        "http://apis.data.go.kr/1613000/BldRgstService_v2/getBrFlrOulnInfo";
+      //const bun = req.body.bun.padStart(4, "0");
+      //const ji = req.body.ji.padStart(4, "0");
+
+      try{
+      const result = await axios.get(URL, {
+        params: new URLSearchParams({
+          serviceKey: KEY,
+          sigunguCd: req.body.sigunguCd,
+          bjdongCd: req.body.bjdongCd,
+          bun: req.body.bun, //4자리 00패딩
+          ji: req.body.ji, //4자리 00패딩
+          format: "json",
+        }),
+        headers: {
+          Accept: "*",
+        },
+      });
+      if (result.data) {
+        const buildingFloor = xml2json(parseXml(result.data), "");
+        return res
+          .status(httpStatus.OK)
+          .send({ buildingFllor: buildingFloor.response.body.items.item } );
+      }
+      }catch(err){
+        console.log('err', err)
+      }
+    }
+  });
+
+
   getBuildInfo = catchAsync(async (req, res) => {
     console.log('getBuildInfo', req.body)
     if (
