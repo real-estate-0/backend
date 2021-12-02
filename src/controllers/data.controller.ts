@@ -6,7 +6,8 @@ import { ApiError } from "../utils/ApiError";
 import Controller from "./base.controller";
 import axios from "axios";
 import { URLSearchParams } from "url";
-import { DOMParser } from 'xmldom';
+import { DOMParser } from "xmldom";
+import { address } from "faker";
 
 const logger = createLogger("controller", "report.controller");
 
@@ -345,8 +346,44 @@ class DataController extends Controller {
     }
   });
 
+  getLocation = catchAsync(async (req, res) => {
+    if (req.body.address) {
+      const KEY = "08967D3E-8554-305C-B2F1-01383D0AB0AF";
+      console.log(
+        "getLoation",
+        req.body.address,
+        encodeURIComponent(req.body.address)
+      );
+
+      const location = await axios.get(
+        `http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0&crs=epsg:4326&address=${encodeURIComponent(
+          req.body.address
+        )}&refine=true&simple=false&format=json&type=road&key=${KEY}`
+        /*
+      {
+        params: {
+          service: "address",
+          request: "GetCoord",
+          version: "2.0",
+          crs: "epsg:4326",
+          address: req.body.address,
+          refine: true,
+          simple: false,
+          format: "json",
+          type: "road",
+          key: KEY,
+        },
+      }*/
+      );
+      console.log("GetLocation", location.data);
+      return res
+        .status(httpStatus.OK)
+        .send({ location: location.data.response.result });
+    }
+  });
+
   getBuildFloorInfo = catchAsync(async (req, res) => {
-    console.log('getBuildInfo', req.body)
+    console.log("getBuildInfo", req.body);
     if (
       req.body.sigunguCd &&
       req.body.bjdongCd &&
@@ -360,35 +397,35 @@ class DataController extends Controller {
       //const bun = req.body.bun.padStart(4, "0");
       //const ji = req.body.ji.padStart(4, "0");
 
-      try{
-      const result = await axios.get(URL, {
-        params: new URLSearchParams({
-          serviceKey: KEY,
-          sigunguCd: req.body.sigunguCd,
-          bjdongCd: req.body.bjdongCd,
-          bun: req.body.bun, //4자리 00패딩
-          ji: req.body.ji, //4자리 00패딩
-          format: "json",
-        }),
-        headers: {
-          Accept: "*",
-        },
-      });
-      if (result.data) {
-        const buildingFloor = xml2json(parseXml(result.data), "");
-        return res
-          .status(httpStatus.OK)
-          .send({ buildingFllor: buildingFloor.response.body.items.item } );
-      }
-      }catch(err){
-        console.log('err', err)
+      try {
+        const result = await axios.get(URL, {
+          params: new URLSearchParams({
+            serviceKey: KEY,
+            sigunguCd: req.body.sigunguCd,
+            bjdongCd: req.body.bjdongCd,
+            bun: req.body.bun, //4자리 00패딩
+            ji: req.body.ji, //4자리 00패딩,
+            numOfRows: "30",
+          }),
+          headers: {
+            Accept: "*",
+          },
+        });
+        if (result.data) {
+          const buildingFloor = xml2json(parseXml(result.data), "");
+          console.log("floor result", buildingFloor);
+          return res
+            .status(httpStatus.OK)
+            .send({ floor: buildingFloor.response.body.items.item });
+        }
+      } catch (err) {
+        console.log("err", err);
       }
     }
   });
 
-
   getBuildInfo = catchAsync(async (req, res) => {
-    console.log('getBuildInfo', req.body)
+    console.log("getBuildInfo", req.body);
     if (
       req.body.sigunguCd &&
       req.body.bjdongCd &&
@@ -403,28 +440,28 @@ class DataController extends Controller {
       //const bun = req.body.bun.padStart(4, "0");
       //const ji = req.body.ji.padStart(4, "0");
 
-      try{
-      const result = await axios.get(URL, {
-        params: new URLSearchParams({
-          serviceKey: KEY,
-          sigunguCd: req.body.sigunguCd,
-          bjdongCd: req.body.bjdongCd,
-          bun: req.body.bun, //4자리 00패딩
-          ji: req.body.ji, //4자리 00패딩
-          format: "json",
-        }),
-        headers: {
-          Accept: "*",
-        },
-      });
-      if (result.data) {
-        const building = xml2json(parseXml(result.data), "");
-        return res
-          .status(httpStatus.OK)
-          .send({ building: building.response.body.items.item } );
-      }
-      }catch(err){
-        console.log('err', err)
+      try {
+        const result = await axios.get(URL, {
+          params: new URLSearchParams({
+            serviceKey: KEY,
+            sigunguCd: req.body.sigunguCd,
+            bjdongCd: req.body.bjdongCd,
+            bun: req.body.bun, //4자리 00패딩
+            ji: req.body.ji, //4자리 00패딩
+            format: "json",
+          }),
+          headers: {
+            Accept: "*",
+          },
+        });
+        if (result.data) {
+          const building = xml2json(parseXml(result.data), "");
+          return res
+            .status(httpStatus.OK)
+            .send({ building: building.response.body.items.item });
+        }
+      } catch (err) {
+        console.log("err", err);
       }
     }
   });

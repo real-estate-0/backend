@@ -8,6 +8,7 @@ const addressRouter = express.Router();
  * address resource
  */
 addressRouter.route("/address").post(dataController.getAddress);
+addressRouter.route("/location").post(dataController.getLocation);
 addressRouter.route("/building").post(dataController.getBuildInfo);
 addressRouter.route("/floor").post(dataController.getBuildFloorInfo);
 addressRouter.route("/landprice").post(dataController.getLandPriceInfo);
