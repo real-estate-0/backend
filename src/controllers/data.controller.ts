@@ -382,6 +382,7 @@ class DataController extends Controller {
       }
       }catch(err){
         console.log('err', err)
+        return res.state(httpStatus.NOT_FOUND)
       }
     }
   });
@@ -425,6 +426,7 @@ class DataController extends Controller {
       }
       }catch(err){
         console.log('err', err)
+        return res.status(httpStatus.NOT_FOUND).send({error: JSON.stringify(err)})
       }
     }
   });
@@ -435,6 +437,7 @@ class DataController extends Controller {
         "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
       const API_URL =
         "http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr";
+      try{
       const result = await axios.get(API_URL, {
         params: new URLSearchParams({
           serviceKey: KEY,
@@ -454,6 +457,9 @@ class DataController extends Controller {
           .status(httpStatus.OK)
           .send({ price: result.data.indvdLandPrices.field });
       }
+      }catch(err){
+        return res.status(httpStatus.NOT_FOUND).send({error: JSON.stringify(err)})
+      }
     }
   });
 
@@ -464,6 +470,7 @@ class DataController extends Controller {
       const API_URL =
         "http://apis.data.go.kr/1611000/nsdi/LandUseService/attr/getLandUseAttr";
 
+      try{
       const result = await axios.get(API_URL, {
         params: new URLSearchParams({
           serviceKey: KEY,
@@ -482,6 +489,10 @@ class DataController extends Controller {
         return res
           .status(httpStatus.OK)
           .send({ landPlan: result.data.landUses.field });
+      }
+      }catch(err){
+        return res.status(httpStatus.NOT_FOUND).send({error: JSON.stringify(err)})
+
       }
     }
   });
