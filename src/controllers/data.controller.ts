@@ -8,6 +8,8 @@ import axios from "axios";
 import { URLSearchParams } from "url";
 import { DOMParser } from "xmldom";
 import { address } from "faker";
+import fs from "fs";
+import proj4 from "proj4";
 
 const logger = createLogger("controller", "report.controller");
 
@@ -397,30 +399,32 @@ class DataController extends Controller {
       //const bun = req.body.bun.padStart(4, "0");
       //const ji = req.body.ji.padStart(4, "0");
 
-      try{
-      const result = await axios.get(URL, {
-        params: new URLSearchParams({
-          serviceKey: KEY,
-          sigunguCd: req.body.sigunguCd,
-          bjdongCd: req.body.bjdongCd,
-          bun: req.body.bun, //4자리 00패딩
-          ji: req.body.ji, //4자리 00패딩
-          numOfRows: "30",
-          format: "json",
-        }),
-        headers: {
-          Accept: "*",
-        },
-      });
-      if (result.data) {
-        const buildingFloor = xml2json(parseXml(result.data), "");
+      try {
+        const result = await axios.get(URL, {
+          params: new URLSearchParams({
+            serviceKey: KEY,
+            sigunguCd: req.body.sigunguCd,
+            bjdongCd: req.body.bjdongCd,
+            bun: req.body.bun, //4자리 00패딩
+            ji: req.body.ji, //4자리 00패딩
+            numOfRows: "30",
+            format: "json",
+          }),
+          headers: {
+            Accept: "*",
+          },
+        });
+        if (result.data) {
+          const buildingFloor = xml2json(parseXml(result.data), "");
+          return res
+            .status(httpStatus.OK)
+            .send({ floor: buildingFloor.response.body.items.item });
+        }
+      } catch (err) {
+        console.log("err", err);
         return res
-          .status(httpStatus.OK)
-          .send({ floor : buildingFloor.response.body.items.item } );
-      }
-      }catch(err){
-        console.log('err', err)
-        return res.state(httpStatus.NOT_FOUND).send({error: JSON.stringify(err)})
+          .state(httpStatus.NOT_FOUND)
+          .send({ error: JSON.stringify(err) });
       }
     }
   });
@@ -441,29 +445,32 @@ class DataController extends Controller {
       //const bun = req.body.bun.padStart(4, "0");
       //const ji = req.body.ji.padStart(4, "0");
 
-      try{
-      const result = await axios.get(URL, {
-        params: new URLSearchParams({
-          serviceKey: KEY,
-          sigunguCd: req.body.sigunguCd,
-          bjdongCd: req.body.bjdongCd,
-          bun: req.body.bun, //4자리 00패딩
-          ji: req.body.ji, //4자리 00패딩
-          format: "json",
-        }),
-        headers: {
-          Accept: "*",
-        },
-      });
-      if (result.data) {
-        const building = xml2json(parseXml(result.data), "");
+      try {
+        const result = await axios.get(URL, {
+          params: new URLSearchParams({
+            serviceKey: KEY,
+            sigunguCd: req.body.sigunguCd,
+            bjdongCd: req.body.bjdongCd,
+            bun: req.body.bun, //4자리 00패딩
+            ji: req.body.ji, //4자리 00패딩
+            format: "json",
+          }),
+          headers: {
+            Accept: "*",
+          },
+          timeout: 5000,
+        });
+        if (result.data) {
+          const building = xml2json(parseXml(result.data), "");
+          return res
+            .status(httpStatus.OK)
+            .send({ building: building.response.body.items.item });
+        }
+      } catch (err) {
+        console.log("building err", err);
         return res
-          .status(httpStatus.OK)
-          .send({ building: building.response.body.items.item } );
-      }
-      }catch(err){
-        console.log('err', err)
-        return res.status(httpStatus.NOT_FOUND).send({error: JSON.stringify(err)})
+          .status(httpStatus.NOT_FOUND)
+          .send({ error: JSON.stringify(err) });
       }
     }
   });
@@ -474,32 +481,106 @@ class DataController extends Controller {
         "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
       const API_URL =
         "http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr";
-      try{
-      const result = await axios.get(API_URL, {
-        params: new URLSearchParams({
-          serviceKey: KEY,
-          pnu: req.body.pnu, //"1111017700102110000",
-          stdrYear: req.body.year,
-          format: "json",
-          numOfRows: "10",
-          pageNoe: "1",
-        }),
-        headers: {
-          Accept: "*",
-        },
-      });
-      if (result.data) {
-        //@ts-ignore
+      try {
+        const result = await axios.get(API_URL, {
+          params: new URLSearchParams({
+            serviceKey: KEY,
+            pnu: req.body.pnu, //"1111017700102110000",
+            stdrYear: req.body.year,
+            format: "json",
+            numOfRows: "10",
+            pageNoe: "1",
+          }),
+          headers: {
+            Accept: "*",
+          },
+          timeout: 5000,
+        });
+        if (result.data) {
+          //@ts-ignore
+          console.log("publicprice result", result.data);
+          return res
+            .status(httpStatus.OK)
+            .send({ price: result.data.indvdLandPrices.field });
+        }
+      } catch (err) {
+        console.log("publicprice err", err);
         return res
-          .status(httpStatus.OK)
-          .send({ price: result.data.indvdLandPrices.field });
-      }
-      }catch(err){
-        return res.status(httpStatus.NOT_FOUND).send({error: JSON.stringify(err)})
+          .status(httpStatus.NOT_FOUND)
+          .send({ error: JSON.stringify(err) });
       }
     }
   });
 
+  getLandPlanWMSInfo = catchAsync(async (req, res) => {
+    console.log("getLandPlanWMSInfo", req.body);
+    if (req.body.longitude && req.body.latitude) {
+      try {
+        /*
+        const wgs84 =
+          "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees";
+        const epgs5174 =
+          "+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43";
+        console.log("wsg84", wgs84, epgs5174);
+        const result5174 = proj4(
+          wgs84,
+          epgs5174,
+          [127.7063258909378, 37.8216025075155]
+        );
+        console.log("result5174", result5174);
+        */
+        const KEY =
+          "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
+        const API_URL =
+          "http://apis.data.go.kr/1611000/nsdi/LandUseService/wms/getLandUseWMS";
+        /*
+      fs.readFile("./000.png", (err, data) => {
+        console.log("fsreds", err, data);
+        if (err) throw err;
+        res.writeHead(200, { "Content-Type": "image/png" });
+        res.write(data);
+        res.end();
+      });
+      */
+        const result = await axios.get(API_URL, {
+          params: new URLSearchParams({
+            serviceKey: KEY,
+            layers: "176",
+            crs: "EPSG:5174",
+            bbox: "217365,447511,217636,447701",
+            width: "915",
+            height: "700",
+            format: "image/png",
+            transparent: "false",
+            bgcolor: "0xFFFFFF",
+            exceptions: "blank",
+          }),
+          headers: {
+            Accept: "*",
+          },
+          responseType: "blob",
+          timeout: 12000,
+        });
+        if (result.data) {
+          console.log("WMS result", result);
+          fs.writeFile("WMS.png", result.data, (err) => {
+            if (err) console.log("err", err);
+          });
+          //@ts-ignore
+          //console.log("result", "data:image/png;base64," + base64EncodedStr);
+          res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
+          res.writeHead(200, { "Transter-Encoding": "chunked" });
+          res.write(result.data);
+          res.end();
+        }
+      } catch (err) {
+        console.log("WMS error", err);
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .send({ error: JSON.stringify(err) });
+      }
+    }
+  });
   getLandPlanInfo = catchAsync(async (req, res) => {
     if (req.body.pnu) {
       const KEY =
@@ -507,29 +588,31 @@ class DataController extends Controller {
       const API_URL =
         "http://apis.data.go.kr/1611000/nsdi/LandUseService/attr/getLandUseAttr";
 
-      try{
-      const result = await axios.get(API_URL, {
-        params: new URLSearchParams({
-          serviceKey: KEY,
-          pnu: req.body.pnu,
-          cnflcAt: "1",
-          format: "json",
-          numOfRows: "100",
-          pageNoe: "1",
-        }),
-        headers: {
-          Accept: "*",
-        },
-      });
-      if (result.data) {
-        //@ts-ignore
+      try {
+        const result = await axios.get(API_URL, {
+          params: new URLSearchParams({
+            serviceKey: KEY,
+            pnu: req.body.pnu,
+            cnflcAt: "1",
+            format: "json",
+            numOfRows: "100",
+            pageNoe: "1",
+          }),
+          headers: {
+            Accept: "*",
+          },
+          timeout: 5000,
+        });
+        if (result.data) {
+          //@ts-ignore
+          return res
+            .status(httpStatus.OK)
+            .send({ landPlan: result.data.landUses.field });
+        }
+      } catch (err) {
         return res
-          .status(httpStatus.OK)
-          .send({ landPlan: result.data.landUses.field });
-      }
-      }catch(err){
-        return res.status(httpStatus.NOT_FOUND).send({error: JSON.stringify(err)})
-
+          .status(httpStatus.NOT_FOUND)
+          .send({ error: JSON.stringify(err) });
       }
     }
   });

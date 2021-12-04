@@ -15,6 +15,7 @@ import { jwtStrategy } from "./config/passport";
 import httpStatus from "http-status";
 import { createLogger } from "./logger";
 import { accessLogStream } from "./logger/morgan";
+import proxy from "html2canvas-proxy";
 
 /**
  * Enviroment check
@@ -72,7 +73,7 @@ class AppServer {
     /*
      * route
      */
-
+    this.app.use("/capture", proxy());
     this.app.get("/", (req: Request, res: Response) => {
       res.status(202).json({ message: "it's me" });
     });

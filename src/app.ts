@@ -14,7 +14,13 @@ import { accessLogStream } from "./logger/morgan";
 import path from "path";
 import axios from "axios";
 import url from "url";
-import proxy from 'html2canvas-proxy';
+import proxy from "html2canvas-proxy";
+import {
+  createProxyMiddleware,
+  Filter,
+  Options,
+  RequestHandler,
+} from "http-proxy-middleware";
 
 const app: express.Application = express();
 
@@ -53,7 +59,15 @@ app.get("/", (req: Request, res: Response) => {
   res.status(200).json({ message: "it's me" });
 });
 
-app.use('/capture', proxy());
+//createProxyMiddleware('/capture', { target: "http://localhost:5000/", changeOrigin: true }) );
+
+/*
+app.use("/capture", (req: Request, res: Response, next: NextFunction) => {
+  console.log("capture req", req);
+  res.status(200).json({ message: "test" });
+  //proxy(req, res, next);
+});
+*/
 
 /**
  * it give server information to client
