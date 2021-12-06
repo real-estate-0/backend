@@ -26,7 +26,7 @@ class ReportService extends Service {
     reportInfo: IReport,
     userObjectId: string
   ) => {
-    console.log("will update Report", reportObjectId, reportInfo.information);
+    console.log("will update Report", reportObjectId, reportInfo);
     return await Report.updateOne(
       { _id: new ObjectID(reportObjectId) },
       { $set: { ...reportInfo } }

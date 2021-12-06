@@ -35,26 +35,26 @@ abstract class Model {
 
   async find<T>(
     query: Record<string, unknown>,
-    fields: string [],
+    fields: string[],
     collectionName: string = this.collectionName
   ): Promise<T[]> {
     logger.debug(`[start] find:${collectionName}` + JSON.stringify(query));
 
-    let projection = { password: 0 };
-    for (let i = 0; i < fields.length; i++){
-      projection[fields[i]] = 0;
+    let projection = {};
+    for (let i = 0; i < fields.length; i++) {
+      projection[fields[i]] = 1;
     }
 
-    console.log('projection', projection)
-    try{
-    const result = await this.db
-      .collection(collectionName)
-      .find(query, { projection: projection })
-      .toArray();
-      logger.debug("[end] find:"+result.length );
+    console.log("projection", projection);
+    try {
+      const result = await this.db
+        .collection(collectionName)
+        .find(query, { projection: projection })
+        .toArray();
+      logger.debug("[end] find:" + result.length);
       return result;
-    }catch(err){
-      console.log('find error', err)
+    } catch (err) {
+      console.log("find error", err);
     }
   }
 
@@ -77,8 +77,8 @@ abstract class Model {
     collectionName: string = this.collectionName
   ): Promise<T[]> {
     logger.debug(`[start] findByIds: ${JSON.stringify(objectIds)}`);
-    let projection = { password: 0  };
-    for (let i = 0; i < fields.length; i++){
+    let projection = { password: 0 };
+    for (let i = 0; i < fields.length; i++) {
       projection[fields[i]] = 0;
     }
     const ids =
@@ -90,7 +90,7 @@ abstract class Model {
         this.collectionName
       } findByIds:${key} ids:${JSON.stringify(ids)}`
     );
-    
+
     const result = await this.db
       .collection(collectionName)
       .find({ [key]: { $in: ids } }, { projection })

@@ -9,17 +9,17 @@ const schema = Joi.object({
 
 const createReport = {
   body: Joi.object().keys({
-    title: Joi.string(),
-    price: Joi.number(),
-    location: Joi.object().keys({}).unknown(true),
-    building: Joi.object().keys({}).unknown(true),
-    publicPrice: Joi.array().items(Joi.any()),
-    floor: Joi.array().items(Joi.any()),
-    landPlan: Joi.array().items(Joi.any()),
-    landPlanWMS: Joi.any(),
-    rent: Joi.array().items(Joi.any()),
-    tags: Joi.array().items(Joi.string()),
-    paragraphs: Joi.array().items(Joi.any()),
+    title: Joi.string().allow(null),
+    price: Joi.number().allow(null),
+    location: Joi.object().keys({}).unknown(true).allow(null),
+    building: Joi.object().keys({}).unknown(true).allow(null),
+    publicPrice: Joi.array().items(Joi.any()).allow(null),
+    floor: Joi.array().items(Joi.any()).allow(null),
+    landPlan: Joi.array().items(Joi.any()).allow(null),
+    landPlanWMS: Joi.any().allow(null),
+    rent: Joi.array().items(Joi.any()).allow(null),
+    tags: Joi.array().items(Joi.string()).allow(null),
+    paragraphs: Joi.array().items(Joi.any()).allow(null),
   }),
 };
 
