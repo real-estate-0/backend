@@ -558,8 +558,8 @@ class DataController extends Controller {
           headers: {
             Accept: "*",
           },
-          responseType: "blob",
-          timeout: 12000,
+          responseType: "arraybuffer",
+          timeout: 20000,
         });
         if (result.data) {
           console.log("WMS result", result);
@@ -569,7 +569,6 @@ class DataController extends Controller {
           //@ts-ignore
           //console.log("result", "data:image/png;base64," + base64EncodedStr);
           res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
-          res.writeHead(200, { "Transter-Encoding": "chunked" });
           res.write(result.data);
           res.end();
         }
