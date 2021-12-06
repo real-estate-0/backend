@@ -563,9 +563,6 @@ class DataController extends Controller {
         });
         if (result.data) {
           console.log("WMS result", result);
-          fs.writeFile("WMS.png", result.data, (err) => {
-            if (err) console.log("err", err);
-          });
           //@ts-ignore
           //console.log("result", "data:image/png;base64," + base64EncodedStr);
           res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
