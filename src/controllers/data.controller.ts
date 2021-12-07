@@ -513,7 +513,7 @@ class DataController extends Controller {
   });
 
   getLandPlanWMSInfo = catchAsync(async (req, res) => {
-    console.log("getLandPlanWMSInfo", req.body);
+    //console.log("getLandPlanWMSInfo", req.body);
     if (req.body.longitude && req.body.latitude) {
       try {
         /*
@@ -548,8 +548,8 @@ class DataController extends Controller {
             layers: "176",
             crs: "EPSG:5174",
             bbox: "217365,447511,217636,447701",
-            width: "915",
-            height: "700",
+            width: "600",
+            height: "500",
             format: "image/png",
             transparent: "false",
             bgcolor: "0xFFFFFF",
@@ -562,7 +562,7 @@ class DataController extends Controller {
           timeout: 20000,
         });
         if (result.data) {
-          console.log("WMS result", result);
+          //console.log("WMS result", result);
           //@ts-ignore
           //console.log("result", "data:image/png;base64," + base64EncodedStr);
           res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
