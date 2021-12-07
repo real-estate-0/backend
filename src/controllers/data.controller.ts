@@ -542,12 +542,21 @@ class DataController extends Controller {
         res.end();
       });
       */
+      const center_y = 210999
+      const center_x = 442328
+      const min_y = center_y- 150
+      const max_y = center_y+ 150
+      const min_x = center_x-200
+      const max_x = center_x+200
+      
+      const bbox = String(min_y)+","+String(min_x)+","+String(max_y)+","+String(max_x)
+      console.log('bbox', bbox);
         const result = await axios.get(API_URL, {
           params: new URLSearchParams({
             serviceKey: KEY,
             layers: "176",
             crs: "EPSG:5174",
-            bbox: "217365,447511,217636,447701",
+            bbox: bbox,//"217365,447511,217636,447701",
             width: "600",
             height: "500",
             format: "image/png",
