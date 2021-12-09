@@ -14,7 +14,7 @@ class ReportService extends Service {
   }
 
   createReport = async (reportData: IReport, userObjectId: string) => {
-    logger.debug(`[start] createReport: ${reportData}`);
+    logger.debug(`[start] createReport:`);
 
     // default value proper hard code?
     //FIX

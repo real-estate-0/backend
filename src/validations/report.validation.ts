@@ -19,6 +19,8 @@ const createReport = {
     rent: Joi.array().items(Joi.any()).allow(null),
     tags: Joi.array().items(Joi.string()).allow(null),
     paragraphs: Joi.array().items(Joi.any()).allow(null),
+    map: Joi.string(),
+    roadview: Joi.string(),
   }),
 };
 

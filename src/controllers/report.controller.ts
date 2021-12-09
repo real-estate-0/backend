@@ -42,7 +42,6 @@ class ReportController extends Controller {
   });
 
   updateReport = catchAsync(async (req, res) => {
-    console.log("pudateReport", req.body);
     const report = await reportService.updateReport(
       req.params.reportObjectId,
       req.body,

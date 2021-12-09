@@ -534,30 +534,39 @@ class DataController extends Controller {
         const API_URL =
           "http://apis.data.go.kr/1611000/nsdi/LandUseService/wms/getLandUseWMS";
 
-      const EPSG5174="+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43"
-      const GRS80="+proj=longlat +ellps=GRS80 +no_defs"
-      const longitude = parseFloat(req.body.longitude)
-      const latitude = parseFloat(req.body.latitude)
+        const EPSG5174 =
+          "+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43";
+        const GRS80 = "+proj=longlat +ellps=GRS80 +no_defs";
+        const longitude = parseFloat(req.body.longitude);
+        const latitude = parseFloat(req.body.latitude);
 
-      const transResult = proj4(GRS80, EPSG5174,[longitude, latitude]);
-      
-      const center_y = transResult[0]
-      const center_x = transResult[1] 
+        const transResult = proj4(GRS80, EPSG5174, [longitude, latitude]);
 
-      const min_y = center_y- 150
-      const max_y = center_y+ 150
-      const min_x = center_x-200
-      const max_x = center_x+200
-      
-      const bbox = String(min_y)+","+String(min_x)+","+String(max_y)+","+String(max_x)
+        const center_y = transResult[0];
+        const center_x = transResult[1];
 
-      console.log('bbox', bbox);
+        const min_y = center_y - 150;
+        const max_y = center_y + 150;
+        const min_x = center_x - 200;
+        const max_x = center_x + 200;
+
+        const bbox =
+          String(min_y) +
+          "," +
+          String(min_x) +
+          "," +
+          String(max_y) +
+          "," +
+          String(max_x);
+
+        console.log("loglat", req.body);
+        console.log("bbox", bbox);
         const result = await axios.get(API_URL, {
           params: new URLSearchParams({
             serviceKey: KEY,
             layers: "176",
             crs: "EPSG:5174",
-            bbox: bbox,//"217365,447511,217636,447701",
+            bbox: bbox, //"217365,447511,217636,447701",
             width: "600",
             height: "500",
             format: "image/png",

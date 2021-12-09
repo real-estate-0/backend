@@ -37,6 +37,8 @@ interface IReport {
   updateUserObjectId?: string;
   createdTime?: Date;
   updatedTime?: Date;
+  map?: string;
+  roadview?: string;
 }
 
 type AppState = {

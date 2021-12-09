@@ -26,6 +26,8 @@ class Report extends Model {
     paragraphs: [],
     createdTime: null,
     updatedTime: null,
+    map: "",
+    roadview: "",
   };
 
   constructor() {
