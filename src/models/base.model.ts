@@ -103,11 +103,11 @@ abstract class Model {
     data: Record<string, unknown>,
     collectionName: string = this.collectionName
   ): Promise<any> {
-    logger.debug("[start] base insertOne:" + JSON.stringify(data));
+    //logger.debug("[start] base insertOne:" + JSON.stringify(data));
     logger.debug("insertOne collectionName:" + collectionName);
 
     const result = await this.db.collection(collectionName).insertOne(data);
-    console.log("insertOne", result);
+    //console.log("insertOne", result);
     logger.debug("[end] insertOne:" + JSON.stringify(result.ops));
     return result.ops[0];
   }
