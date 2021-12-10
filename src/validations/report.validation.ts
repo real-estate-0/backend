@@ -36,17 +36,8 @@ const updateReport = {
     reportObjectId: Joi.string().custom(objectId),
   }),
   body: Joi.object().keys({
-    title: Joi.string().allow(null),
-    information: Joi.object().keys({}).unknown(true),
-    rent: Joi.array().items(Joi.any()),
-    tags: Joi.array().items(Joi.string()),
-    paragraphs: Joi.array().items(Joi.any()),
-    location: Joi.object().keys({}).unknown(true).allow(null),
-    building: Joi.object().keys({}).unknown(true).allow(null),
-    publicPrice: Joi.array().items(Joi.any()).allow(null),
-    floor: Joi.array().items(Joi.any()).allow(null),
-    landPlan: Joi.array().items(Joi.any()).allow(null),
-    landPlanWMS: Joi.any().allow(null),
+    field: Joi.string(),
+    value: Joi.any(),
   }),
 };
 

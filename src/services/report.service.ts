@@ -23,13 +23,14 @@ class ReportService extends Service {
 
   updateReport = async (
     reportObjectId: string,
-    reportInfo: IReport,
+    field: string,
+    value: any,
     userObjectId: string
   ) => {
-    console.log("will update Report", reportObjectId, reportInfo);
+    console.log("will update Report", reportObjectId, field, userObjectId);
     return await Report.updateOne(
       { _id: new ObjectID(reportObjectId) },
-      { $set: { ...reportInfo } }
+      { $set: { [field]: value } }
     );
   };
 

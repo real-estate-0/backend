@@ -44,7 +44,8 @@ class ReportController extends Controller {
   updateReport = catchAsync(async (req, res) => {
     const report = await reportService.updateReport(
       req.params.reportObjectId,
-      req.body,
+      req.body.field,
+      req.body.value,
       "6179e27324df1a74636fdc76"
     );
     res.status(httpStatus.OK).send({ result: { report: report } });
