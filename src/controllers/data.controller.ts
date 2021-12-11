@@ -511,6 +511,125 @@ class DataController extends Controller {
       }
     }
   });
+  getWMSInfo = catchAsync(async (req, res) => {
+    console.log("getWMSInfo", req.body);
+    if (req.body.latitude && req.body.longitude) {
+      const key = "851B1D37-7504-38C1-98DF-52F6E03BB2CE";
+      console.log("getWMSInfo");
+      const result = await axios.get(`https://api.vworld.kr/req/wms`, {
+        params: {
+          service: "WMS",
+          request: "GetMap",
+          version: "1.3.0",
+          layers: "lt_c_ademd,lt_c_lhblpn",
+          crs: "EPSG:4326",
+          bbox: "14133818.022824,4520485.8511757,14134123.770937,4520791.5992888",
+          width: "500",
+          height: "500",
+          format: "image/png",
+          transparent: false,
+          bgcolor: "0xFFFFFF",
+          exceptions: "text/xml",
+          key: key,
+          domain: "http://localhost:4000",
+        },
+        headers: {
+          Accept: "*",
+        },
+        responseType: "arraybuffer",
+        timeout: 20000,
+      });
+      console.log("WMS_RESULT", result);
+      if (result.data) {
+        //console.log("WMS result", result);
+        //@ts-ignore
+        //console.log("result", "data:image/png;base64," + base64EncodedStr);
+        res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
+        res.write(result.data);
+        res.end();
+      }
+      return res.status(httpStatus.OK).send({ result: { address } });
+    }
+  });
+  getLandPlanWFSInfo = catchAsync(async (req, res) => {
+    //console.log("getLandPlanWMSInfo", req.body);
+    if (req.body.pnu && req.body.longitude && req.body.latitude) {
+      try {
+        /*
+        const wgs84 =
+          "+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees";
+        const epgs5174 =
+          "+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43";
+        console.log("wsg84", wgs84, epgs5174);
+        const result5174 = proj4(
+          wgs84,
+          epgs5174,
+          [127.7063258909378, 37.8216025075155]
+        );
+        console.log("result5174", result5174);
+        */
+        const KEY =
+          "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
+        const API_URL =
+          "http://apis.data.go.kr/1611000/nsdi/LandUseService/wfs/getLandUseWFS";
+
+        const EPSG5174 =
+          "+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43";
+        const GRS80 = "+proj=longlat +ellps=GRS80 +no_defs";
+        const longitude = parseFloat(req.body.longitude);
+        const latitude = parseFloat(req.body.latitude);
+
+        const transResult = proj4(GRS80, EPSG5174, [longitude, latitude]);
+
+        const center_y = transResult[0];
+        const center_x = transResult[1];
+
+        const min_y = center_y - 200;
+        const max_y = center_y + 200;
+        const min_x = center_x - 250;
+        const max_x = center_x + 250;
+
+        const bbox =
+          String(min_y) +
+          "," +
+          String(min_x) +
+          "," +
+          String(max_y) +
+          "," +
+          String(max_x);
+
+        console.log("loglat", req.body);
+        console.log("bbox", bbox);
+        const result = await axios.get(API_URL, {
+          params: new URLSearchParams({
+            serviceKey: KEY,
+            type: "F176",
+            pnu: req.body.pnu,
+            maxFeatures: "10",
+            srsName: "EPSG:5174",
+            bbox: bbox, //"217365,447511,217636,447701",
+          }),
+          headers: {
+            Accept: "*",
+          },
+          timeout: 20000,
+        });
+        if (result.data) {
+          console.log("WFS result", result);
+          const wfs = xml2json(parseXml(result.data), "");
+
+          //@ts-ignore
+          //console.log("result", "data:image/png;base64," + base64EncodedStr);
+          return res.status(httpStatus.OK).send({ wfs });
+        }
+      } catch (err) {
+        console.log("WFS error", err);
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .send({ error: JSON.stringify(err) });
+      }
+    }
+  });
 
   getLandPlanWMSInfo = catchAsync(async (req, res) => {
     //console.log("getLandPlanWMSInfo", req.body);

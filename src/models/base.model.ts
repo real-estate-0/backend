@@ -108,7 +108,7 @@ abstract class Model {
 
     const result = await this.db.collection(collectionName).insertOne(data);
     //console.log("insertOne", result);
-    logger.debug("[end] insertOne:" + JSON.stringify(result.ops));
+    logger.debug("[end] insertOne :" + collectionName);
     return result.ops[0];
   }
 

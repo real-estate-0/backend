@@ -14,5 +14,7 @@ addressRouter.route("/floor").post(dataController.getBuildFloorInfo);
 addressRouter.route("/landprice").post(dataController.getLandPriceInfo);
 addressRouter.route("/landplan").post(dataController.getLandPlanInfo);
 addressRouter.route("/landplanWMS").post(dataController.getLandPlanWMSInfo);
+addressRouter.route("/wms").post(dataController.getWMSInfo);
+addressRouter.route("/landplanWFS").post(dataController.getLandPlanWFSInfo);
 
 export default addressRouter;

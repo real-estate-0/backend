@@ -1,5 +1,29 @@
 const axios = require("axios");
 const url = require("url");
+
+const key = "851B1D37-7504-38C1-98DF-52F6E03BB2CE";
+console.log("getWMSInfo");
+const WMS_RESULT = axios
+  .get(`http://api.vworld.kr/req/wms?key=${key}&[WMS Param]`, {
+    params: {
+      SERVICE: "WMS",
+      REQUEST: "GetMap",
+      VERSION: "1.3.0",
+      LAYERS: "lt_c_ademd,lt_c_lhblpn",
+      CRS: "EPSG:4326",
+      BBOX: "14133818.022824,4520485.8511757,14134123.770937,4520791.5992888",
+      WIDTH: "256",
+      HEIGHT: "256",
+      FORMAT: "image/png",
+      TRANSPARENT: false,
+      BGCOLOR: "0xFFFFFF",
+      EXCEPTIONS: "text/xml",
+      KEY: key,
+      DOMAIN: "127.0.0.1",
+    },
+  })
+  .then((result) => console.log("WMS_RESULT", result.data));
+
 /*
 KEY = "devU01TX0FVVEgyMDIxMTEyNjA2MzczNjExMTk1NTI=";
 URL = "https://www.juso.go.kr/addrlink/addrLinkApi.do";
