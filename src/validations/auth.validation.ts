@@ -11,27 +11,6 @@ const register = {
   }),
 };
 
-const sendVerificationEmail = {
-  body: Joi.object().keys({
-    userId: Joi.string().required(),
-  }),
-};
-
-const verifyEmail = {
-  body: Joi.object().keys({
-    token: Joi.string().required(),
-  }),
-};
-
-/*
- * type: id or password
- */
-const sendEmailForgot = {
-  body: Joi.object().keys({
-    type: Joi.string().required(),
-    email: Joi.string().required(),
-  }),
-};
 
 const login = {
   body: Joi.object().keys({
@@ -48,9 +27,6 @@ const logout = {
 
 export {
   register,
-  sendVerificationEmail,
-  verifyEmail,
-  sendEmailForgot,
   login,
   logout,
 };
