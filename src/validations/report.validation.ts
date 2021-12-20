@@ -16,11 +16,8 @@ const createReport = {
     floor: Joi.array().items(Joi.any()).allow(null),
     landPlan: Joi.array().items(Joi.any()).allow(null),
     landPlanWMS: Joi.any().allow(null),
-    rent: Joi.array().items(Joi.any()).allow(null),
-    tags: Joi.array().items(Joi.string()).allow(null),
-    paragraphs: Joi.array().items(Joi.any()).allow(null),
-    map: Joi.string(),
-    roadview: Joi.string(),
+    map: Joi.string().allow(null),
+    roadview: Joi.string().allow(null),
   }),
 };
 

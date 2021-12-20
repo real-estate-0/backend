@@ -13,12 +13,12 @@ const logger = createLogger("report", "models");
 
 class Report extends Model {
   private reportDefault: IReport = {
-    createUserObjectId: null,
-    updateUserObjectId: null,
-    title: null,
+    createUserObjectId: "",
+    updateUserObjectId: "",
+    title: "",
     building: {},
     landPlan: [],
-    landPlanWMS: null,
+    landPlanWMS: "",
     publicPrice: [],
     floor: [],
     rent: [],
