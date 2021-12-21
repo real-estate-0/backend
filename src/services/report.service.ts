@@ -30,7 +30,7 @@ class ReportService extends Service {
     console.log("will update Report", reportObjectId, field, userObjectId);
     return await Report.updateOne(
       { _id: new ObjectID(reportObjectId) },
-      { $set: { [field]: value } }
+      { $set: { [field]: value, updatedTime: new Date() } }
     );
   };
 
