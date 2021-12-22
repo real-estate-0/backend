@@ -21,7 +21,7 @@ class Report extends Model {
     landPlanWMS: "",
     publicPrice: [],
     floor: [],
-    rent: [],
+    detail: "",
     tags: [],
     paragraphs: [],
     createdTime: null,

@@ -27,7 +27,7 @@ interface IReport {
   title?: string;
   location?: TLocation;
   building?: TBuilding;
-  rent?: TRent[];
+  detail?: string;
   publicPrice?: TPublicPrice[];
   floor?: TFloor[];
   landPlanWMS?: TLandPlanWMS;
