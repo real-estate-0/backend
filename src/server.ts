@@ -74,9 +74,6 @@ class AppServer {
      * route
      */
     this.app.use("/capture", proxy());
-    this.app.get("/", (req: Request, res: Response) => {
-      res.status(202).json({ message: "it's me" });
-    });
 
     //console.log("routes", routes);
 

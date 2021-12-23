@@ -17,7 +17,7 @@ const createReport = {
     landPlan: Joi.array().items(Joi.any()).allow(null),
     landPlanWMS: Joi.any().allow(null),
     map: Joi.string().allow(null),
-    roadview: Joi.string().allow(null),
+    roadview: Joi.array().items(Joi.string()).allow(null),
   }),
 };
 

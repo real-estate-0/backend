@@ -20,7 +20,6 @@ class Report extends Model {
     landPlan: [],
     landPlanWMS: "",
     publicPrice: [],
-    floor: [],
     detail: "",
     tags: [],
     paragraphs: [],

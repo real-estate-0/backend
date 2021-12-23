@@ -142,11 +142,10 @@ abstract class Model {
         ", data:" +
         JSON.stringify(data)
     );
-    const result = await this.db
+    await this.db
       .collection(collectionName)
-      .findOneAndUpdate(filter, "$addToSet", { returnDocument: "after" });
-    logger.debug("[end] append:" + JSON.stringify(result));
-    return result.value;
+      .updateOne(filter, { $addToSet: { [field]: data } });
+    return await this.db.collection(collectionName).findOne(filter);
   }
 
   async pull(
@@ -156,18 +155,22 @@ abstract class Model {
     collectionName: string = this.collectionName
   ): Promise<any> {
     logger.debug(
-      "[start] append:" +
+      "[start] pull:" +
         JSON.stringify(filter) +
         ", field:" +
         JSON.stringify(field) +
         ", data:" +
         JSON.stringify(data)
     );
-    const result = await this.db
-      .collection(collectionName)
-      .findOneAndUpdate(filter, "$pull", { returnDocument: "after" });
-    logger.debug("[end] append:" + JSON.stringify(result));
-    return result.value;
+    try {
+      await this.db
+        .collection(collectionName)
+        .updateOne(filter, { $pull: { [field]: data } });
+      return await this.db.collection(collectionName).findOne(filter);
+    } catch (err: any) {
+      console.log("pull error ", err);
+    }
+    return null;
   }
 
   async deleteOne(

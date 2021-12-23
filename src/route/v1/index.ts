@@ -4,6 +4,7 @@ import authRouter from "./auth.router";
 import userRouter from "./user.router";
 import reportRouter from "./report.router";
 import dataRouter from "./data.router";
+import tagRouter from "./tag.router";
 //import mailRouter from "./mail.router";
 //import { topicRouter } from "./topic.router";
 
@@ -29,6 +30,10 @@ const defaultRoutes = [
   {
     path: "/data",
     route: dataRouter,
+  },
+  {
+    path: "/tags",
+    route: tagRouter,
   },
 ];
 
