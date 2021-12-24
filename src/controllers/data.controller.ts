@@ -529,10 +529,10 @@ class DataController extends Controller {
         const center_y = transResult[0];
         const center_x = transResult[1];
 
-        const min_y = center_y - 0.001;
-        const max_y = center_y + 0.001;
-        const min_x = center_x - 0.002;
-        const max_x = center_x + 0.002;
+        const min_y = center_y - 0.001 / 2;
+        const max_y = center_y + 0.001 / 2;
+        const min_x = center_x - 0.002 / 2;
+        const max_x = center_x + 0.002 / 2;
 
         const bbox =
           String(min_x) +
