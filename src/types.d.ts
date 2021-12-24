@@ -39,6 +39,7 @@ interface IReport {
   updatedTime?: Date;
   map?: string;
   roadview?: string;
+  pfper?: string;
 }
 
 type AppState = {

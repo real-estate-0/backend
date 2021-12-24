@@ -516,41 +516,78 @@ class DataController extends Controller {
     if (req.body.latitude && req.body.longitude) {
       const key = "851B1D37-7504-38C1-98DF-52F6E03BB2CE";
       console.log("getWMSInfo");
-      const result = await axios.get(`http://api.vworld.kr/req/wms`, {
-        params: {
-          service: "WMS",
-          request: "GetMap",
-          version: "1.3.0",
-          layers: "lt_c_ademd,lt_c_lhblpn",
-          crs: "EPSG:5174",
-          bbox: "210983,442831,210997,442847", //", //"14133818.022824,4520485.8511757,14134123.770937,4520791.5992888",
-          width: "500",
-          height: "500",
-          format: "image/png",
-          transparent: false,
-          bgcolor: "0xFFFFFF",
-          exceptions: "text/xml",
-          key: key,
-          domain: "http://localhost:4000",
-        },
-        /* 
+      try {
+        const EPSG5174 =
+          "+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43";
+        const EPSG4326 = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs";
+        const GRS80 = "+proj=longlat +ellps=GRS80 +no_defs";
+        const longitude = parseFloat(req.body.longitude);
+        const latitude = parseFloat(req.body.latitude);
+
+        const transResult = proj4(GRS80, EPSG4326, [longitude, latitude]);
+
+        const center_y = transResult[0];
+        const center_x = transResult[1];
+
+        const min_y = center_y - 0.001;
+        const max_y = center_y + 0.001;
+        const min_x = center_x - 0.002;
+        const max_x = center_x + 0.002;
+
+        const bbox =
+          String(min_x) +
+          "," +
+          String(min_y) +
+          "," +
+          String(max_x) +
+          "," +
+          String(max_y);
+
+        console.log("EPSG4326 bbox", bbox);
+        const result = await axios.get(`http://api.vworld.kr/req/wms`, {
+          params: {
+            service: "WMS",
+            request: "GetMap",
+            version: "1.3.0",
+            layers:
+              "lt_l_sprd,lt_c_spbd,lt_c_uq111,lt_c_uq141,lt_c_upisuq151,lt_c_upisuq161,lt_c_upisuq175,lt_c_upisuq171,lt_c_lhblpn",
+            crs: "EPSG:4326",
+            bbox: bbox,
+            //210983,442831,210997,442847", //", //"14133818.022824,4520485.8511757,14134123.770937,4520791.5992888",
+            width: "500",
+            height: "500",
+            format: "image/png",
+            transparent: false,
+            bgcolor: "0xFFFFFF",
+            exceptions: "text/xml",
+            key: key,
+            domain: "http://localhost:4000",
+          },
+          /* 
         headers: {
           Accept: "*",
         },
         */
-        responseType: "arraybuffer",
-        timeout: 20000,
-      });
-      console.log("WMS_RESULT", result);
-      if (result.data) {
-        //console.log("WMS result", result);
-        //@ts-ignore
-        //console.log("result", "data:image/png;base64," + base64EncodedStr);
-        res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
-        res.write(result.data);
-        res.end();
+          responseType: "arraybuffer",
+          timeout: 20000,
+        });
+        //console.log("WMS_RESULT", result);
+        if (result.data) {
+          fs.writeFile("test.png", result.data, "binary", function (err) {
+            console.log("write binary error", err);
+          });
+          //console.log("WMS result", result);
+          //@ts-ignore
+          //console.log("result", "data:image/png;base64," + base64EncodedStr);
+          res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
+          res.write(result.data);
+          res.end();
+        }
+        //return res.status(httpStatus.OK).send({ result: { address } });
+      } catch (err) {
+        console.log("getWMSInfo error", err);
+        return res.status(httpStatus.OK).send({ result: "" });
       }
-      return res.status(httpStatus.OK).send({ result: { address } });
     }
   });
 
@@ -637,6 +674,7 @@ class DataController extends Controller {
       }
     }
   });
+
   getLandSpaceWMSInfo = catchAsync(async (req, res) => {
     //console.log("getLandPlanWMSInfo", req.body);
     if (req.body.type && req.body.longitude && req.body.latitude) {
@@ -721,6 +759,7 @@ class DataController extends Controller {
       }
     }
   });
+
   getLandPlanWFSInfo = catchAsync(async (req, res) => {
     //console.log("getLandPlanWMSInfo", req.body);
     if (req.body.pnu && req.body.longitude && req.body.latitude) {

@@ -27,6 +27,7 @@ class Report extends Model {
     updatedTime: null,
     map: "",
     roadview: "",
+    pfper: "",
   };
 
   constructor() {
