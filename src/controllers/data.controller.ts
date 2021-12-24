@@ -511,6 +511,7 @@ class DataController extends Controller {
       }
     }
   });
+
   getWMSInfo = catchAsync(async (req, res) => {
     console.log("getWMSInfo", req.body);
     if (req.body.latitude && req.body.longitude) {
