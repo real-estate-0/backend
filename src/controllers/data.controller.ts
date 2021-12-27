@@ -10,7 +10,7 @@ import { DOMParser } from "xmldom";
 import { address } from "faker";
 import fs from "fs";
 import proj4 from "proj4";
-
+import sharp from "sharp";
 const logger = createLogger("controller", "report.controller");
 
 export function parseXml(xml: any) {
@@ -574,15 +574,48 @@ class DataController extends Controller {
         });
         //console.log("WMS_RESULT", result);
         if (result.data) {
+          console.log("WMS result", result.data);
+          sharp(result.data)
+            .resize(500)
+            .composite([{ input: "circle.png", blend: "over" }])
+            .toBuffer()
+            .then(function (outputBuffer) {
+              // outputBuffer contains upside down, 300px wide, alpha channel flattened
+              // onto orange background, composited with overlay.png with SE gravity,
+              // sharpened, with metadata, 90% quality WebP image data. Phew!
+              res.writeHead(200, {
+                "Content-Type": "image/png;charset=UTF-8",
+              });
+              res.write(outputBuffer);
+              res.end();
+            });
+          /*
           fs.writeFile("test.png", result.data, "binary", function (err) {
             console.log("write binary error", err);
+            sharp("test.png")
+              .resize(500)
+              .composite([{ input: "circle.png", blend: "over" }])
+              .toBuffer()
+              .then(function (outputBuffer) {
+                // outputBuffer contains upside down, 300px wide, alpha channel flattened
+                // onto orange background, composited with overlay.png with SE gravity,
+                // sharpened, with metadata, 90% quality WebP image data. Phew!
+                res.writeHead(200, {
+                  "Content-Type": "image/png;charset=UTF-8",
+                });
+                res.write(outputBuffer);
+                res.end();
+              });
           });
+          */
           //console.log("WMS result", result);
           //@ts-ignore
           //console.log("result", "data:image/png;base64," + base64EncodedStr);
+          /*
           res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
           res.write(result.data);
           res.end();
+          */
         }
         //return res.status(httpStatus.OK).send({ result: { address } });
       } catch (err) {

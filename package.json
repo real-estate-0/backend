@@ -71,6 +71,7 @@
     "passport-jwt": "^4.0.0",
     "proj4": "^2.7.5",
     "rotating-file-stream": "^2.1.5",
+    "sharp": "^0.29.3",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5",
     "xmldom": "^0.6.0"
