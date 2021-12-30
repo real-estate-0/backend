@@ -414,6 +414,7 @@ class DataController extends Controller {
             Accept: "*",
           },
         });
+        console.log('build result', result.data)
         if (result.data) {
           const buildingFloor = xml2json(parseXml(result.data), "");
           return res
@@ -458,7 +459,7 @@ class DataController extends Controller {
           headers: {
             Accept: "*",
           },
-          timeout: 5000,
+          timeout: 50000,
         });
         if (result.data) {
           const building = xml2json(parseXml(result.data), "");
