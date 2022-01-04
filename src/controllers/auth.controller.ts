@@ -9,14 +9,13 @@ import Controller from "./base.controller";
 const logger = createLogger("controller", "auth.controller");
 
 class AuthController extends Controller {
-
   login = catchAsync(async (req, res) => {
     const { userId, password } = req.body;
     console.log("login cotroller", userId, password);
     const user = await authService.login(userId, password);
     const tokens = await tokenService.generateAuthTokens(user._id);
     console.log("login controller", user, tokens);
-    res.status(httpStatus.OK).send({ tokens });
+    res.status(httpStatus.OK).send({ tokens, user });
   });
   logout = catchAsync(async (req, res) => {
     await authService.logout(req.body.refreshToken);
