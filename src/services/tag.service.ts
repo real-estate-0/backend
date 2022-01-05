@@ -13,20 +13,20 @@ class TagService extends Service {
     super();
   }
 
-  createTag = async (tag: string) => {
+  createTag = async (tag: string, color: string) => {
     logger.debug(`[start] createTag:`);
 
     // default value proper hard code?
     //FIX
-    return await Tag.create(tag);
+    return await Tag.create(tag, color);
   };
 
   getTags = async () => {
     return await Tag.find({ type: "tags" }, ["tags"]);
   };
 
-  deleteTag = async (value) => {
-    return await Tag.delete(value);
+  deleteTag = async (tag: string, color: string) => {
+    return await Tag.delete(tag, color);
   };
 }
 

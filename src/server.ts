@@ -51,6 +51,7 @@ class AppServer {
     /*
      * middleware
      */
+    this.app.use("/static", express.static("public"));
     this.app.use(morgan("combined", { stream: accessLogStream }));
     this.app.use(express.urlencoded({ limit: "14mb", extended: false }));
     this.app.use(express.json({ limit: "14mb" }));

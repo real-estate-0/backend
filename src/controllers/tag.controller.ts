@@ -9,9 +9,9 @@ const logger = createLogger("controller", "tag.controller");
 
 class TagController extends Controller {
   createTag = catchAsync(async (req, res) => {
-    //console.log("createTag", JSON.stringify(req.body));
+    console.log("createTag", JSON.stringify(req.body));
     //TODO change to user objectid
-    const tag = await tagService.createTag(req.body.value);
+    const tag = await tagService.createTag(req.body.value, req.body.color);
     //console.log("Tag", tag);
     res.status(httpStatus.OK).send({ result: tag });
   });
@@ -23,13 +23,13 @@ class TagController extends Controller {
     console.log("getTags", req.query);
     let fields = [];
     const tags = await tagService.getTags();
-    //console.log("getTags result", tags);
+    console.log("getTags result", tags);
     res.status(httpStatus.OK).send({ result: tags });
   });
 
   deleteTag = catchAsync(async (req, res) => {
     console.log("deleteTag", req.body);
-    const result = await tagService.deleteTag(req.body.value);
+    const result = await tagService.deleteTag(req.body.value, req.body.color);
     console.log("delete tag result", result);
     res.status(httpStatus.OK).send();
   });
