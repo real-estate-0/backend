@@ -51,6 +51,14 @@ class ReportController extends Controller {
     res.status(httpStatus.OK).send({ result: { report: report } });
   });
 
+  updateReportAll = catchAsync(async (req, res) => {
+    const report = await reportService.updateReportAll(
+      req.params.reportObjectId,
+      req.body,
+      "6179e27324df1a74636fdc76"
+    );
+    res.status(httpStatus.OK).send();
+  });
   deleteReport = catchAsync(async (req, res) => {
     const result = await reportService.deleteReport(req.params.reportObjectId);
     res.status(httpStatus.OK).send();

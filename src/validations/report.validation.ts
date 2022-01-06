@@ -39,10 +39,24 @@ const updateReport = {
   }),
 };
 
+const updateReportAll = {
+  params: Joi.object().keys({
+    reportObjectId: Joi.string().custom(objectId),
+  }),
+  body: Joi.any(),
+};
+
 const deleteReport = {
   params: Joi.object().keys({
     reportObjectId: Joi.string().custom(objectId),
   }),
 };
 
-export { schema, createReport, getReports, updateReport, deleteReport };
+export {
+  schema,
+  createReport,
+  getReports,
+  updateReport,
+  updateReportAll,
+  deleteReport,
+};

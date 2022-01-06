@@ -15,7 +15,8 @@ reportRouter
 
 reportRouter
   .route("/:reportObjectId")
-  .put(validate(reportSchema.updateReport), reportController.updateReport)
+  .patch(validate(reportSchema.updateReport), reportController.updateReport)
+  .put(validate(reportSchema.updateReportAll), reportController.updateReportAll)
   .delete(validate(reportSchema.deleteReport), reportController.deleteReport);
 
 export default reportRouter;
