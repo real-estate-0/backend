@@ -459,7 +459,7 @@ class DataController extends Controller {
           headers: {
             Accept: "*",
           },
-          timeout: 50000,
+          timeout: 10000,
         });
         if (result.data) {
           const building = xml2json(parseXml(result.data), "");
