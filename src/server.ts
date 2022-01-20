@@ -53,8 +53,8 @@ class AppServer {
      */
     this.app.use("/static", express.static("public"));
     this.app.use(morgan("combined", { stream: accessLogStream }));
-    this.app.use(express.urlencoded({ limit: "14mb", extended: false }));
-    this.app.use(express.json({ limit: "14mb" }));
+    this.app.use(express.urlencoded({ limit: "2mb", extended: false }));
+    this.app.use(express.json({ limit: "2mb" }));
 
     //error handler
     //app.use(errorConverter);
