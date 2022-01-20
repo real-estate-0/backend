@@ -16,6 +16,7 @@ addressRouter.route("/landplan").post(dataController.getLandPlanInfo);
 addressRouter.route("/landplanWMS").post(dataController.getLandPlanWMSInfo);
 addressRouter.route("/landspaceWMS").post(dataController.getLandSpaceWMSInfo);
 addressRouter.route("/wms").post(dataController.getWMSInfo);
+addressRouter.route("/wmsFeature").post(dataController.getWMSFeatureInfo);
 addressRouter.route("/landplanWFS").post(dataController.getLandPlanWFSInfo);
 
 export default addressRouter;

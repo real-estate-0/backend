@@ -414,7 +414,7 @@ class DataController extends Controller {
             Accept: "*",
           },
         });
-        console.log('build result', result.data)
+        console.log("build result", result.data);
         if (result.data) {
           const buildingFloor = xml2json(parseXml(result.data), "");
           return res
@@ -513,6 +513,86 @@ class DataController extends Controller {
     }
   });
 
+  getWMSFeatureInfo = catchAsync(async (req, res) => {
+    console.log("getWMSFeatureInfo", req.body);
+    if (req.body.latitude && req.body.longitude) {
+      const key = "851B1D37-7504-38C1-98DF-52F6E03BB2CE";
+      try {
+        const EPSG5174 =
+          "+proj=tmerc +lat_0=38 +lon_0=127.0028902777778 +k=1 +x_0=200000 +y_0=500000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43";
+        const EPSG4326 = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs";
+        const GRS80 = "+proj=longlat +ellps=GRS80 +no_defs";
+        const longitude = parseFloat(req.body.longitude);
+        const latitude = parseFloat(req.body.latitude);
+
+        const transResult = proj4(GRS80, EPSG4326, [longitude, latitude]);
+
+        const center_y = transResult[0];
+        const center_x = transResult[1];
+
+        const min_y = center_y - 0.001 / 2;
+        const max_y = center_y + 0.001 / 2;
+        const min_x = center_x - 0.002 / 2;
+        const max_x = center_x + 0.002 / 2;
+
+        const bbox =
+          String(min_x) +
+          "," +
+          String(min_y) +
+          "," +
+          String(max_x) +
+          "," +
+          String(max_y);
+
+        console.log("EPSG4326 bbox", bbox);
+        const result = await axios.get(`http://api.vworld.kr/req/wms`, {
+          params: {
+            service: "WMS",
+            //request: "GetMap",
+            version: "1.3.0",
+            request: "GetFeatureInfo",
+            query_layers:
+              "lt_l_sprd,lt_c_spbd,lt_c_uq111,lt_c_uq141,lt_c_upisuq151,lt_c_upisuq161,lt_c_upisuq175,lt_c_upisuq171,lt_c_lhblpn",
+            //layers: "lp_pa_cbnd_bonbun,lp_pa_cbnd_bubun",
+            //styles: "lp_pa_cbnd_bonbun_line,lp_pa_cbnd_bubun_line",
+            info_format: "application/json",
+            feature_count: 10,
+            i: 0,
+            j: 0,
+            layers:
+              "lt_l_sprd,lt_c_spbd,lt_c_uq111,lt_c_uq141,lt_c_upisuq151,lt_c_upisuq161,lt_c_upisuq175,lt_c_upisuq171,lt_c_lhblpn",
+            crs: "EPSG:4326",
+            bbox: bbox,
+            //210983,442831,210997,442847", //", //"14133818.022824,4520485.8511757,14134123.770937,4520791.5992888",
+            width: "500",
+            height: "500",
+            format: "image/png",
+            transparent: false,
+            bgcolor: "0xFFFFFF",
+            exceptions: "text/xml",
+            key: key,
+            domain: "http://localhost:4000",
+          },
+          /* 
+        headers: {
+          Accept: "*",
+        },
+        */
+          //responseType: "arraybuffer",
+          timeout: 20000,
+        });
+        console.log("WMS_RESULT", result.data);
+        if (result.data) {
+          console.log("WMS result", result.data);
+          return res.status(httpStatus.OK).send({ result: result.data });
+        }
+        //return res.status(httpStatus.OK).send({ result: { address } });
+      } catch (err) {
+        console.log("getWMSInfo error", err);
+        return res.status(httpStatus.OK).send({ result: "" });
+      }
+    }
+  });
   getWMSInfo = catchAsync(async (req, res) => {
     console.log("getWMSInfo", req.body);
     if (req.body.latitude && req.body.longitude) {
@@ -551,6 +631,11 @@ class DataController extends Controller {
             service: "WMS",
             request: "GetMap",
             version: "1.3.0",
+            //request: "GetFeatureInfo",
+            //query_layers: "lp_pa_cbnd_bonbun,lp_pa_cbnd_bubun",
+            //layers: "lp_pa_cbnd_bonbun,lp_pa_cbnd_bubun",
+            //styles: "lp_pa_cbnd_bonbun_line,lp_pa_cbnd_bubun_line",
+            //info_format: "text/html",
             layers:
               "lt_l_sprd,lt_c_spbd,lt_c_uq111,lt_c_uq141,lt_c_upisuq151,lt_c_upisuq161,lt_c_upisuq175,lt_c_upisuq171,lt_c_lhblpn",
             crs: "EPSG:4326",
@@ -573,7 +658,7 @@ class DataController extends Controller {
           responseType: "arraybuffer",
           timeout: 20000,
         });
-        //console.log("WMS_RESULT", result);
+        console.log("WMS_RESULT", result.data);
         if (result.data) {
           console.log("WMS result", result.data);
           sharp(result.data)
