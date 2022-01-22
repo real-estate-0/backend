@@ -581,9 +581,9 @@ class DataController extends Controller {
           //responseType: "arraybuffer",
           timeout: 20000,
         });
-        console.log("WMS_RESULT", result.data);
+        //console.log("WMS_RESULT", result.data);
         if (result.data) {
-          console.log("WMS result", result.data);
+          //console.log("WMS result", result.data);
           return res.status(httpStatus.OK).send({ result: result.data });
         }
         //return res.status(httpStatus.OK).send({ result: { address } });
@@ -704,9 +704,9 @@ class DataController extends Controller {
           responseType: "arraybuffer",
           timeout: 20000,
         });
-        console.log("WMS_RESULT", result.data);
+        //console.log("WMS_RESULT", result.data);
         if (result.data) {
-          console.log("WMS result", result.data);
+          //console.log("WMS result", result.data);
           sharp(result.data)
             .resize(500)
             .composite([{ input: "circle.png", blend: "over" }])
@@ -825,7 +825,7 @@ class DataController extends Controller {
           timeout: 20000,
         });
         if (result.data) {
-          console.log("landspace WMS result", result.data);
+          //console.log("landspace WMS result", result.data);
           //@ts-ignore
           //console.log("result", "data:image/png;base64," + base64EncodedStr);
           res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
@@ -910,7 +910,7 @@ class DataController extends Controller {
           timeout: 20000,
         });
         if (result.data) {
-          console.log("landspace WMS result", result.data);
+          //console.log("landspace WMS result", result.data);
           //@ts-ignore
           //console.log("result", "data:image/png;base64," + base64EncodedStr);
           res.writeHead(200, { "Content-Type": "image/png;charset=UTF-8" });
