@@ -1,3 +1,7 @@
 {
-  "env": "production"
+  "env": "production",
+  "mongodb": {
+    "url": "mongodb://jinjja:cR4GnMP5i2mhUi5FCNoJgaYHdZ6lxe0zu9cacqcupmRV2L48kWJrXdiS322zuApRGJIZrzVyxNB0c28dus4O7w==@jinjja.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@jinjja@",
+    "dbName": "jinjja"
+  }
 }
