@@ -730,7 +730,7 @@ class DataController extends Controller {
               res.writeHead(200, {
                 "Content-Type": "image/png;charset=UTF-8",
               });
-              res.write(null);
+              res.write("");
               res.end();
             });
           /*
