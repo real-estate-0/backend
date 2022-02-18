@@ -500,6 +500,7 @@ class DataController extends Controller {
         if (result.data) {
           //@ts-ignore
           //console.log("publicprice result", result.data);
+          console.log("publicprice result ok", result.data);
           return res
             .status(httpStatus.OK)
             .send({ price: result.data.indvdLandPrices.field });
@@ -584,6 +585,7 @@ class DataController extends Controller {
         //console.log("WMS_RESULT", result.data);
         if (result.data) {
           //console.log("WMS result", result.data);
+          console.log("");
           return res.status(httpStatus.OK).send({ result: result.data });
         }
         //return res.status(httpStatus.OK).send({ result: { address } });
@@ -704,8 +706,9 @@ class DataController extends Controller {
           responseType: "arraybuffer",
           timeout: 20000,
         });
-        //console.log("WMS_RESULT", result.data);
+        console.log("getWMSInfo ok0 ");
         if (result.data) {
+          console.log("getWMSInfo ok1 ");
           //console.log("WMS result", result.data);
           sharp(result.data)
             .resize(500)
@@ -715,10 +718,19 @@ class DataController extends Controller {
               // outputBuffer contains upside down, 300px wide, alpha channel flattened
               // onto orange background, composited with overlay.png with SE gravity,
               // sharpened, with metadata, 90% quality WebP image data. Phew!
+              console.log("getWMSInfo will response");
               res.writeHead(200, {
                 "Content-Type": "image/png;charset=UTF-8",
               });
               res.write(outputBuffer);
+              res.end();
+            })
+            .catch(function (err) {
+              console.log("getWMSInfo err", err);
+              res.writeHead(200, {
+                "Content-Type": "image/png;charset=UTF-8",
+              });
+              res.write(null);
               res.end();
             });
           /*
