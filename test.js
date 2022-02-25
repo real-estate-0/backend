@@ -1,8 +1,11 @@
 const axios = require("axios");
 const url = require("url");
 
+function run(){
+
 const key = "851B1D37-7504-38C1-98DF-52F6E03BB2CE";
 console.log("getWMSInfo");
+/*
 const WMS_RESULT = axios
   .get(`http://api.vworld.kr/req/wms?key=${key}&[WMS Param]`, {
     params: {
@@ -23,12 +26,17 @@ const WMS_RESULT = axios
     },
   })
   .then((result) => console.log("WMS_RESULT", result.data));
+*/
 
-/*
-KEY = "devU01TX0FVVEgyMDIxMTEyNjA2MzczNjExMTk1NTI=";
+//KEY="devU01TX0FVVEgyMDIyMDIyNTEyMjgxMDExMjI3OTU=";
+KEY="devU01TX0FVVEgyMDIyMDIyNTEyMjQ0MjExMjI3OTQ=";
+//KEY = "devU01TX0FVVEgyMDIxMTEyNjA2MzczNjExMTk1NTI=";
+
+//KEY="devU01TX0FVVEgyMDIyMDIyNTEyMjMxNzExMjI3OTM";
+//KEY="U01TX0FVVEgyMDIyMDIyNTEyMjAyOTExMjI3OTI";
 URL = "https://www.juso.go.kr/addrlink/addrLinkApi.do";
 
-axios
+const result = axios
   .post(
     URL,
     new url.URLSearchParams({
@@ -41,13 +49,13 @@ axios
     })
   )
   .then((result) => {
-    console.log("result", result.data.results.juso);
+    console.log("address result", result.data);
   })
   .catch((error) => {
-    console.log("error", error);
+    console.log("address error", error);
   });
-*/
 
+console.log('address-1 result', result)
 /*
 confmKey  String  Y - 신청시 발급받은 승인키
 currentPage Integer Y 1 현재 페이지 번호
@@ -120,7 +128,6 @@ axios
 */
 /**
  * 공시지가
- */
 KEY =
   "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
 URL =
@@ -143,3 +150,7 @@ axios
   .then((result) => {
     console.log("result", result.data.indvdLandPrices.field);
   });
+  */
+}
+
+run()
