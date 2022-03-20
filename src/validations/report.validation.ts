@@ -52,6 +52,20 @@ const deleteReport = {
   }),
 };
 
+const createAttachments = {
+  params: Joi.object().keys({
+    reportObjectId: Joi.string().custom(objectId),
+  }),
+  body: Joi.any(),
+};
+
+const deleteAttachment = {
+  params: Joi.object().keys({
+    reportObjectId: Joi.string().custom(objectId),
+    fileName: Joi.string(),
+  }),
+};
+
 export {
   schema,
   createReport,
@@ -59,4 +73,6 @@ export {
   updateReport,
   updateReportAll,
   deleteReport,
+  createAttachments,
+  deleteAttachment,
 };

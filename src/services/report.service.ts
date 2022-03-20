@@ -64,6 +64,30 @@ class ReportService extends Service {
   deleteReport = async (reportObjectId: string) => {
     return await Report.deleteOne({ _id: new ObjectID(reportObjectId) });
   };
+
+  createReportAttachments = async (
+    reportObjectId: string,
+    files: TAttachment[]
+  ) => {
+    return await Report.updateOne(
+      { _id: new ObjectID(reportObjectId) },
+      { $set: { attachments: files } }
+    );
+  };
+
+  deleteReportAttachment = async (reportObjectId: string, fileName: string) => {
+    const report = await Report.findById<IReport>(reportObjectId);
+    if (report) {
+      let { attachments } = report;
+      attachments = attachments.filter(
+        (attachment) => attachment.fileName != fileName
+      );
+      return await Report.updateOne(
+        { _id: new ObjectID(reportObjectId) },
+        { $set: { attachments } }
+      );
+    }
+  };
 }
 
 const reportService = new ReportService();

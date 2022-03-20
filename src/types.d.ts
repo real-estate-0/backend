@@ -2,6 +2,10 @@ type Content = {
   type?: "table" | "image" | "text";
   content?: any;
 };
+type TAttachment = {
+  url?: string;
+  fileName?: string;
+};
 
 type IUser = {
   _id?: string;
@@ -40,6 +44,7 @@ interface IReport {
   map?: string;
   roadview?: string;
   pfper?: string;
+  attachments?: TAttachement[];
 }
 
 type AppState = {
