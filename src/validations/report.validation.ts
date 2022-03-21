@@ -66,6 +66,12 @@ const deleteAttachment = {
   }),
 };
 
+const createPPT = {
+  params: Joi.object().keys({
+    reportObjectId: Joi.string().custom(objectId),
+  }),
+};
+
 export {
   schema,
   createReport,
@@ -75,4 +81,5 @@ export {
   deleteReport,
   createAttachments,
   deleteAttachment,
+  createPPT,
 };

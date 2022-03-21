@@ -242,6 +242,33 @@ class ReportController extends Controller {
       res.status(httpStatus.OK).send();
     }
   });
+
+  createPPT = catchAsync(async (req, res) => {
+    console.log("createPPT", req.params.reportObjectId);
+    const reports = await reportService.getReportByObjectIds(
+      [req.params.reportObjectId],
+      []
+    );
+    if (reports.length > 0) {
+      const report = reports[0];
+      const pptx = await reportService.createPPT(report);
+      console.log("pptx", report);
+      pptx.stream().then((data) => {
+        console.log("ppt response");
+        res.writeHead(200, {
+          /*
+          "Content-Disposition":
+            "attachment;filename=" +
+            //@ts-ignore
+            encodeURIComponent(report.location.address) +
+            ".pptx",
+            */
+          "Content-Length": data.length,
+        });
+        res.end(Buffer.from(data, "binary"));
+      });
+    }
+  });
 }
 
 const reportController = new ReportController();

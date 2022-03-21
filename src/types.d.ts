@@ -16,6 +16,16 @@ type IUser = {
   createdTime?: Date;
 };
 
+type TLocation = {
+  latitude: number;
+  longitude: number;
+  address: string;
+  road: any;
+  transport: string;
+  road_: string;
+  landUse: string;
+};
+
 interface IParagraph {
   type: string;
   title?: string;
@@ -24,6 +34,11 @@ interface IParagraph {
   tableColumn?: string;
   image?: string;
 }
+
+type TAttachment = {
+  url?: string;
+  fileName?: string;
+};
 
 interface IReport {
   _id?: string;
@@ -34,6 +49,7 @@ interface IReport {
   detail?: string;
   publicPrice?: TPublicPrice[];
   floor?: TFloor[];
+  rentDetail?: string;
   landPlanWMS?: TLandPlanWMS;
   landPlan?: TLandPlan[];
   tags?: string[];
@@ -44,6 +60,8 @@ interface IReport {
   map?: string;
   roadview?: string;
   pfper?: string;
+  expectPfper?: string;
+  expect?: TExpect;
   attachments?: TAttachement[];
 }
 
@@ -62,6 +80,12 @@ type ReduxState = {
 };
 
 type TERROR_RESPONSE = {};
+type TExpect = {
+  deposit: string;
+  month: string;
+  management: string;
+  expectPfPer: string;
+};
 
 type TBuilding = {
   address?: string;
@@ -79,6 +103,7 @@ type TBuilding = {
   ugrndFlrCnt?: string;
   rideUseElvtCnt?: string;
   emgenUseElvtCnt?: string;
+  elvCnt?: string;
   atchBldCnt?: string;
   atchBldArea?: string;
   totDongTotArea?: string;
@@ -90,6 +115,7 @@ type TBuilding = {
   indrAutoArea?: string;
   oudrAutoUtcnt?: string;
   oudrAutoArea?: string;
+  parkingLotCnt?: string;
   pmsDay?: string;
   stcnsDay?: string;
   useAprDay?: string;
@@ -204,6 +230,9 @@ type TFloor = {
   area?: string;
   areaExctYn?: string;
   crtnDay?: string;
+  deposit?: string;
+  month?: string;
+  management?: string;
 };
 
 type TPublicPrice = {

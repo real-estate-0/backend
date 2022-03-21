@@ -34,4 +34,8 @@ reportRouter
     reportController.deleteAttachment
   );
 
+reportRouter
+  .route("/:reportObjectId/ppt")
+  .post(validate(reportSchema.createPPT), reportController.createPPT);
+
 export default reportRouter;
