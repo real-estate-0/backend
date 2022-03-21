@@ -135,9 +135,12 @@ class ReportService extends Service {
     reportObjectId: string,
     files: TAttachment[]
   ) => {
+    const docs = await Report.findById<IReport>(reportObjectId);
+    const attachments = [...(docs.attachments || []), ...files];
+
     return await Report.updateOne(
       { _id: new ObjectID(reportObjectId) },
-      { $set: { attachments: files } }
+      { $set: { attachments: attachments } }
     );
   };
 
@@ -900,7 +903,18 @@ class PPTBuilder {
     );
   };
 
-  render7 = (slide, imagePath1, imagePath2, imagePath3, imagePath4) => {
+  render4 = (slide, report: IReport) => {
+    if (report?.landPlanWMS)
+      slide.addImage({
+        data: report.landPlanWMS,
+        x: 0.2,
+        y: 0.4,
+        w: 7,
+        h: 4.8,
+      });
+  };
+
+  render7 = (slide, report: IReport) => {
     //builiding image
     const START_X1 = 0.2;
     const START_Y1 = 0.4;
@@ -908,13 +922,20 @@ class PPTBuilder {
     const HEIGHT = 2.4;
     const START_X2 = 4.7;
     const START_Y2 = 2.9;
-    slide.addImage({
-      path: imagePath1,
-      x: START_X1,
-      y: START_Y1,
-      w: WIDTH,
-      h: HEIGHT,
-    });
+
+    const X = [0.2, 4.7, 0.2, 4.7];
+    const Y = [0.4, 0.4, 2.9, 2.9];
+
+    for (let i = 0; i < report.roadview.length; i++) {
+      slide.addImage({
+        data: report.roadview[i],
+        x: X[i],
+        y: Y[i],
+        w: WIDTH,
+        h: HEIGHT,
+      });
+    }
+    /*
     slide.addImage({
       path: imagePath2,
       x: START_X2,
@@ -936,6 +957,7 @@ class PPTBuilder {
       w: WIDTH,
       h: HEIGHT,
     });
+    */
   };
 
   getPPT = () => {
@@ -958,25 +980,22 @@ class PPTBuilder {
     //4page empty
     const slide4 = this.pres.addSlide();
     this.renderTemplate(slide4);
+    this.render4(slide4, this.report);
 
     //4page empty
+    /*
     const slide5 = this.pres.addSlide();
     this.renderTemplate(slide5);
 
     //6page empty
     const slide6 = this.pres.addSlide();
     this.renderTemplate(slide6);
+    */
 
     //7page images
     const slide7 = this.pres.addSlide();
     this.renderTemplate(slide7);
-    this.render7(
-      slide7,
-      "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg",
-      "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg",
-      "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg",
-      "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
-    );
+    this.render7(slide7, this.report);
 
     return this.pres;
   };
