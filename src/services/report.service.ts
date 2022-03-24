@@ -807,7 +807,7 @@ class PPTBuilder {
         text: "운영수입",
         options: {
           ...this.headerOptions,
-          rowspan: 13,
+          rowspan: 12,
           valign: "middle",
           //margin: [20, 0, 0, 0],
         },
@@ -827,7 +827,7 @@ class PPTBuilder {
   }
   */
     const floors = report.floor || [];
-    Array.from({ length: 11 }).map((item, index) => {
+    Array.from({ length: 10 }).map((item, index) => {
       //console.log("number", index, index < floors.length);
       const areaText = floors[index]?.area ? floors[index].area + "㎡" : ""; // + convertAreaToPy(floors[index].area) : "";
       if (index < floors.length) {
