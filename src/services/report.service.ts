@@ -196,6 +196,7 @@ class PPTBuilder {
   constructor(report: IReport) {
     this.report = report;
     this.pres = new pptxgen();
+    this.pres.layout = "LAYOUT_4x3";
 
     if (report?.floor) {
       for (let i = 0; i < report.floor.length; i++) {
