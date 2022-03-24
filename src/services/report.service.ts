@@ -438,13 +438,26 @@ class PPTBuilder {
       },
       {
         text: "",
-        options: this.columnOptions,
+        options: {
+          ...this.columnOptions,
+          border: [
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_RED },
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_BLACK },
+          ],
+        },
       },
       {
         text: convertAreaToPy(report?.building?.platArea),
         options: {
           ...this.columnOptions,
-          border: { pt: 1, color: this.COLOR_RED },
+          border: [
+            { pt: 1, color: this.COLOR_RED },
+            { pt: 1, color: this.COLOR_RED },
+            { pt: 1, color: this.COLOR_RED },
+            { pt: 1, color: this.COLOR_RED },
+          ],
           align: "right",
         },
       },
@@ -517,7 +530,15 @@ class PPTBuilder {
       },
       {
         text: "",
-        options: this.columnOptions,
+        options: {
+          ...this.columnOptions,
+          border: [
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_RED },
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_BLACK },
+          ],
+        },
       },
       {
         text: convertAreaToPy(report?.building?.archArea),
@@ -544,7 +565,15 @@ class PPTBuilder {
       },
       {
         text: "",
-        options: this.columnOptions,
+        options: {
+          ...this.columnOptions,
+          border: [
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_RED },
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_BLACK },
+          ],
+        },
       },
       {
         text: convertAreaToPy(report?.building?.totArea),
@@ -688,7 +717,16 @@ class PPTBuilder {
       },
       {
         text: parseFloat(report?.pfper || "0").toFixed(2) + "%",
-        options: { ...this.columnOptions, align: "right" },
+        options: {
+          ...this.columnOptions,
+          align: "right",
+          border: [
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_RED },
+            { pt: 1, color: this.COLOR_BLACK },
+          ],
+        },
       },
     ]);
 
@@ -703,7 +741,15 @@ class PPTBuilder {
       },
       {
         text: "매매가",
-        options: this.headerOptions,
+        options: {
+          ...this.headerOptions,
+          border: [
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_RED },
+            { pt: 1, color: this.COLOR_BLACK },
+            { pt: 1, color: this.COLOR_BLACK },
+          ],
+        },
       },
       {
         text: addFraction(report?.building?.price || "0") + "억",
@@ -833,8 +879,7 @@ class PPTBuilder {
     slide.addTable(rows, {
       x: 0.2,
       y: 0.5,
-      w: 9.4,
-      colW: [1.0, 2.0, 2.5, 1.5, 1.0],
+      colW: [1.1, 0.7, 1.9, 1.1, 1.7, 1, 1, 1],
     });
 
     //summary
