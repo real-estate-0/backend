@@ -176,6 +176,8 @@ class PPTBuilder {
   COLOR_LIGHT_GREEN = "c6e0b4";
   COLOR_HEAVY_GREEN = "a9d08e";
   COLOR_RED = "c80d3a";
+  COLOR_BLUE = "003399";
+
   columnOptions = {
     fontSize: 8,
     align: "center",
@@ -212,7 +214,22 @@ class PPTBuilder {
       }
     }
   }
-  renderTemplate = (slide) => {
+  getExpectPfper = (
+    totalDeposit: number,
+    totalMonth: number,
+    totalManagement: number,
+    price: any
+  ) => {
+    if (isNull(price) || price === "0" || price === 0) return "";
+    const changePrice = parseFloat(price) * 10000;
+    const result =
+      ((totalMonth * 12 + totalManagement * 12) /
+        (changePrice - totalDeposit)) *
+      100;
+    return result.toFixed(2);
+  };
+
+  renderTemplate = (slide, subheader) => {
     slide.addShape(this.pres.ShapeType.rtTriangle, {
       x: "0.1%",
       y: "1%",
@@ -222,6 +239,25 @@ class PPTBuilder {
       line: { color: this.COLOR_GREEN, width: 2 },
       flipV: true,
     });
+
+    if (subheader) {
+      slide.addShape(this.pres.ShapeType.rect, {
+        x: "2.4%",
+        y: "2.6%",
+        w: 0.06,
+        h: 0.12,
+        fill: { color: this.COLOR_BLUE },
+        line: { color: this.COLOR_BLUE, width: 2 },
+      });
+      slide.addText(subheader, {
+        x: "2.5%",
+        y: "3.5%",
+        fontSize: 9,
+        bold: true,
+        color: this.COLOR_BLUE,
+      });
+    }
+
     slide.addShape(this.pres.ShapeType.rtTriangle, {
       x: "54%",
       y: "1.2%",
@@ -862,18 +898,29 @@ class PPTBuilder {
     ]);
     sumRows.push([
       { text: "매매대금", options: { ...this.headerOptions, colspan: 2 } },
-      { text: "", options: this.columnOptions },
       {
-        text: addFraction(report?.building?.price || "") + "억",
-        options: { ...this.columnOptions, align: "right" },
+        text: addFraction(report?.building?.price.toString() || "") + "억",
+        options: {
+          ...this.columnOptions,
+          align: "right",
+          color: this.COLOR_BLACK,
+        },
       },
     ]);
+    console.log(
+      "sumRows price",
+      report?.building?.price,
+      report?.expect?.expectPfPer
+    );
     sumRows.push([
       { text: "예상수익률", options: { ...this.headerOptions, colspan: 2 } },
-      { text: "", options: this.columnOptions },
       {
-        text: (report?.expect?.expectPfPer || "") + "%",
-        options: { ...this.columnOptions, align: "right" },
+        text: (addFraction(report?.expect?.expectPfPer.toString()) || "") + "%",
+        options: {
+          ...this.columnOptions,
+          align: "right",
+          color: this.COLOR_BLACK,
+        },
       },
     ]);
     slide.addTable(sumRows, {
@@ -969,11 +1016,11 @@ class PPTBuilder {
 
   getPPT = () => {
     const slide1 = this.pres.addSlide();
-    this.renderTemplate(slide1);
+    this.renderTemplate(slide1, null);
     this.render1(slide1, this.report.location.address);
 
     const slide2 = this.pres.addSlide();
-    this.renderTemplate(slide2);
+    this.renderTemplate(slide2, "물건지 정보");
     this.render2(
       slide2,
       this.report
@@ -981,12 +1028,12 @@ class PPTBuilder {
     );
 
     const slide3 = this.pres.addSlide();
-    this.renderTemplate(slide3);
+    this.renderTemplate(slide3, "렌트롤 및 예상 수익률(V.A.T 제외)");
     this.render3(slide3, this.report);
 
     //4page empty
     const slide4 = this.pres.addSlide();
-    this.renderTemplate(slide4);
+    this.renderTemplate(slide4, "토지이용계획");
     this.render4(slide4, this.report);
 
     //4page empty
@@ -1001,7 +1048,7 @@ class PPTBuilder {
 
     //7page images
     const slide7 = this.pres.addSlide();
-    this.renderTemplate(slide7);
+    this.renderTemplate(slide7, "지도");
     this.render7(slide7, this.report);
 
     return this.pres;
