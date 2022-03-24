@@ -179,14 +179,14 @@ class PPTBuilder {
   COLOR_BLUE = "003399";
 
   columnOptions = {
-    fontSize: 8,
+    fontSize: 11,
     align: "center",
     border: { pt: 1, color: this.COLOR_BLACK },
     fill: this.COLOR_WHITE,
   };
 
   headerOptions = {
-    fontSize: 8,
+    fontSize: 11,
     align: "center",
     border: { pt: 1, color: this.COLOR_BLACK },
     fill: this.COLOR_LIGHT_GREEN,
@@ -337,7 +337,7 @@ class PPTBuilder {
   render1 = (slide: any, address?: string) => {
     slide.addText(address, {
       x: 0.7,
-      y: 1,
+      y: 1.8,
       fontSize: 20,
       color: this.COLOR_BLACK,
     });
@@ -367,9 +367,9 @@ class PPTBuilder {
     slide.addImage({
       data: report?.roadview?.length > 0 ? report.roadview[0] : null,
       x: 0.2,
-      y: 0.4,
-      w: 4.5,
-      h: 4.8,
+      y: 0.5,
+      w: 4.6,
+      h: 6.2,
     });
 
     //소재지 table
@@ -412,9 +412,9 @@ class PPTBuilder {
 
     slide.addTable(locationRows, {
       x: "49%",
-      y: 0.4,
+      y: 0.5,
       w: 4.8,
-      h: 0.2,
+      h: 0.3,
     });
     const landRows = [];
 
@@ -490,9 +490,9 @@ class PPTBuilder {
 
     slide.addTable(landRows, {
       x: "49%",
-      y: 0.9,
+      y: 1.2,
       w: 4.8,
-      h: 0.5,
+      h: 0.6,
     });
 
     const buildingRows = [];
@@ -560,7 +560,7 @@ class PPTBuilder {
         text: "용적률 산정용 연면적",
         options: {
           ...this.headerOptions,
-          fontSize: 6,
+          fontSize: 8,
           border: { pt: 1, color: this.COLOR_BLACK },
         },
       },
@@ -639,7 +639,7 @@ class PPTBuilder {
 
     slide.addTable(buildingRows, {
       x: "49%",
-      y: 1.63,
+      y: 2.4,
       w: 4.8,
       h: 1.4,
     });
@@ -716,9 +716,9 @@ class PPTBuilder {
 
     slide.addTable(priceRows, {
       x: "49%",
-      y: 3.19,
+      y: 4.4,
       w: 4.8,
-      h: 0.7,
+      h: 0.6,
     });
 
     const html = report?.detail;
@@ -741,7 +741,7 @@ class PPTBuilder {
       ],
       {
         x: "49%",
-        y: 3.92,
+        y: 5.4,
         w: 4.8,
         h: 1.2,
       }
@@ -756,7 +756,7 @@ class PPTBuilder {
         text: "운영수입",
         options: {
           ...this.headerOptions,
-          rowspan: 11,
+          rowspan: 13,
           //margin: [20, 0, 0, 0],
         },
       },
@@ -775,7 +775,7 @@ class PPTBuilder {
   }
   */
     const floors = report.floor || [];
-    Array.from({ length: 9 }).map((item, index) => {
+    Array.from({ length: 11 }).map((item, index) => {
       console.log("number", index, index < floors.length);
       const areaText = floors[index]?.area ? floors[index].area + "㎡" : ""; // + convertAreaToPy(floors[index].area) : "";
       if (index < floors.length) {
@@ -834,7 +834,7 @@ class PPTBuilder {
     const sumRows = [];
     sumRows.push([
       {
-        text: "예상 운영수입",
+        text: "예상\n운영수입",
         options: {
           ...this.headerOptions,
           rowspan: 7,
@@ -907,11 +907,7 @@ class PPTBuilder {
         },
       },
     ]);
-    console.log(
-      "sumRows price",
-      report?.building?.price,
-      report?.expect?.expectPfPer
-    );
+
     sumRows.push([
       { text: "예상수익률", options: { ...this.headerOptions, colspan: 2 } },
       {
@@ -925,7 +921,7 @@ class PPTBuilder {
     ]);
     slide.addTable(sumRows, {
       x: 0.2,
-      y: "58%",
+      y: "63%",
       w: 4.5,
       h: 2,
     });
@@ -950,7 +946,7 @@ class PPTBuilder {
       ],
       {
         x: "49%",
-        y: "58%",
+        y: "63%",
         w: 4.7,
         h: 2,
       }
@@ -963,22 +959,18 @@ class PPTBuilder {
         data: report.landPlanWMS,
         x: 0.2,
         y: 0.4,
-        w: 7,
-        h: 4.8,
+        w: 9.2,
+        h: 6.5,
       });
   };
 
   render7 = (slide, report: IReport) => {
     //builiding image
-    const START_X1 = 0.2;
-    const START_Y1 = 0.4;
-    const WIDTH = 4.3;
-    const HEIGHT = 2.4;
-    const START_X2 = 4.7;
-    const START_Y2 = 2.9;
+    const WIDTH = 4.6;
+    const HEIGHT = 3.2;
 
-    const X = [0.2, 4.7, 0.2, 4.7];
-    const Y = [0.4, 0.4, 2.9, 2.9];
+    const X = [0.2, 4.9, 0.2, 4.9];
+    const Y = [0.4, 0.4, 3.5, 3.5];
 
     for (let i = 0; i < report.roadview.length; i++) {
       slide.addImage({
