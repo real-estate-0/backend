@@ -93,7 +93,7 @@ class ReportService extends Service {
     value: any,
     userObjectId: string
   ) => {
-    console.log("will update Report", reportObjectId, field, userObjectId);
+    //console.log("will update Report", reportObjectId, field, userObjectId);
     return await Report.updateOne(
       { _id: new ObjectID(reportObjectId) },
       { $set: { [field]: value, updatedTime: new Date() } }
@@ -105,7 +105,7 @@ class ReportService extends Service {
     value: IReport,
     userObjectId: string
   ) => {
-    console.log("will update Report", reportObjectId);
+    //console.log("will update Report", reportObjectId);
     delete value["_id"];
     return await Report.updateOne(
       { _id: new ObjectID(reportObjectId) },
@@ -261,9 +261,9 @@ class PPTBuilder {
 
     slide.addShape(this.pres.ShapeType.rtTriangle, {
       x: "54%",
-      y: "1.2%",
+      y: "1.3%",
       w: "1%",
-      h: "3.5%",
+      h: "3.55%",
       fill: { color: this.COLOR_GREEN },
       line: { color: this.COLOR_GREEN, width: 2 },
       flipH: true,
@@ -285,9 +285,9 @@ class PPTBuilder {
     //footer
     slide.addShape(this.pres.ShapeType.rtTriangle, {
       x: "69%",
-      y: "95.2%",
+      y: "95.1%",
       w: "0.7%",
-      h: "3.5%",
+      h: "3.51%",
       fill: { color: this.COLOR_GREEN },
       line: { color: this.COLOR_GREEN, width: 2 },
       flipV: true,
@@ -824,7 +824,7 @@ class PPTBuilder {
   */
     const floors = report.floor || [];
     Array.from({ length: 11 }).map((item, index) => {
-      console.log("number", index, index < floors.length);
+      //console.log("number", index, index < floors.length);
       const areaText = floors[index]?.area ? floors[index].area + "㎡" : ""; // + convertAreaToPy(floors[index].area) : "";
       if (index < floors.length) {
         rows.push([
@@ -998,8 +998,8 @@ class PPTBuilder {
       ],
       {
         x: "49%",
-        y: "63%",
-        w: 4.7,
+        y: "63.5%",
+        w: 4.8,
         h: 2,
       }
     );
