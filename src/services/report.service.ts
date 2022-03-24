@@ -370,7 +370,7 @@ class PPTBuilder {
       x: 0.2,
       y: 0.5,
       w: 4.6,
-      h: 6.2,
+      h: 6.3,
     });
 
     //소재지 table
