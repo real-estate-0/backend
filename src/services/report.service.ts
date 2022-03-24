@@ -188,6 +188,7 @@ class PPTBuilder {
   headerOptions = {
     fontSize: 11,
     align: "center",
+    valign: "middle",
     border: { pt: 1, color: this.COLOR_BLACK },
     fill: this.COLOR_LIGHT_GREEN,
   };
@@ -757,6 +758,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           rowspan: 13,
+          valign: "middle",
           //margin: [20, 0, 0, 0],
         },
       },
@@ -828,7 +830,12 @@ class PPTBuilder {
         options: { ...this.columnOptions, align: "right" },
       },
     ]);
-    slide.addTable(rows, { x: 0.2, y: 0.5, w: 9.4 });
+    slide.addTable(rows, {
+      x: 0.2,
+      y: 0.5,
+      w: 9.4,
+      colW: [1.0, 2.0, 2.5, 1.5, 1.0],
+    });
 
     //summary
     const sumRows = [];
