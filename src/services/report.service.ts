@@ -416,6 +416,7 @@ class PPTBuilder {
       y: 0.5,
       w: 4.8,
       h: 0.3,
+      colW: [0.8, 0.9, 1.1, 0.9, 1.1],
     });
     const landRows = [];
 
@@ -507,6 +508,7 @@ class PPTBuilder {
       y: 1.2,
       w: 4.8,
       h: 0.6,
+      colW: [0.8, 0.9, 1.1, 0.9, 1.1],
     });
 
     const buildingRows = [];
@@ -669,9 +671,10 @@ class PPTBuilder {
 
     slide.addTable(buildingRows, {
       x: "49%",
-      y: 2.4,
+      y: 2.2,
       w: 4.8,
       h: 1.4,
+      colW: [0.8, 0.9, 1.1, 0.9, 1.1],
     });
 
     const priceRows = [];
@@ -763,9 +766,10 @@ class PPTBuilder {
 
     slide.addTable(priceRows, {
       x: "49%",
-      y: 4.4,
+      y: 4.1,
       w: 4.8,
       h: 0.6,
+      colW: [0.8, 0.9, 1.1, 0.9, 1.1],
     });
 
     const html = report?.detail;
@@ -788,9 +792,9 @@ class PPTBuilder {
       ],
       {
         x: "49%",
-        y: 5.4,
+        y: 5.1,
         w: 4.8,
-        h: 1.2,
+        h: 1.7,
       }
     );
   };
