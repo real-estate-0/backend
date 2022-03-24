@@ -1028,6 +1028,10 @@ class PPTBuilder {
     this.renderTemplate(slide4, "토지이용계획");
     this.render4(slide4, this.report);
 
+    //5page empty
+    const slide5 = this.pres.addSlide();
+    this.renderTemplate(slide5, "지도");
+
     //4page empty
     /*
     const slide5 = this.pres.addSlide();
@@ -1040,7 +1044,7 @@ class PPTBuilder {
 
     //7page images
     const slide7 = this.pres.addSlide();
-    this.renderTemplate(slide7, "지도");
+    this.renderTemplate(slide7, "현장사진");
     this.render7(slide7, this.report);
 
     return this.pres;
