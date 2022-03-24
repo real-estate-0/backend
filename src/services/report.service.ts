@@ -761,7 +761,7 @@ class PPTBuilder {
         },
       },
       { text: "층수", options: this.headerOptions },
-      { text: "용도(임차구성)", options: this.headerOptions },
+      { text: "용도\n(임차구성)", options: this.headerOptions },
       { text: "임대면적(㎡)", options: this.headerOptions },
       { text: "계약기간", options: this.headerOptions },
       { text: "보증금(만)", options: this.headerOptions },
@@ -828,7 +828,7 @@ class PPTBuilder {
         options: { ...this.columnOptions, align: "right" },
       },
     ]);
-    slide.addTable(rows, { x: 0.2, y: 0.4, w: 9.4 });
+    slide.addTable(rows, { x: 0.2, y: 0.5, w: 9.4 });
 
     //summary
     const sumRows = [];
@@ -921,7 +921,7 @@ class PPTBuilder {
     ]);
     slide.addTable(sumRows, {
       x: 0.2,
-      y: "63%",
+      y: "63.5%",
       w: 4.5,
       h: 2,
     });
