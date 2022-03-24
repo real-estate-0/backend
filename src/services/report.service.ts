@@ -418,7 +418,11 @@ class PPTBuilder {
       },
       {
         text: report?.location?.landUse || "",
-        options: { ...this.columnOptions, colspan: 3, border: { pt: 0 } },
+        options: {
+          ...this.columnOptions,
+          colspan: 3,
+          border: { pt: 1, color: this.COLOR_BLACK },
+        },
       },
     ]);
     landRows.push([
@@ -496,7 +500,7 @@ class PPTBuilder {
         text: report?.building?.totArea + "㎡",
         options: {
           ...this.columnOptions,
-          border: { pt: 0 },
+          border: { pt: 1, color: this.COLOR_BLACK },
           align: "right",
         },
       },
@@ -517,7 +521,11 @@ class PPTBuilder {
     buildingRows.push([
       {
         text: "용적률 산정용 연면적",
-        options: { ...this.headerOptions, fontSize: 6 },
+        options: {
+          ...this.headerOptions,
+          fontSize: 6,
+          border: { pt: 1, color: this.COLOR_BLACK },
+        },
       },
       {
         text: report.building?.vlRatEstmTotArea + "㎡",
@@ -671,7 +679,7 @@ class PPTBuilder {
 
     slide.addTable(priceRows, {
       x: "49%",
-      y: 3.24,
+      y: 3.19,
       w: 4.8,
       h: 0.7,
     });
@@ -696,9 +704,9 @@ class PPTBuilder {
       ],
       {
         x: "49%",
-        y: 3.99,
+        y: 3.92,
         w: 4.8,
-        h: 1.22,
+        h: 1.2,
       }
     );
   };
@@ -711,13 +719,13 @@ class PPTBuilder {
         text: "운영수입",
         options: {
           ...this.headerOptions,
-          rowspan: 9,
+          rowspan: 11,
           //margin: [20, 0, 0, 0],
         },
       },
       { text: "층수", options: this.headerOptions },
       { text: "용도(임차구성)", options: this.headerOptions },
-      { text: "임대면적", options: this.headerOptions },
+      { text: "임대면적(㎡)", options: this.headerOptions },
       { text: "계약기간", options: this.headerOptions },
       { text: "보증금(만)", options: this.headerOptions },
       { text: "임대료(만)", options: this.headerOptions },
@@ -730,11 +738,9 @@ class PPTBuilder {
   }
   */
     const floors = report.floor || [];
-    Array.from({ length: 7 }).map((item, index) => {
+    Array.from({ length: 9 }).map((item, index) => {
       console.log("number", index, index < floors.length);
-      const areaText = floors[index]?.area
-        ? floors[index].area + "㎡/" + convertAreaToPy(floors[index].area)
-        : "";
+      const areaText = floors[index]?.area ? floors[index].area + "㎡" : ""; // + convertAreaToPy(floors[index].area) : "";
       if (index < floors.length) {
         rows.push([
           { text: floors[index].flrNoNm, options: this.columnOptions },
