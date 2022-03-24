@@ -671,7 +671,7 @@ class PPTBuilder {
 
     slide.addTable(priceRows, {
       x: "49%",
-      y: 3.16,
+      y: 3.24,
       w: 4.8,
       h: 0.7,
     });
@@ -696,9 +696,9 @@ class PPTBuilder {
       ],
       {
         x: "49%",
-        y: 3.9,
+        y: 3.99,
         w: 4.8,
-        h: 1.29,
+        h: 1.22,
       }
     );
   };
