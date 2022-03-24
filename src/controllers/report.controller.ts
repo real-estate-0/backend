@@ -201,6 +201,11 @@ class ReportController extends Controller {
   });
   deleteReport = catchAsync(async (req, res) => {
     const result = await reportService.deleteReport(req.params.reportObjectId);
+    try {
+      await deleteContainer(req.params.reportObjectId);
+    } catch (err) {
+      console.log("deleteContainer err:", req.params.reportObjectId);
+    }
     res.status(httpStatus.OK).send();
   });
 
