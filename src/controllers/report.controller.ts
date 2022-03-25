@@ -219,7 +219,7 @@ class ReportController extends Controller {
         await upload(req.params.reportObjectId, file);
         const uploadResult = {
           fileName: file.originalname,
-          url: `https://r2labs.blob.core.windows.net/${req.params.reportObjectId}/${file.originalname}`,
+          url: `https://jinjja.blob.core.windows.net/${req.params.reportObjectId}/${file.originalname}`,
         };
         result.push(uploadResult);
       }
