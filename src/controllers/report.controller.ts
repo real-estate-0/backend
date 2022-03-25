@@ -239,7 +239,11 @@ class ReportController extends Controller {
       req.params.fileName
     );
     if (req.params.reportObjectId && req.params.fileName) {
-      deleteFile(req.params.reportObjectId, req.params.fileName);
+      try {
+        deleteFile(req.params.reportObjectId, req.params.fileName);
+      } catch (err) {
+        console.log("delete attachment container err", err);
+      }
       reportService.deleteReportAttachment(
         req.params.reportObjectId,
         req.params.fileName
