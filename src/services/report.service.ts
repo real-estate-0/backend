@@ -1168,7 +1168,7 @@ class PPTBuilder {
     const HEIGHT = 3.2;
 
     const X = [0.2, 4.9, 0.2, 4.9];
-    const Y = [0.4, 0.4, 3.5, 3.5];
+    const Y = [0.6, 0.6, 3.7, 3.7];
 
     for (let i = 0; i < report.roadview.length; i++) {
       slide.addImage({
