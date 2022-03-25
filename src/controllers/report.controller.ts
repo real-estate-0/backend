@@ -151,10 +151,7 @@ class ReportController extends Controller {
   createReport = catchAsync(async (req, res) => {
     //console.log("createReport", JSON.stringify(req.body));
     //TODO change to user objectid
-    const report = await reportService.createReport(
-      req.body,
-      "6179e27324df1a74636fdc76"
-    );
+    const report = await reportService.createReport(req.body, "");
     //console.log("Report", report);
     res.status(httpStatus.OK).send({ result: { report } });
   });

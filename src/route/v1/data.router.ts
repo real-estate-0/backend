@@ -2,22 +2,23 @@ import express from "express";
 import { dataController } from "../../controllers";
 import { auth, validate } from "../../middlewares";
 
-const addressRouter = express.Router();
+const dataRouter = express.Router();
 
 /*
  * address resource
  */
-addressRouter.route("/address").post(dataController.getAddress);
-addressRouter.route("/location").post(dataController.getLocation);
-addressRouter.route("/building").post(dataController.getBuildInfo);
-addressRouter.route("/floor").post(dataController.getBuildFloorInfo);
-addressRouter.route("/landprice").post(dataController.getLandPriceInfo);
-addressRouter.route("/landplan").post(dataController.getLandPlanInfo);
-addressRouter.route("/landplanWMS").post(dataController.getLandPlanWMSInfo);
-addressRouter.route("/landspaceWMS").post(dataController.getLandSpaceWMSInfo);
-addressRouter.route("/wms").post(dataController.getWMSInfo);
-addressRouter.route("/wmsLegend").post(dataController.getWMSLegend);
-addressRouter.route("/wmsFeature").post(dataController.getWMSFeatureInfo);
-addressRouter.route("/landplanWFS").post(dataController.getLandPlanWFSInfo);
+dataRouter.route("/address").post(dataController.getAddress);
+dataRouter.route("/location").post(dataController.getLocation);
+dataRouter.route("/building").post(dataController.getBuildInfo);
+dataRouter.route("/floor").post(dataController.getBuildFloorInfo);
+dataRouter.route("/landprice").post(dataController.getLandPriceInfo);
+dataRouter.route("/landplan").post(dataController.getLandPlanInfo);
+dataRouter.route("/landplanWMS").post(dataController.getLandPlanWMSInfo);
+dataRouter.route("/landspaceWMS").post(dataController.getLandSpaceWMSInfo);
+dataRouter.route("/wms").post(dataController.getWMSInfo);
+dataRouter.route("/wmsLegend").post(dataController.getWMSLegend);
+dataRouter.route("/wmsFeature").post(dataController.getWMSFeatureInfo);
+dataRouter.route("/landplanWFS").post(dataController.getLandPlanWFSInfo);
+dataRouter.route("/land").post(dataController.getLandInfo);
 
-export default addressRouter;
+export default dataRouter;

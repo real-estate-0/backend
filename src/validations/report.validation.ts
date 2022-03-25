@@ -11,6 +11,7 @@ const createReport = {
   body: Joi.object().keys({
     title: Joi.string().allow(null, ""),
     location: Joi.object().keys({}).unknown(true).allow(null, ""),
+    landInfo: Joi.object().keys({}).unknown(true).allow(null, ""),
     building: Joi.object().keys({}).unknown(true).allow(null, ""),
     publicPrice: Joi.array().items(Joi.any()).allow(null, ""),
     floor: Joi.array().items(Joi.any()).allow(null, ""),

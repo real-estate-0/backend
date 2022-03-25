@@ -329,7 +329,7 @@ class DataController extends Controller {
   getAddress = catchAsync(async (req, res) => {
     if (req.body.address) {
       //const key="devU01TX0FVVEgyMDIyMDIyNTEyMjgxMDExMjI3OTU";
-      const key="devU01TX0FVVEgyMDIyMDIyNTEyMjQ0MjExMjI3OTQ=";
+      const key = "devU01TX0FVVEgyMDIyMDIyNTEyMjQ0MjExMjI3OTQ=";
 
       //const key = "devU01TX0FVVEgyMDIxMTEyNTIxMDc1MjExMTk1NDI=";
 
@@ -1134,6 +1134,38 @@ class DataController extends Controller {
           return res
             .status(httpStatus.OK)
             .send({ landPlan: result.data.landUses.field });
+        }
+      } catch (err) {
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .send({ error: JSON.stringify(err) });
+      }
+    }
+  });
+  getLandInfo = catchAsync(async (req, res) => {
+    const API_URL =
+      "http://apis.data.go.kr/1611000/nsdi/eios/LadfrlService/ladfrlList.xml";
+    const KEY =
+      "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
+    if (req.body.pnu) {
+      try {
+        const result = await axios.get(API_URL, {
+          params: new URLSearchParams({
+            serviceKey: KEY,
+            pnu: req.body.pnu,
+            cnflcAt: "1",
+            format: "json",
+            numOfRows: "100",
+            pageNoe: "1",
+          }),
+          headers: {
+            Accept: "*",
+          },
+          timeout: 5000,
+        });
+        if (result.data) {
+          const landInfo = xml2json(parseXml(result.data), "");
+          return res.status(httpStatus.OK).send({ landInfo: landInfo });
         }
       } catch (err) {
         return res
