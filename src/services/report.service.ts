@@ -253,7 +253,7 @@ class PPTBuilder {
       slide.addText(subheader, {
         x: "2.5%",
         y: "3.5%",
-        fontSize: 9,
+        fontSize: 10,
         bold: true,
         color: this.COLOR_BLUE,
       });
