@@ -181,6 +181,7 @@ class PPTBuilder {
   columnOptions = {
     fontSize: 11,
     align: "center",
+    valign: "middle",
     border: { pt: 1, color: this.COLOR_BLACK },
     fill: this.COLOR_WHITE,
   };
@@ -370,7 +371,7 @@ class PPTBuilder {
       x: 0.2,
       y: 0.5,
       w: 4.6,
-      h: 6.3,
+      h: 6.4,
     });
 
     //소재지 table
@@ -411,6 +412,7 @@ class PPTBuilder {
       },
     ]);
 
+    /*
     slide.addTable(locationRows, {
       x: "49%",
       y: 0.5,
@@ -418,6 +420,7 @@ class PPTBuilder {
       h: 0.3,
       colW: [0.8, 0.9, 1.1, 0.9, 1.1],
     });
+    */
     const landRows = [];
 
     landRows.push([
@@ -503,6 +506,7 @@ class PPTBuilder {
       },
     ]);
 
+    /*
     slide.addTable(landRows, {
       x: "49%",
       y: 1.2,
@@ -510,7 +514,7 @@ class PPTBuilder {
       h: 0.6,
       colW: [0.8, 0.9, 1.1, 0.9, 1.1],
     });
-
+    */
     const buildingRows = [];
 
     buildingRows.push([
@@ -669,6 +673,7 @@ class PPTBuilder {
       },
     ]);
 
+    /*
     slide.addTable(buildingRows, {
       x: "49%",
       y: 2.2,
@@ -676,6 +681,7 @@ class PPTBuilder {
       h: 1.4,
       colW: [0.8, 0.9, 1.1, 0.9, 1.1],
     });
+    */
 
     const priceRows = [];
     priceRows.push([
@@ -764,12 +770,149 @@ class PPTBuilder {
       },
     ]);
 
+    /*
     slide.addTable(priceRows, {
       x: "49%",
       y: 4.1,
       w: 4.8,
       h: 0.6,
       colW: [0.8, 0.9, 1.1, 0.9, 1.1],
+    });
+    */
+    const emptyRows = [
+      [
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_RED },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+      ],
+    ];
+    const emptyRows2 = [
+      [
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+        {
+          text: "",
+          options: {
+            border: [
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+              { pt: 1, color: this.COLOR_BLACK },
+              { pt: 0, color: this.COLOR_BLACK },
+            ],
+          },
+        },
+      ],
+    ];
+    const totalRows = [
+      ...locationRows,
+      ...emptyRows,
+      ...landRows,
+      ...emptyRows,
+      ...buildingRows,
+      ...emptyRows2,
+      ...priceRows,
+    ];
+
+    slide.addTable(totalRows, {
+      x: "49%",
+      y: 0.5,
+      w: 4.8,
+      colW: [0.8, 0.9, 1.1, 0.9, 1.1],
+      rowH: 0.05,
     });
 
     const html = report?.detail;
@@ -792,9 +935,9 @@ class PPTBuilder {
       ],
       {
         x: "49%",
-        y: 5.1,
+        y: 5.5,
         w: 4.8,
-        h: 1.7,
+        h: 1.4,
       }
     );
   };
@@ -808,7 +951,6 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           rowspan: 12,
-          valign: "middle",
           //margin: [20, 0, 0, 0],
         },
       },
