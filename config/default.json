@@ -2,9 +2,9 @@
   "env": "development",
   "timeZone": "Asia/Seoul",
   "storage": {
-    "account": "r2labs",
-    "url": "https://r2labs.blob.core.windows.net/test",
-    "sas": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2099-03-17T06:46:33Z&st=2022-03-16T22:46:33Z&spr=https&sig=x9r6pfunW08hxplVjCrY5myVd6EZbX0A25JU9DQPJyY%3D"
+    "account": "jinjja",
+    "url": "https://jinjja.blob.core.windows.net/test",
+    "sas": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2099-03-25T08:29:32Z&st=2022-03-25T00:29:32Z&spr=https&sig=noCfdnurmKh3jHZi3AbNrf0SilGPMxR7sWEkEp2j5FU%3D"
   },
   "file_path": {
     "bot": "C:\\bot_engine",
