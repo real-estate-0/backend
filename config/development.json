@@ -1,7 +1,12 @@
 {
   "env": "development",
   "mongodb": {
-    "url": "mongodb://real:butHyK8ejPAmwJurTXbLu0CeS23RnKZwkgU57S8m2dxy1Ufh6g4PAaiggIkEq21GNdFMxI2fi0aJpAtPBvrhpA==@real.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@real@",
-    "dbName": "real"
+    "url": "mongodb://jinjja:cR4GnMP5i2mhUi5FCNoJgaYHdZ6lxe0zu9cacqcupmRV2L48kWJrXdiS322zuApRGJIZrzVyxNB0c28dus4O7w==@jinjja.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@jinjja@",
+    "dbName": "jinjja"
+  },
+  ".storage": {
+    ".account": "r2labs",
+    ".url": "https://r2labs.blob.core.windows.net/test",
+    ".sas": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2099-03-17T06:46:33Z&st=2022-03-16T22:46:33Z&spr=https&sig=x9r6pfunW08hxplVjCrY5myVd6EZbX0A25JU9DQPJyY%3D"
   }
 }

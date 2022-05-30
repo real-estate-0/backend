@@ -11,6 +11,8 @@ import {
   newPipeline,
 } from "@azure/storage-blob";
 import config from "config";
+import searchService from "../services/search.service";
+import { PdfReader } from "pdfreader";
 
 const logger = createLogger("controller", "report.controller");
 const STORAGE = config.get("storage");
@@ -165,6 +167,18 @@ class ReportController extends Controller {
     if (req.query.fields) {
       fields = req.query.fields.split(",");
     }
+    if (req.query.search) {
+      const searchString = req.query.search;
+      const searchResult = await searchService.getSearch(
+        "body",
+        searchString,
+        fields
+      );
+      //console.log("searchResult", searchResult);
+      return res
+        .status(httpStatus.OK)
+        .send({ result: { reports: searchResult } });
+    }
     console.log("getReports fields", fields);
     if (req.query._id) {
       const ids = req.query._id.split(",");
@@ -213,6 +227,23 @@ class ReportController extends Controller {
       const result: any[] = [];
       for await (const file of req.files) {
         console.log("upload f", file);
+        const fileText = [];
+        new PdfReader().parseBuffer(file.buffer, (err, item) => {
+          if (err) console.error("pdf error:", err);
+          else if (!item) {
+            console.warn("end of buffer");
+            reportService.updateReport(
+              req.params.reportObjectId,
+              "body",
+              fileText.join(" "),
+              ""
+            );
+          } else if (item.text) {
+            //console.log("pdf text", item.text);
+            fileText.push(item.text);
+          }
+        });
+
         await upload(req.params.reportObjectId, file);
         const uploadResult = {
           fileName: file.originalname,
@@ -245,6 +276,7 @@ class ReportController extends Controller {
         req.params.reportObjectId,
         req.params.fileName
       );
+      reportService.updateReport(req.params.reportObjectId, "body", "", "");
       res.status(httpStatus.OK).send();
     }
   });

@@ -114,7 +114,7 @@ class ReportService extends Service {
   };
 
   getReports = async (fields: string[]) => {
-    let result = await Report.find({}, fields);
+    const result = await Report.find({}, fields);
     return result.sort((a: IReport, b: IReport) => {
       return b.updatedTime.getTime() - a.updatedTime.getTime();
     });

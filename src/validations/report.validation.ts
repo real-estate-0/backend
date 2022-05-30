@@ -27,6 +27,7 @@ const getReports = {
   query: Joi.object().keys({
     _id: Joi.string(),
     fields: Joi.string(),
+    search: Joi.string().allow(null, ""),
   }),
 };
 
