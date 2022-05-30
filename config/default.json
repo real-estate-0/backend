@@ -38,8 +38,7 @@
     "verifyEmailExpirationMinutes": 30
   },
   "mongodb": {
-    "_url": "mongodb://r2labs:todnRkd1!@r2labs.koreasouth.cloudapp.azure.com:27010",
-    "url": "mongodb://real:butHyK8ejPAmwJurTXbLu0CeS23RnKZwkgU57S8m2dxy1Ufh6g4PAaiggIkEq21GNdFMxI2fi0aJpAtPBvrhpA==@real.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@real@",
-    "dbName": "real"
+    "url": "mongodb://jinjja:cR4GnMP5i2mhUi5FCNoJgaYHdZ6lxe0zu9cacqcupmRV2L48kWJrXdiS322zuApRGJIZrzVyxNB0c28dus4O7w==@jinjja.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@jinjja@",
+    "dbName": "jinjja"
   }
 }
