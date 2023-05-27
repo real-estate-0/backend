@@ -9,8 +9,8 @@ class ApiError extends Error {
   constructor(
     statusCode: number,
     error: string,
-    isOperational: boolean = true,
-    stack: string = ""
+    isOperational = true,
+    stack = ""
   ) {
     super(error);
     this.statusCode = statusCode;

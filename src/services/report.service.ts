@@ -260,6 +260,14 @@ class PPTBuilder {
       });
     }
 
+    slide.addImage({
+      path: "images/logo.png",
+      x: "68%",
+      y: "1.2%",
+      w: "30%",
+      h: "5%",
+    });
+    /*
     slide.addShape(this.pres.ShapeType.rtTriangle, {
       x: "54%",
       y: "1.3%",
@@ -283,6 +291,7 @@ class PPTBuilder {
       color: this.COLOR_WHITE,
       italic: true,
     });
+    */
     //footer
     slide.addShape(this.pres.ShapeType.rtTriangle, {
       x: "69%",
