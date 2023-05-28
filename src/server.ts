@@ -122,7 +122,7 @@ class AppServer {
   }
 
   private loadConfiguration() {
-    this.PORT = Number(process.env.PORT || 80); //config.get("server.api.port");
+    this.PORT = Number(process.env.PORT || 443); //config.get("server.api.port");
   }
 
   /*
