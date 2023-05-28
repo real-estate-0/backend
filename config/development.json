@@ -1,12 +1,26 @@
 {
   "env": "development",
-  "mongodb": {
-    "url": "mongodb://jinjja:cR4GnMP5i2mhUi5FCNoJgaYHdZ6lxe0zu9cacqcupmRV2L48kWJrXdiS322zuApRGJIZrzVyxNB0c28dus4O7w==@jinjja.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@jinjja@",
-    "dbName": "jinjja"
+  ".mongodb": {
+    ".url": "mongodb://jinjja:cR4GnMP5i2mhUi5FCNoJgaYHdZ6lxe0zu9cacqcupmRV2L48kWJrXdiS322zuApRGJIZrzVyxNB0c28dus4O7w==@jinjja.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@jinjja@",
+    ".dbName": "jinjja"
   },
   ".storage": {
     ".account": "r2labs",
     ".url": "https://r2labs.blob.core.windows.net/test",
     ".sas": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2099-03-17T06:46:33Z&st=2022-03-16T22:46:33Z&spr=https&sig=x9r6pfunW08hxplVjCrY5myVd6EZbX0A25JU9DQPJyY%3D"
+  },
+  "mongodb": {
+    "url": "mongodb://officekorea:fAsC1seNpdZ6IkV3bjoRiWdROTL9Jf6gSeFl07dGkx4cH9FGmX64Y3wqHzBOATa0msUxSJaLtyYJACDbAJURdQ==@officekorea.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@officekorea@",
+    "dbName": "officekorea",
+    "_url": "mongodb://jinjja:cR4GnMP5i2mhUi5FCNoJgaYHdZ6lxe0zu9cacqcupmRV2L48kWJrXdiS322zuApRGJIZrzVyxNB0c28dus4O7w==@jinjja.mongo.cosmos.azure.com:10255/?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@jinjja@",
+    "_dbName": "jinjja"
+  },
+  "storage": {
+    "account": "officekorea",
+    "url": "https://officekorea.blob.core.windows.net",
+    "sas": "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-05-28T15:36:50Z&st=2023-05-28T07:36:50Z&spr=https&sig=1A79vN5WYOd09jvI7PuOLzujzNQNcs7b85jwyM7DnsE%3D",
+    "_account": "jinjja",
+    "_url": "https://jinjja.blob.core.windows.net/test",
+    "_sas": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2099-03-25T08:29:32Z&st=2022-03-25T00:29:32Z&spr=https&sig=noCfdnurmKh3jHZi3AbNrf0SilGPMxR7sWEkEp2j5FU%3D"
   }
 }
