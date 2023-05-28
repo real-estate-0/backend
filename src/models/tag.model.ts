@@ -1,4 +1,3 @@
-import { ObjectID } from "bson";
 import Model from "./base.model";
 import bcrypt from "bcrypt";
 import { createLogger } from "../logger";

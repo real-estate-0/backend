@@ -1,4 +1,3 @@
-import { ObjectID } from "bson";
 import Model from "./base.model";
 import bcrypt from "bcrypt";
 import { createLogger } from "../logger";
@@ -45,7 +44,7 @@ class Report extends Model {
   ): Promise<IReport> => {
     // default value proper hard code?
     //console.log("Report.model create", reportData);
-    let data = { ...this.reportDefault, ...reportData };
+    const data = { ...this.reportDefault, ...reportData };
     data.createdTime = new Date();
     data.updatedTime = new Date();
     data.createUserObjectId = userObjectId;

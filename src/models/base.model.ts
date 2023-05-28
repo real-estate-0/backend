@@ -1,5 +1,4 @@
-import { Db } from "mongodb";
-import { ObjectID } from "bson";
+import { Db, ObjectId } from "mongodb";
 import { MongoConnector } from "../connector/mongo";
 import { createLogger } from "../logger";
 const logger = createLogger("base.model", "models");
@@ -65,7 +64,7 @@ abstract class Model {
     logger.debug("[start] findById:" + JSON.stringify(objectId));
     const result = await this.db
       .collection(collectionName)
-      .findOne({ _id: new ObjectID(objectId) });
+      .findOne({ _id: new ObjectId(objectId) });
     logger.debug("[end] findById: ok");
     return result;
   }
@@ -83,7 +82,7 @@ abstract class Model {
     }
     const ids =
       key == "_id"
-        ? objectIds.map((_id: string) => new ObjectID(_id))
+        ? objectIds.map((_id: string) => new ObjectId(_id))
         : objectIds;
     logger.debug(
       `[params] collection: ${

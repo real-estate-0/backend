@@ -1,4 +1,4 @@
-import { ObjectID } from "bson";
+import { ObjectId } from "mongodb";
 import Model from "./base.model";
 import bcrypt from "bcrypt";
 import { createLogger } from "../logger";
@@ -68,7 +68,7 @@ class User extends Model {
   ): Promise<boolean> {
     const hashPassword = await bcrypt.hash(password, 8);
     const result = await this.updateOne(
-      { _id: new ObjectID(userObjectId) },
+      { _id: new ObjectId(userObjectId) },
       { $set: { password: hashPassword } }
     );
     if (result) return true;
@@ -82,7 +82,7 @@ class User extends Model {
     userObjectId: string,
     password: string
   ): Promise<boolean> {
-    const user = await this.findOne<IUser>({ _id: new ObjectID(userObjectId) });
+    const user = await this.findOne<IUser>({ _id: new ObjectId(userObjectId) });
     if ("password" in user) {
       const encPassword = user["password"];
       return await bcrypt.compare(password, encPassword);

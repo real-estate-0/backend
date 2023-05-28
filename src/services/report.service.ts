@@ -1,5 +1,5 @@
 import { ApiError } from "../utils/ApiError";
-import { ObjectID } from "bson";
+import { ObjectId } from "mongodb";
 import { Report } from "../models";
 import httpStatus from "http-status";
 import Service from "./base.service";
@@ -95,7 +95,7 @@ class ReportService extends Service {
   ) => {
     //console.log("will update Report", reportObjectId, field, userObjectId);
     return await Report.updateOne(
-      { _id: new ObjectID(reportObjectId) },
+      { _id: new ObjectId(reportObjectId) },
       { $set: { [field]: value, updatedTime: new Date() } }
     );
   };
@@ -108,7 +108,7 @@ class ReportService extends Service {
     //console.log("will update Report", reportObjectId);
     delete value["_id"];
     return await Report.updateOne(
-      { _id: new ObjectID(reportObjectId) },
+      { _id: new ObjectId(reportObjectId) },
       { $set: { ...value, updatedTime: new Date() } }
     );
   };
@@ -128,7 +128,7 @@ class ReportService extends Service {
   };
 
   deleteReport = async (reportObjectId: string) => {
-    return await Report.deleteOne({ _id: new ObjectID(reportObjectId) });
+    return await Report.deleteOne({ _id: new ObjectId(reportObjectId) });
   };
 
   createReportAttachments = async (
@@ -139,7 +139,7 @@ class ReportService extends Service {
     const attachments = [...(docs.attachments || []), ...files];
 
     return await Report.updateOne(
-      { _id: new ObjectID(reportObjectId) },
+      { _id: new ObjectId(reportObjectId) },
       { $set: { attachments: attachments } }
     );
   };
@@ -152,7 +152,7 @@ class ReportService extends Service {
         (attachment) => attachment.fileName != fileName
       );
       return await Report.updateOne(
-        { _id: new ObjectID(reportObjectId) },
+        { _id: new ObjectId(reportObjectId) },
         { $set: { attachments } }
       );
     }

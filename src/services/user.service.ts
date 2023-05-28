@@ -1,5 +1,5 @@
 import { ApiError } from "../utils/ApiError";
-import { ObjectID } from "bson";
+import { ObjectId } from "mongodb";
 import { User } from "../models";
 import httpStatus from "http-status";
 import Service from "./base.service";
@@ -31,7 +31,7 @@ class UserService extends Service {
     }
     console.log("will update user", userObjectId, userInfo);
     return await User.updateOne(
-      { _id: new ObjectID(userObjectId) },
+      { _id: new ObjectId(userObjectId) },
       { $set: { ...userInfo } }
     );
   };
@@ -44,7 +44,7 @@ class UserService extends Service {
     const user = await User.findOne<T>({
       userId: userId,
     });
-  
+
     if (!user) {
       throw new ApiError(httpStatus.NOT_FOUND, "NOT_FOUND_USER");
     }
@@ -52,7 +52,7 @@ class UserService extends Service {
   };
 
   deleteUser = async (userObjectId: string) => {
-    return await User.deleteOne({ _id: new ObjectID(userObjectId) });
+    return await User.deleteOne({ _id: new ObjectId(userObjectId) });
   };
 }
 
