@@ -22,12 +22,16 @@ const createUser = {
     name: Joi.string().required(),
     password: Joi.string().required(),
     role: Joi.string().required(),
+    referReportIds: Joi.array().items(Joi.string()),
+    phone: Joi.string(),
+    address: Joi.string(),
   }),
 };
 
 const getUsers = {
   query: Joi.object().keys({
     userObjectId: Joi.string(),
+    role: Joi.string(),
   }),
 };
 

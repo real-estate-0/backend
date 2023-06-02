@@ -36,7 +36,8 @@ class UserService extends Service {
     );
   };
 
-  getUsers = async () => {
+  getUsers = async (query) => {
+    if (query) return await User.find({ ...query }, []);
     return await User.find({}, []);
   };
 

@@ -31,7 +31,6 @@ class User extends Model {
   create = async (userData: IUser): Promise<IUser> => {
     // default value proper hard code?
     console.log("user.model create", userData);
-    userData.role = "user";
     userData.password = await bcrypt.hash(userData.password, 8);
     userData.createdTime = new Date();
     const data = { ...this.userDefault, ...userData };

@@ -19,7 +19,7 @@ class UserController extends Controller {
    */
   getUsers = catchAsync(async (req, res) => {
     console.log("getUsers", req.query);
-    const users = await userService.getUsers();
+    const users = await userService.getUsers(req.query);
     res.status(httpStatus.OK).send({ result: { users: users } });
   });
 

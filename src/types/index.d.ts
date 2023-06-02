@@ -3,7 +3,10 @@ interface IUser {
   userId: string;
   name: string;
   password: string;
-  role: string;
+  role: string; //admin, user, guest
+  referReportIds?: string[];
+  phone?: string;
+  address?: string;
 }
 
 interface IERROR_CODE_TABLE {
@@ -18,4 +21,3 @@ type TERROR_RESPONSE = {
 
 type TERROR_CODE = string | undefined;
 type TERROR_MESSAGE = string | undefined;
-

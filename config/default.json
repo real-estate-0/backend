@@ -4,7 +4,7 @@
   "storage": {
     "account": "officekorea",
     "url": "https://officekorea.blob.core.windows.net",
-    "sas": "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-05-28T15:36:50Z&st=2023-05-28T07:36:50Z&spr=https&sig=1A79vN5WYOd09jvI7PuOLzujzNQNcs7b85jwyM7DnsE%3D",
+    "sas": "?sv=2022-11-02&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-06-02T18:52:32Z&st=2023-06-02T10:52:32Z&spr=https&sig=cVJbTCuTN61ZGEesKWoEfuCAICyf2OidhuiFNC%2F3i5Q%3D",
     "_account": "jinjja",
     "_url": "https://jinjja.blob.core.windows.net/test",
     "_sas": "?sv=2020-08-04&ss=bfqt&srt=sco&sp=rwdlacupitfx&se=2099-03-25T08:29:32Z&st=2022-03-25T00:29:32Z&spr=https&sig=noCfdnurmKh3jHZi3AbNrf0SilGPMxR7sWEkEp2j5FU%3D"
@@ -14,16 +14,6 @@
     "topic": "C:\\topics",
     "group": "C:\\groups",
     "user": "C:\\users"
-  },
-  "ssl": {
-    "enable": true,
-    "key": "...",
-    "cert": "..."
-  },
-  "api": {
-    "bot": {
-      "port": 6000
-    }
   },
   "socket": {
     "url": "ws://127.0.0.1:5000"
