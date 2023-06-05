@@ -157,10 +157,18 @@ class ReportService extends Service {
       );
     }
   };
-  createPPT = async (report: IReport) => {
+  createRentPPT = async (report: IReport) => {
     if (report) {
       const pptBuilder = new PPTBuilder(report);
-      return pptBuilder.getPPT();
+      return pptBuilder.getRentPPT();
+    }
+    return new ApiError(400, "NOT_FOUND");
+  };
+
+  createSalePPT = async (report: IReport) => {
+    if (report) {
+      const pptBuilder = new PPTBuilder(report);
+      return pptBuilder.getSalePPT();
     }
     return new ApiError(400, "NOT_FOUND");
   };
@@ -229,6 +237,24 @@ class PPTBuilder {
         (changePrice - totalDeposit)) *
       100;
     return result.toFixed(2);
+  };
+
+  renderTemplateSale = (slide) => {
+    slide.addImage({
+      path: "images/template_sale_upper.png",
+      x: "2%",
+      y: "2%",
+      w: "96%",
+      h: "8%",
+    });
+    slide.addImage({
+      path: "images/template_sale_bottom.png",
+      x: "2%",
+      y: "91%",
+      w: "97%",
+      h: "8%",
+    });
+    return;
   };
 
   renderTemplateByIndex = (slide, index) => {
@@ -1216,7 +1242,13 @@ class PPTBuilder {
     */
   };
 
-  getPPT = () => {
+  getSalePPT = () => {
+    const slide1 = this.pres.addSlide();
+    this.renderTemplateSale(slide1);
+    return this.pres;
+  };
+
+  getRentPPT = () => {
     const slide1 = this.pres.addSlide();
     this.renderTemplateByIndex(slide1, 1);
 
@@ -1231,8 +1263,6 @@ class PPTBuilder {
 
     const slide5 = this.pres.addSlide();
     this.renderTemplateByIndex(slide5, 5);
-
-
 
     /*
     this.renderTemplate(slide1, null);
