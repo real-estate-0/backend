@@ -231,6 +231,33 @@ class PPTBuilder {
     return result.toFixed(2);
   };
 
+  renderTemplateByIndex = (slide, index) => {
+    if (index === 1) {
+      slide.addImage({
+        path: "images/template" + index + "_upper.png",
+        x: "0%",
+        y: "0%",
+        w: "100%",
+        h: "100%",
+      });
+      return;
+    }
+    slide.addImage({
+      path: "images/template" + index + "_upper.png",
+      x: "2%",
+      y: "2%",
+      w: "96%",
+      h: "10%",
+    });
+    slide.addImage({
+      path: "images/template_bottom.png",
+      x: "2%",
+      y: "88%",
+      w: "96%",
+      h: "10%",
+    });
+  };
+
   renderTemplate = (slide, subheader) => {
     slide.addShape(this.pres.ShapeType.rtTriangle, {
       x: "0.1%",
@@ -267,31 +294,7 @@ class PPTBuilder {
       w: "30%",
       h: "5%",
     });
-    /*
-    slide.addShape(this.pres.ShapeType.rtTriangle, {
-      x: "54%",
-      y: "1.3%",
-      w: "1%",
-      h: "3.55%",
-      fill: { color: this.COLOR_GREEN },
-      line: { color: this.COLOR_GREEN, width: 2 },
-      flipH: true,
-    });
-    slide.addShape(this.pres.ShapeType.rect, {
-      x: "55.1%",
-      y: "1%",
-      w: "45%",
-      h: "4%",
-      fill: { color: this.COLOR_GREEN },
-    });
-    slide.addText("(주)케이빌딩 부동산중개법인", {
-      x: "77%",
-      y: "3%",
-      fontSize: 11,
-      color: this.COLOR_WHITE,
-      italic: true,
-    });
-    */
+
     //footer
     slide.addShape(this.pres.ShapeType.rtTriangle, {
       x: "69%",
@@ -344,7 +347,6 @@ class PPTBuilder {
       italic: true,
     });
   };
-
   render1 = (slide: any, address?: string) => {
     slide.addText(address, {
       x: 0.7,
@@ -373,6 +375,7 @@ class PPTBuilder {
       fontSize: 11,
     });
   };
+
   render2 = (slide: any, report: IReport) => {
     //builiding image
     slide.addImage({
@@ -1215,6 +1218,23 @@ class PPTBuilder {
 
   getPPT = () => {
     const slide1 = this.pres.addSlide();
+    this.renderTemplateByIndex(slide1, 1);
+
+    const slide2 = this.pres.addSlide();
+    this.renderTemplateByIndex(slide2, 2);
+
+    const slide3 = this.pres.addSlide();
+    this.renderTemplateByIndex(slide3, 3);
+
+    const slide4 = this.pres.addSlide();
+    this.renderTemplateByIndex(slide4, 4);
+
+    const slide5 = this.pres.addSlide();
+    this.renderTemplateByIndex(slide5, 5);
+
+
+
+    /*
     this.renderTemplate(slide1, null);
     this.render1(slide1, this.report.location.address);
 
@@ -1238,7 +1258,7 @@ class PPTBuilder {
     //5page empty
     const slide5 = this.pres.addSlide();
     this.renderTemplate(slide5, "지도");
-
+      */
     //4page empty
     /*
     const slide5 = this.pres.addSlide();
@@ -1250,9 +1270,9 @@ class PPTBuilder {
     */
 
     //7page images
-    const slide7 = this.pres.addSlide();
-    this.renderTemplate(slide7, "현장사진");
-    this.render7(slide7, this.report);
+    //const slide7 = this.pres.addSlide();
+    //this.renderTemplate(slide7, "현장사진");
+    //this.render7(slide7, this.report);
 
     return this.pres;
   };

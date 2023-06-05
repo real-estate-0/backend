@@ -19,6 +19,12 @@ class Tag extends Model {
   /**
    * @returns {IReport} Reportif insert successed
    */
+  /**
+   * need to {
+        "type": "tags",
+        "tags": []
+      }
+   */
   create = async (tag: string, color: string): Promise<IReport> => {
     console.log("model create tag", tag, color);
     // default value proper hard code?
@@ -27,6 +33,7 @@ class Tag extends Model {
       value: tag,
       color,
     });
+    console.log("create doc", doc);
     return doc;
   };
 

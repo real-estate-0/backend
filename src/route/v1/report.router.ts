@@ -35,7 +35,12 @@ reportRouter
   );
 
 reportRouter
-  .route("/:reportObjectId/ppt")
-  .post(validate(reportSchema.createPPT), reportController.createPPT);
+  .route("/:reportObjectId/saleppt")
+  .post(validate(reportSchema.createPPT), reportController.createSalePPT);
+
+reportRouter
+  .route("/:reportObjectId/rentppt")
+  .post(validate(reportSchema.createPPT), reportController.createRentPPT);
+
 
 export default reportRouter;
