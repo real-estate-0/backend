@@ -164,6 +164,10 @@ class ReportController extends Controller {
   getReports = catchAsync(async (req, res) => {
     console.log("getReports", req.query);
     let fields = [];
+    if (req.query.guest) {
+      const reports = await reportService.getReportsByGuest(req.query.guest);
+      return res.status(httpStatus.OK).send({ result: { reports } });
+    }
     if (req.query.fields) {
       fields = req.query.fields.split(",");
     }
@@ -182,11 +186,11 @@ class ReportController extends Controller {
     console.log("getReports fields", fields);
     if (req.query._id) {
       const ids = req.query._id.split(",");
-
       const reports = await reportService.getReportByObjectIds(ids, fields);
       res.status(httpStatus.OK).send({ result: { reports } });
       return;
     }
+
     const reports = await reportService.getReports(fields);
     //console.log("getReports result", reports);
     res.status(httpStatus.OK).send({ result: { reports } });

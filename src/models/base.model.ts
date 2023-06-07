@@ -39,7 +39,7 @@ abstract class Model {
   ): Promise<T[]> {
     logger.debug(`[start] find:${collectionName}` + JSON.stringify(query));
 
-    let projection = {};
+    const projection = {};
     for (let i = 0; i < fields.length; i++) {
       projection[fields[i]] = 1;
     }

@@ -51,11 +51,13 @@ const updateUser = {
   params: Joi.object().keys({
     userObjectId: Joi.string().custom(objectId),
   }),
-  body: Joi.object().keys({
-    password: Joi.string(),
-    roll: Joi.string(),
-    name: Joi.string(),
-  }),
+  body: Joi.object()
+    .keys({
+      password: Joi.string(),
+      role: Joi.string(),
+      name: Joi.string(),
+    })
+    .allow(null),
 };
 
 const deleteUser = {

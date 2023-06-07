@@ -120,6 +120,21 @@ class ReportService extends Service {
     });
   };
 
+  getReportsByGuest = async (userId: string) => {
+    const queryResult: any[] = await Report.find({}, ["name"]);
+    const result: any[] = [];
+    for (const doc of queryResult) {
+      if (doc.guests) {
+        for (const guest of doc.guests) {
+          if (guest.userId === userId) {
+            result.push(doc);
+          }
+        }
+      }
+    }
+    return result;
+  };
+
   getReportByObjectIds = async (
     reportObjectIds: string[],
     fields: string[]
