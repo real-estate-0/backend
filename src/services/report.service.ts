@@ -80,11 +80,11 @@ class ReportService extends Service {
     super();
   }
 
-  createReport = async (reportData: IReport, userObjectId: string) => {
+  createReport = async (reportData: IReport) => {
     logger.debug(`[start] createReport:`);
     // default value proper hard code?
     //FIX
-    return await Report.create(reportData, userObjectId);
+    return await Report.create(reportData);
   };
 
   updateReport = async (
@@ -706,10 +706,12 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!투자포인트값",
+        text: this.report?.point || "",
         options: {
           ...this.columnOptions,
           colspan: 1,
+          align: "left",
+          valign: "top",
         },
       },
     ]);
@@ -720,37 +722,117 @@ class PPTBuilder {
       colW: [0.1, 3.2],
       h: 1.1,
     });
+    //렌트상세정보
+    const rentInfoRows = [];
+    rentInfoRows.push([
+      {
+        text: "층별",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+        },
+      },
+      {
+        text: "면적(평)",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+        },
+      },
+      {
+        text: "보증금",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+        },
+      },
+      {
+        text: "임대료",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+        },
+      },
+      {
+        text: "관리비",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+        },
+      },
+      {
+        text: "용  도",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+        },
+      },
+      {
+        text: "입주사",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+        },
+      },
+      {
+        text: "만기",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+        },
+      },
+    ]);
+
+    slide.addTable(rentInfoRows, {
+      x: 0.1,
+      y: 3.7,
+      colW: [0.4, 0.6, 0.6, 0.6, 0.6, 0.9, 0.7, 0.7],
+    });
 
     //위치
     slide.addImage({
       path: "images/icon_location.png",
-      x: 5.5,
-      y: 3.8,
+      x: 5.4,
+      y: 3.7,
       w: 0.2,
       h: 0.2,
     });
 
     slide.addText("위치", {
-      x: 5.6,
-      y: 3.9,
+      x: 5.5,
+      y: 3.8,
       fontSize: 10,
     });
-
+    this.report?.locImage &&
+      slide.addImage({
+        data: this.report?.locImage || null,
+        x: 5.4,
+        y: 3.9,
+        w: 2.2,
+        h: 2.2,
+      });
     //위치
     slide.addImage({
       path: "images/icon_ji.png",
       x: 7.7,
-      y: 3.8,
+      y: 3.7,
       w: 0.2,
       h: 0.2,
     });
 
     slide.addText("지적도", {
       x: 7.8,
-      y: 3.9,
+      y: 3.8,
       fontSize: 10,
     });
-
+    this.report?.jiImage &&
+      slide.addImage({
+        data: this.report?.jiImage || null,
+        x: 7.7,
+        y: 3.9,
+        w: 2.2,
+        h: 2.2,
+      });
     return;
   };
 

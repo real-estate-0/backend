@@ -63,6 +63,9 @@ interface IReport {
   expectPfper?: string;
   expect?: TExpect;
   attachments?: TAttachement[];
+  locImage?: string;
+  jiImage?: string;
+  point?: string;
 }
 
 type AppState = {
@@ -79,7 +82,7 @@ type ReduxState = {
   appReducer: AppState;
 };
 
-type TERROR_RESPONSE = {};
+type TERROR_RESPONSE = Record<string, unknown>;
 type TExpect = {
   deposit: string;
   month: string;

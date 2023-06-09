@@ -9,6 +9,7 @@ const schema = Joi.object({
 
 const createReport = {
   body: Joi.object().keys({
+    createUserObjectId: Joi.string().allow(null, ""),
     title: Joi.string().allow(null, ""),
     location: Joi.object().keys({}).unknown(true).allow(null, ""),
     landInfo: Joi.object().keys({}).unknown(true).allow(null, ""),
