@@ -193,16 +193,16 @@ class PPTBuilder {
   report: IReport;
   pres: any;
   COLOR_GREEN = "269a26";
-  COLOR_GRAY = "919595";
+  COLOR_GRAY = "eeeeee";
   COLOR_WHITE = "ffffff";
   COLOR_BLACK = "000000";
   COLOR_LIGHT_GREEN = "c6e0b4";
   COLOR_HEAVY_GREEN = "a9d08e";
   COLOR_RED = "c80d3a";
-  COLOR_BLUE = "003399";
+  COLOR_BLUE = "d5edfc";
 
   columnOptions = {
-    fontSize: 11,
+    fontSize: 7,
     align: "center",
     valign: "middle",
     border: { pt: 1, color: this.COLOR_BLACK },
@@ -210,11 +210,11 @@ class PPTBuilder {
   };
 
   headerOptions = {
-    fontSize: 11,
+    fontSize: 7,
     align: "center",
     valign: "middle",
     border: { pt: 1, color: this.COLOR_BLACK },
-    fill: this.COLOR_LIGHT_GREEN,
+    fill: this.COLOR_GRAY,
   };
   totalDepositResult = 0;
   totalMonthResult = 0;
@@ -256,19 +256,501 @@ class PPTBuilder {
 
   renderTemplateSale = (slide) => {
     slide.addImage({
-      path: "images/template_sale_upper.png",
-      x: "2%",
-      y: "2%",
-      w: "96%",
+      path: "images/template_sale_upper1.png",
+      x: 0.0,
+      y: 0.1,
+      w: "100%",
       h: "8%",
     });
     slide.addImage({
       path: "images/template_sale_bottom.png",
-      x: "2%",
-      y: "91%",
-      w: "97%",
+      x: 0.1,
+      y: "92%",
+      w: "98%",
       h: "8%",
     });
+    const buildingName = this.report?.location?.road?.bdNm;
+    const jibunAddr = this.report?.location?.road?.jibunAddr?.replace(
+      buildingName,
+      ""
+    );
+
+    console.log("renderTemplateSalePPT", buildingName, jibunAddr);
+    slide.addText(buildingName + " ( " + jibunAddr + " )", {
+      x: 0.1,
+      y: 0.4,
+      fontSize: 16,
+      bold: true,
+      color: this.COLOR_WHITE,
+    });
+    const buildingImage =
+      this.report?.roadview.length > 0 ? this.report?.roadview[0] : undefined;
+    console.log("buildingImage", buildingImage);
+
+    buildingImage &&
+      slide.addImage({
+        data:
+          this.report?.roadview?.length > 0 ? this.report.roadview[0] : null,
+        x: 0.1,
+        y: "11%",
+        w: 2.8,
+        h: 2.8,
+      });
+
+    /**개요 */
+    slide.addImage({
+      path: "images/icon_summary.png",
+      x: 3.0,
+      y: 0.85,
+      w: 0.2,
+      h: 0.2,
+    });
+
+    slide.addText("개요", {
+      x: 3.1,
+      y: 0.98,
+      fontSize: 10,
+    });
+
+    //개요 위치
+    const locationRows = [];
+    locationRows.push([
+      {
+        text: "위치",
+        options: {
+          ...this.headerOptions,
+          rowspan: 2,
+        },
+      },
+      {
+        text: "주소",
+        options: {
+          ...this.headerOptions,
+          rowspan: 1,
+        },
+      },
+      {
+        text: jibunAddr || "",
+        options: {
+          ...this.columnOptions,
+          colspan: 3,
+        },
+      },
+    ]);
+    locationRows.push([
+      {
+        text: "교통",
+        options: this.headerOptions,
+      },
+      {
+        text: this.report?.location?.transport,
+        options: this.columnOptions,
+      },
+      {
+        text: "도로조건",
+        options: this.headerOptions,
+      },
+      {
+        text: this.report?.location?.road_,
+        options: this.columnOptions,
+      },
+    ]);
+    slide.addTable(locationRows, {
+      x: 3.0,
+      y: 1.1,
+      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+    });
+
+    const landRows = [];
+    landRows.push([
+      {
+        text: "토지",
+        options: {
+          ...this.headerOptions,
+          rowspan: 2,
+        },
+      },
+      {
+        text: "면적",
+        options: {
+          ...this.headerOptions,
+          rowspan: 1,
+        },
+      },
+      {
+        text: "!!면적값" || "",
+        options: {
+          ...this.columnOptions,
+          colspan: 1,
+        },
+      },
+      {
+        text: "공시지가",
+        options: {
+          ...this.headerOptions,
+          rowspan: 1,
+        },
+      },
+      {
+        text: "!!공시지가" || "",
+        options: {
+          ...this.columnOptions,
+          colspan: 1,
+        },
+      },
+    ]);
+    landRows.push([
+      {
+        text: "용도지역",
+        options: this.headerOptions,
+      },
+      {
+        text: this.report?.location?.landUse,
+        options: {
+          ...this.columnOptions,
+          colspan: 3,
+        },
+      },
+    ]);
+
+    slide.addTable(landRows, {
+      x: 3.0,
+      y: 1.7,
+      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+    });
+
+    const buildingRows = [];
+    buildingRows.push([
+      {
+        text: "건축물현황",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+          rowspan: 6,
+        },
+      },
+      {
+        text: "연면적",
+        options: {
+          ...this.headerOptions,
+          rowspan: 1,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!연면적값" || "",
+        options: {
+          ...this.columnOptions,
+          colspan: 1,
+        },
+      },
+      {
+        text: "건폐율",
+        options: {
+          ...this.headerOptions,
+          rowspan: 1,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!건폐율값" || "",
+        options: {
+          ...this.columnOptions,
+          colspan: 1,
+        },
+      },
+    ]);
+    buildingRows.push([
+      {
+        text: "준공년도",
+        options: { ...this.headerOptions, fill: this.COLOR_BLUE },
+      },
+      {
+        text: "!!준공년도값",
+        options: {
+          ...this.columnOptions,
+          colspan: 3,
+        },
+      },
+      {
+        text: "용적률",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!용적률값",
+        options: {
+          ...this.columnOptions,
+          colspan: 3,
+        },
+      },
+    ]);
+    buildingRows.push([
+      {
+        text: "주구조",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!주구조값",
+        options: {
+          ...this.columnOptions,
+          colspan: 3,
+        },
+      },
+    ]);
+    buildingRows.push([
+      {
+        text: "규모",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!규모값",
+        options: {
+          ...this.columnOptions,
+          colspan: 3,
+        },
+      },
+    ]);
+
+    buildingRows.push([
+      {
+        text: "주차대수",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!주차대수값",
+        options: {
+          ...this.columnOptions,
+          colspan: 3,
+        },
+      },
+    ]);
+
+    buildingRows.push([
+      {
+        text: "승강기",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!승강기값",
+        options: {
+          ...this.columnOptions,
+          colspan: 3,
+        },
+      },
+    ]);
+
+    slide.addTable(buildingRows, {
+      x: 3.0,
+      y: 2.3,
+      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+    });
+
+    const salesRows = [];
+    salesRows.push([
+      {
+        text: "매매가",
+        options: {
+          ...this.headerOptions,
+          rowspan: 2,
+        },
+      },
+      {
+        text: "!!매매가값",
+        options: {
+          ...this.columnOptions,
+          colspan: 2,
+          fontSize: 12,
+        },
+      },
+      {
+        text: "수익률" || "",
+        options: {
+          ...this.headerOptions,
+          colspan: 1,
+        },
+      },
+      {
+        text: "!!수익률값",
+        options: {
+          ...this.columnOptions,
+        },
+      },
+    ]);
+    salesRows.push([
+      {
+        text: "평당(토지)",
+        options: this.headerOptions,
+      },
+      {
+        text: "!!평단가값",
+        options: {
+          ...this.columnOptions,
+          colspan: 1,
+        },
+      },
+      {
+        text: "평당(연면적)",
+        options: this.headerOptions,
+      },
+      {
+        text: "!!평단(연면적값)",
+        options: {
+          ...this.columnOptions,
+          colspan: 1,
+        },
+      },
+    ]);
+
+    slide.addTable(salesRows, {
+      x: 6.5,
+      y: 1.1,
+      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+    });
+
+    const rentRows = [];
+    rentRows.push([
+      {
+        text: "임대",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+          rowspan: 2,
+        },
+      },
+      {
+        text: "보증금",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!보증금",
+        options: {
+          ...this.columnOptions,
+          colspan: 1,
+        },
+      },
+      {
+        text: "월임대료" || "",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!월임대료값",
+        options: {
+          ...this.columnOptions,
+        },
+      },
+    ]);
+    rentRows.push([
+      {
+        text: "월관리비",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!월관리비값",
+        options: {
+          ...this.columnOptions,
+        },
+      },
+      {
+        text: "기타수입",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_BLUE,
+        },
+      },
+      {
+        text: "!!기타수입값",
+        options: {
+          ...this.columnOptions,
+          colspan: 1,
+        },
+      },
+    ]);
+
+    slide.addTable(rentRows, {
+      x: 6.5,
+      y: 1.9,
+      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+    });
+
+    const pointRows = [];
+    pointRows.push([
+      {
+        text: "투자포인트",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+        },
+      },
+      {
+        text: "!!투자포인트값",
+        options: {
+          ...this.columnOptions,
+          colspan: 1,
+        },
+      },
+    ]);
+
+    slide.addTable(pointRows, {
+      x: 6.5,
+      y: 2.5,
+      colW: [0.1, 3.2],
+      h: 1.1,
+    });
+
+    //위치
+    slide.addImage({
+      path: "images/icon_location.png",
+      x: 5.5,
+      y: 3.8,
+      w: 0.2,
+      h: 0.2,
+    });
+
+    slide.addText("위치", {
+      x: 5.6,
+      y: 3.9,
+      fontSize: 10,
+    });
+
+    //위치
+    slide.addImage({
+      path: "images/icon_ji.png",
+      x: 7.7,
+      y: 3.8,
+      w: 0.2,
+      h: 0.2,
+    });
+
+    slide.addText("지적도", {
+      x: 7.8,
+      y: 3.9,
+      fontSize: 10,
+    });
+
     return;
   };
 
