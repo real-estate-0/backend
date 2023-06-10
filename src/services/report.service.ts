@@ -199,7 +199,7 @@ class PPTBuilder {
   COLOR_BLACK = "000000";
   COLOR_LIGHT_GREEN = "c6e0b4";
   COLOR_HEAVY_GREEN = "a9d08e";
-  COLOR_RED = "c80d3a";
+  COLOR_RED = "c00000";
   COLOR_BLUE = "d5edfc";
 
   columnOptions = {
@@ -961,8 +961,87 @@ class PPTBuilder {
       w: "96%",
       h: "10%",
     });
+    if (index === 2) {
+      //Rent list
+      this.report &&
+        this.report.floor.map((f, idx) => {
+          slide.addText(f.input, {
+            x: 0.8,
+            y: 1.4 + idx / 2,
+            fontSize: 18,
+            color: "242323",
+          });
+          slide.addShape(this.pres.ShapeType.line, {
+            line: { color: "eeeeee" },
+            x: 0.7,
+            y: 1.6 + idx / 2,
+            w: 4,
+            h: 0,
+          });
+        });
+    }
+    if (index === 3) {
+      //leasing 1
+      slide.addShape(this.pres.shapes.RECTANGLE, {
+        x: 0.2,
+        y: 1,
+        w: 0.1,
+        h: 0.2,
+        fill: { color: this.COLOR_RED },
+        line: { type: "none" },
+      });
+      slide.addText("General Information", {
+        x: 0.24,
+        y: 1.1,
+        fontSize: 14,
+        color: this.COLOR_RED,
+      });
+      slide.addShape(this.pres.shapes.RECTANGLE, {
+        x: 3.75,
+        y: 1,
+        w: 0.1,
+        h: 0.2,
+        fill: { color: this.COLOR_RED },
+        line: { type: "none" },
+      });
+      slide.addText("Location", {
+        x: 3.8,
+        y: 1.1,
+        fontSize: 14,
+        color: this.COLOR_RED,
+      });
+      slide.addShape(this.pres.shapes.RECTANGLE, {
+        x: 3.75,
+        y: 3.7,
+        w: 0.1,
+        h: 0.2,
+        fill: { color: this.COLOR_RED },
+        line: { type: "none" },
+      });
+      slide.addText("Space Availability / Rent", {
+        x: 3.8,
+        y: 3.8,
+        fontSize: 14,
+        color: this.COLOR_RED,
+      });
+      slide.addShape(this.pres.shapes.RECTANGLE, {
+        x: 6.95,
+        y: 1,
+        w: 0.1,
+        h: 0.2,
+        fill: { color: this.COLOR_RED },
+        line: { type: "none" },
+      });
+      slide.addText("Specification", {
+        x: 7.0,
+        y: 1.1,
+        fontSize: 14,
+        color: this.COLOR_RED,
+      });
+    }
 
     if (index === 4) {
+      //leasing image list
       this.report &&
         this.report.roadview &&
         this.report.roadview.slice(0, 4).map((view, idx) => {
@@ -978,6 +1057,7 @@ class PPTBuilder {
     }
 
     if (index == 5) {
+      //명함
       slide.addImage({
         path: "images/template_card.png",
         x: 1,
