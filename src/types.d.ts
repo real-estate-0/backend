@@ -50,6 +50,7 @@ interface IReport {
   publicPrice?: TPublicPrice[];
   floor?: TFloor[];
   rentDetail?: string;
+  landInfo?: any;
   landPlanWMS?: TLandPlanWMS;
   landPlan?: TLandPlan[];
   tags?: string[];
@@ -228,6 +229,8 @@ type TFloor = {
   mainPurpsCd?: string;
   mainPurpsCdNm?: string;
   etcPurps?: string;
+  input?: string;
+  end?: string;
   mainAtchGbCd?: string;
   mainAtchGbCdNm?: string;
   area?: string;
@@ -236,6 +239,7 @@ type TFloor = {
   deposit?: string;
   month?: string;
   management?: string;
+  etc?: string;
 };
 
 type TPublicPrice = {

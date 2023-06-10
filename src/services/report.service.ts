@@ -219,7 +219,7 @@ class PPTBuilder {
   totalDepositResult = 0;
   totalMonthResult = 0;
   totalManagementResult = 0;
-
+  totalEtcResult = 0;
   constructor(report: IReport) {
     this.report = report;
     this.pres = new pptxgen();
@@ -235,6 +235,9 @@ class PPTBuilder {
         }
         if (report.floor[i].management) {
           this.totalManagementResult += parseFloat(report.floor[i].management);
+        }
+        if (report.floor[i].etc) {
+          this.totalEtcResult += parseFloat(report.floor[i].etc);
         }
       }
     }
@@ -378,7 +381,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!면적값" || "",
+        text: this.report?.landInfo?.lndpclAr || "",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -392,7 +395,14 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!공시지가" || "",
+        text:
+          addFraction(
+            (
+              (getLastPublicPrice(this.report?.publicPrice || []) *
+                parseFloat(this.report?.building?.platArea || "0")) /
+              10000
+            ).toFixed(0)
+          ) + "만원",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -438,7 +448,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!연면적값" || "",
+        text: convertAreaToPy(this.report?.building?.totArea),
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -453,7 +463,8 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!건폐율값" || "",
+        text:
+          parseFloat(getBcRat(this.report?.building) || "0").toFixed(2) + "%",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -466,7 +477,7 @@ class PPTBuilder {
         options: { ...this.headerOptions, fill: this.COLOR_BLUE },
       },
       {
-        text: "!!준공년도값",
+        text: convertFormat(this.report?.building?.useAprDay || ""),
         options: {
           ...this.columnOptions,
           colspan: 3,
@@ -480,7 +491,8 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!용적률값",
+        text:
+          parseFloat(getVlRat(this.report.building) || "0").toFixed(2) + "%",
         options: {
           ...this.columnOptions,
           colspan: 3,
@@ -496,7 +508,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!주구조값",
+        text: this.report?.building?.strctCdNm,
         options: {
           ...this.columnOptions,
           colspan: 3,
@@ -512,7 +524,11 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!규모값",
+        text:
+          "지하 " +
+          this.report?.building?.ugrndFlrCnt +
+          "/ 지상 " +
+          this.report.building?.grndFlrCnt,
         options: {
           ...this.columnOptions,
           colspan: 3,
@@ -529,7 +545,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!주차대수값",
+        text: this?.report?.building?.parkingLotCnt || "",
         options: {
           ...this.columnOptions,
           colspan: 3,
@@ -546,7 +562,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!승강기값",
+        text: (this?.report?.building?.elvCnt || "") + "대",
         options: {
           ...this.columnOptions,
           colspan: 3,
@@ -570,7 +586,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!매매가값",
+        text: addFraction(this.report?.building?.price || "0") + "억",
         options: {
           ...this.columnOptions,
           colspan: 2,
@@ -585,7 +601,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!수익률값",
+        text: parseFloat(this.report?.pfper || "0").toFixed(2) + "%",
         options: {
           ...this.columnOptions,
         },
@@ -608,7 +624,7 @@ class PPTBuilder {
         options: this.headerOptions,
       },
       {
-        text: "!!평단(연면적값)",
+        text: addFraction(this.report?.building?.pricePer || "0") + "만",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -640,7 +656,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!보증금",
+        text: addFraction(this.totalDepositResult) + "만",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -654,7 +670,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!월임대료값",
+        text: addFraction(this.totalMonthResult) + "만",
         options: {
           ...this.columnOptions,
         },
@@ -669,7 +685,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!월관리비값",
+        text: addFraction(this.totalManagementResult) + "만",
         options: {
           ...this.columnOptions,
         },
@@ -682,7 +698,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "!!기타수입값",
+        text: addFraction(this.totalManagementResult) + "만",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -730,6 +746,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
+          fontSize: 6,
         },
       },
       {
@@ -737,6 +754,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
+          fontSize: 5,
         },
       },
       {
@@ -744,6 +762,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
+          fontSize: 6,
         },
       },
       {
@@ -751,6 +770,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
+          fontSize: 6,
         },
       },
       {
@@ -758,6 +778,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
+          fontSize: 6,
         },
       },
       {
@@ -765,6 +786,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
+          fontSize: 6,
         },
       },
       {
@@ -772,6 +794,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
+          fontSize: 6,
         },
       },
       {
@@ -779,6 +802,81 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
+          fontSize: 6,
+        },
+      },
+    ]);
+    /**
+     * Rent info
+     */
+    this.report.floor.map((f) => {
+      rentInfoRows.push([
+        {
+          text: f.flrNoNm,
+          options: {
+            ...this.columnOptions,
+            fontSize: 6,
+          },
+        },
+        {
+          text: f.area, //면적
+          options: {
+            ...this.columnOptions,
+            fontSize: 6,
+          },
+        },
+        {
+          text: f.deposit, //보증금
+          options: {
+            ...this.columnOptions,
+            fontSize: 6,
+          },
+        },
+        {
+          text: f.month, //임대료
+          options: {
+            ...this.columnOptions,
+            fontSize: 6,
+          },
+        },
+        {
+          text: f.management, //관리비
+          options: {
+            ...this.columnOptions,
+            fontSize: 6,
+          },
+        },
+        {
+          text: f.etcPurps, //용도
+          options: {
+            ...this.columnOptions,
+            fontSize: 6,
+          },
+        },
+        {
+          text: f.input, //입주사
+          options: {
+            ...this.columnOptions,
+            fontSize: 6,
+          },
+        },
+        {
+          text: f.end, //만기
+          options: {
+            ...this.columnOptions,
+            fontSize: 6,
+          },
+        },
+      ]);
+    });
+
+    rentInfoRows.push([
+      {
+        text: "합계",
+        options: {
+          ...this.headerOptions,
+          fill: this.COLOR_GRAY,
+          fontSize: 6,
         },
       },
     ]);
@@ -786,52 +884,53 @@ class PPTBuilder {
     slide.addTable(rentInfoRows, {
       x: 0.1,
       y: 3.7,
-      colW: [0.4, 0.6, 0.6, 0.6, 0.6, 0.9, 0.7, 0.7],
+      colW: [0.4, 0.5, 0.5, 0.5, 0.5, 1.2, 0.7, 0.7],
+      rowH: 0.1,
     });
 
     //위치
     slide.addImage({
       path: "images/icon_location.png",
-      x: 5.4,
+      x: 5.2,
       y: 3.7,
       w: 0.2,
       h: 0.2,
     });
 
     slide.addText("위치", {
-      x: 5.5,
+      x: 5.3,
       y: 3.8,
       fontSize: 10,
     });
     this.report?.locImage &&
       slide.addImage({
         data: this.report?.locImage || null,
-        x: 5.4,
+        x: 5.2,
         y: 3.9,
-        w: 2.2,
-        h: 2.2,
+        w: 2.3,
+        h: 2.3,
       });
     //위치
     slide.addImage({
       path: "images/icon_ji.png",
-      x: 7.7,
+      x: 7.6,
       y: 3.7,
       w: 0.2,
       h: 0.2,
     });
 
     slide.addText("지적도", {
-      x: 7.8,
+      x: 7.7,
       y: 3.8,
       fontSize: 10,
     });
     this.report?.jiImage &&
       slide.addImage({
         data: this.report?.jiImage || null,
-        x: 7.7,
+        x: 7.6,
         y: 3.9,
-        w: 2.2,
-        h: 2.2,
+        w: 2.3,
+        h: 2.3,
       });
     return;
   };
