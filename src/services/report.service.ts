@@ -996,6 +996,195 @@ class PPTBuilder {
         fontSize: 14,
         color: this.COLOR_RED,
       });
+      this.report.roadview.length > 0 &&
+        slide.addImage({
+          data: this.report.roadview[0],
+          x: 0.2,
+          y: 1.25,
+          w: 3.5,
+          h: 2.5,
+        });
+
+      const buildingInfos = [];
+      buildingInfos.push([
+        {
+          text: "물건주소",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 10,
+            color: this.COLOR_WHITE,
+            bold: true,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+        {
+          text: this.report?.building?.platPlc || "",
+          options: {
+            ...this.columnOptions,
+            fontSize: 10,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+      ]);
+      buildingInfos.push([
+        {
+          text: "대지면적",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 10,
+            color: this.COLOR_WHITE,
+            bold: true,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+        {
+          text: (this.report.building.groundArea || "") + "㎡",
+          options: {
+            ...this.columnOptions,
+            fontSize: 10,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+      ]);
+      buildingInfos.push([
+        {
+          text: "연면적",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 10,
+            color: this.COLOR_WHITE,
+            bold: true,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+        {
+          text: (this.report.building.totArea || "") + "㎡",
+          options: {
+            ...this.columnOptions,
+            fontSize: 10,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+      ]);
+      buildingInfos.push([
+        {
+          text: "건물규모",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 10,
+            color: this.COLOR_WHITE,
+            bold: true,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+        {
+          text:
+            this.report?.building?.grndFlrCnt ||
+            "" + "/" + this.report?.building?.ugrndFlrCnt ||
+            "",
+          options: {
+            ...this.columnOptions,
+            fontSize: 10,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+      ]);
+      buildingInfos.push([
+        {
+          text: "주차장",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 10,
+            color: this.COLOR_WHITE,
+            bold: true,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+        {
+          text: this.report?.building?.parkingLotCnt || "",
+          options: {
+            ...this.columnOptions,
+            fontSize: 10,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+      ]);
+      buildingInfos.push([
+        {
+          text: "건축구조",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 10,
+            color: this.COLOR_WHITE,
+            bold: true,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+        {
+          text: this.report?.building?.strctCdNm || "",
+          options: {
+            ...this.columnOptions,
+            fontSize: 10,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+      ]);
+      buildingInfos.push([
+        {
+          text: "엘리베이터",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 10,
+            color: this.COLOR_WHITE,
+            bold: true,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+        {
+          text: this.report?.building?.elvCnt,
+          options: {
+            ...this.columnOptions,
+            fontSize: 10,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+      ]);
+      buildingInfos.push([
+        {
+          text: "준공년도",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 10,
+            color: this.COLOR_WHITE,
+            bold: true,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+        {
+          text: convertFormat(this.report.building.pmsDay || ""),
+          options: {
+            ...this.columnOptions,
+            fontSize: 10,
+            border: { pt: 1, color: this.COLOR_GRAY },
+          },
+        },
+      ]);
+
+      slide.addTable(buildingInfos, {
+        x: 0.2,
+        y: 3.9,
+        colW: [1.1, 2.4],
+        border: { color: this.COLOR_GRAY },
+      });
+
       slide.addShape(this.pres.shapes.RECTANGLE, {
         x: 3.75,
         y: 1,
@@ -1010,22 +1199,33 @@ class PPTBuilder {
         fontSize: 14,
         color: this.COLOR_RED,
       });
+      this.report.locImage &&
+        slide.addImage({
+          data: this.report.locImage,
+          x: 3.75,
+          y: 1.25,
+          w: 3,
+          h: 2.5,
+        });
+
       slide.addShape(this.pres.shapes.RECTANGLE, {
         x: 3.75,
-        y: 3.7,
+        y: 3.9,
         w: 0.1,
         h: 0.2,
         fill: { color: this.COLOR_RED },
         line: { type: "none" },
       });
+
       slide.addText("Space Availability / Rent", {
         x: 3.8,
-        y: 3.8,
+        y: 4,
         fontSize: 14,
         color: this.COLOR_RED,
       });
+
       slide.addShape(this.pres.shapes.RECTANGLE, {
-        x: 6.95,
+        x: 6.85,
         y: 1,
         w: 0.1,
         h: 0.2,
@@ -1033,10 +1233,18 @@ class PPTBuilder {
         line: { type: "none" },
       });
       slide.addText("Specification", {
-        x: 7.0,
+        x: 6.9,
         y: 1.1,
         fontSize: 14,
         color: this.COLOR_RED,
+      });
+      slide.addShape(this.pres.shapes.RECTANGLE, {
+        x: 6.85,
+        y: 1.25,
+        w: 3,
+        h: 2.5,
+        line: "ff0000",
+        lineSize: 0.5,
       });
     }
 
@@ -1507,7 +1715,7 @@ class PPTBuilder {
         options: this.headerOptions,
       },
       {
-        text: convertFormat(report?.building?.useAprDay || ""),
+        text: convertFormat(report?.building?.pmsDay || ""),
         options: this.columnOptions,
       },
     ]);
