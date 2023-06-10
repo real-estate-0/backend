@@ -1,3 +1,3 @@
-abstract class Service { }
 
+abstract class Service { }
 export default Service;

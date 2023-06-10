@@ -59,7 +59,7 @@ interface IReport {
   createdTime?: Date;
   updatedTime?: Date;
   map?: string;
-  roadview?: string;
+  roadview?: string[];
   pfper?: string;
   expectPfper?: string;
   expect?: TExpect;

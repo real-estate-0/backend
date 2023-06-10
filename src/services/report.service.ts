@@ -8,6 +8,7 @@ import { createLogger } from "../logger";
 import pptxgen from "pptxgenjs";
 import moment from "moment";
 import { convert } from "html-to-text";
+import userService from "./user.service";
 
 const logger = createLogger("Report", "service");
 
@@ -935,7 +936,7 @@ class PPTBuilder {
     return;
   };
 
-  renderTemplateByIndex = (slide, index) => {
+  renderTemplateByIndex = async (slide, index) => {
     if (index === 1) {
       slide.addImage({
         path: "images/template" + index + "_upper.png",
@@ -960,6 +961,48 @@ class PPTBuilder {
       w: "96%",
       h: "10%",
     });
+
+    if (index === 4) {
+      this.report &&
+        this.report.roadview &&
+        this.report.roadview.slice(0, 4).map((view, idx) => {
+          console.log("roadview image", idx);
+          slide.addImage({
+            data: view,
+            x: idx === 0 || idx === 2 ? 0.7 : 4.8,
+            y: idx === 0 || idx === 1 ? 1 : 3.85,
+            w: 4,
+            h: 2.7,
+          });
+        });
+    }
+
+    if (index == 5) {
+      slide.addImage({
+        path: "images/template_card.png",
+        x: 1,
+        y: 1.6,
+        w: 8,
+        h: 4,
+      });
+      if (this.report.createUserObjectId) {
+        const users = (await userService.getUsers({
+          _id: new ObjectId(this.report.createUserObjectId),
+        })) as IUser[];
+        console.log("report creatUser", users);
+        if (users.length > 0) {
+          console.log("addText", users[0].name);
+          slide.addText(users[0].name, {
+            x: 1.3,
+            y: 2.2,
+            fontSize: 24,
+            bold: true,
+            charSpacing: 10,
+            color: this.COLOR_BLACK,
+          });
+        }
+      }
+    }
   };
 
   renderTemplate = (slide, subheader) => {
@@ -1926,21 +1969,21 @@ class PPTBuilder {
     return this.pres;
   };
 
-  getRentPPT = () => {
+  getRentPPT = async () => {
     const slide1 = this.pres.addSlide();
-    this.renderTemplateByIndex(slide1, 1);
+    await this.renderTemplateByIndex(slide1, 1); //표지
 
     const slide2 = this.pres.addSlide();
-    this.renderTemplateByIndex(slide2, 2);
+    await this.renderTemplateByIndex(slide2, 2); //Rent 목차
 
     const slide3 = this.pres.addSlide();
-    this.renderTemplateByIndex(slide3, 3);
+    await this.renderTemplateByIndex(slide3, 3); //Leasing 1
 
     const slide4 = this.pres.addSlide();
-    this.renderTemplateByIndex(slide4, 4);
+    await this.renderTemplateByIndex(slide4, 4); //Leasing 2
 
     const slide5 = this.pres.addSlide();
-    this.renderTemplateByIndex(slide5, 5);
+    await this.renderTemplateByIndex(slide5, 5); //Contact
 
     /*
     this.renderTemplate(slide1, null);
