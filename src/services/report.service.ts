@@ -1041,7 +1041,7 @@ class PPTBuilder {
 
   renderTemplateByIndex = async (slide, index) => {
     if (index === 1) {
-      slide.addImage({
+      await slide.addImage({
         path: "images/template" + index + "_upper.png",
         x: "0%",
         y: "0%",
@@ -1050,14 +1050,14 @@ class PPTBuilder {
       });
       return;
     }
-    slide.addImage({
+    await slide.addImage({
       path: "images/template" + index + "_upper.png",
       x: "2%",
       y: "2%",
       w: "96%",
       h: "10%",
     });
-    slide.addImage({
+    await slide.addImage({
       path: "images/template_bottom.png",
       x: "2%",
       y: "88%",
@@ -1067,14 +1067,14 @@ class PPTBuilder {
     if (index === 2) {
       //Rent list
       this.report &&
-        this.report.floor.map((f, idx) => {
-          slide.addText(f.input, {
+        this.report.floor.map(async (f, idx) => {
+          await slide.addText(f.input, {
             x: 0.8,
             y: 1.4 + idx / 2,
             fontSize: 18,
             color: "242323",
           });
-          slide.addShape(this.pres.ShapeType.line, {
+          await slide.addShape(this.pres.ShapeType.line, {
             line: { color: "eeeeee" },
             x: 0.7,
             y: 1.6 + idx / 2,
@@ -1085,7 +1085,7 @@ class PPTBuilder {
     }
     if (index === 3) {
       //leasing 1
-      slide.addShape(this.pres.shapes.RECTANGLE, {
+      await slide.addShape(this.pres.shapes.RECTANGLE, {
         x: 0.2,
         y: 1,
         w: 0.1,
@@ -1093,20 +1093,20 @@ class PPTBuilder {
         fill: { color: this.COLOR_RED },
         line: { type: "none" },
       });
-      slide.addText("General Information", {
+      await slide.addText("General Information", {
         x: 0.24,
         y: 1.1,
         fontSize: 14,
         color: this.COLOR_RED,
       });
       this.report.roadview.length > 0 &&
-        slide.addImage({
+        (await slide.addImage({
           data: this.report.roadview[0],
           x: 0.2,
           y: 1.25,
           w: 3.5,
           h: 2.5,
-        });
+        }));
 
       const buildingInfos = [];
       buildingInfos.push([
@@ -1281,14 +1281,14 @@ class PPTBuilder {
         },
       ]);
 
-      slide.addTable(buildingInfos, {
+      await slide.addTable(buildingInfos, {
         x: 0.2,
         y: 3.9,
         colW: [1.1, 2.4],
         border: { color: this.COLOR_GRAY },
       });
 
-      slide.addShape(this.pres.shapes.RECTANGLE, {
+      await slide.addShape(this.pres.shapes.RECTANGLE, {
         x: 3.75,
         y: 1,
         w: 0.1,
@@ -1296,22 +1296,22 @@ class PPTBuilder {
         fill: { color: this.COLOR_RED },
         line: { type: "none" },
       });
-      slide.addText("Location", {
+      await slide.addText("Location", {
         x: 3.8,
         y: 1.1,
         fontSize: 14,
         color: this.COLOR_RED,
       });
       this.report.locImage &&
-        slide.addImage({
+        (await slide.addImage({
           data: this.report.locImage,
           x: 3.75,
           y: 1.25,
           w: 3,
           h: 2.5,
-        });
+        }));
 
-      slide.addShape(this.pres.shapes.RECTANGLE, {
+      await slide.addShape(this.pres.shapes.RECTANGLE, {
         x: 3.75,
         y: 3.9,
         w: 0.1,
@@ -1320,7 +1320,7 @@ class PPTBuilder {
         line: { type: "none" },
       });
 
-      slide.addText("Space Availability / Rent", {
+      await slide.addText("Space Availability / Rent", {
         x: 3.8,
         y: 4,
         fontSize: 14,
@@ -1450,14 +1450,14 @@ class PPTBuilder {
         },
       ]);
 
-      slide.addTable(rentInfoRows, {
+      await slide.addTable(rentInfoRows, {
         x: 3.75,
         y: 4.2,
         colW: [0.5, 0.6, 0.6, 0.6, 0.6, 1.2, 0.7, 0.7],
         rowH: 0.1,
       });
 
-      slide.addShape(this.pres.shapes.RECTANGLE, {
+      await slide.addShape(this.pres.shapes.RECTANGLE, {
         x: 6.85,
         y: 1,
         w: 0.1,
@@ -1465,13 +1465,13 @@ class PPTBuilder {
         fill: { color: this.COLOR_RED },
         line: { type: "none" },
       });
-      slide.addText("Specification", {
+      await slide.addText("Specification", {
         x: 6.9,
         y: 1.1,
         fontSize: 14,
         color: this.COLOR_RED,
       });
-      slide.addShape(this.pres.shapes.RECTANGLE, {
+      await slide.addShape(this.pres.shapes.RECTANGLE, {
         x: 6.85,
         y: 1.25,
         w: 3,
@@ -1485,9 +1485,9 @@ class PPTBuilder {
       //leasing image list
       this.report &&
         this.report.roadview &&
-        this.report.roadview.slice(0, 4).map((view, idx) => {
+        this.report.roadview.slice(0, 4).map(async (view, idx) => {
           console.log("roadview image", idx);
-          slide.addImage({
+          await slide.addImage({
             data: view,
             x: idx === 0 || idx === 2 ? 0.7 : 4.8,
             y: idx === 0 || idx === 1 ? 1 : 3.85,
@@ -1499,7 +1499,7 @@ class PPTBuilder {
 
     if (index == 5) {
       //명함
-      slide.addImage({
+      await slide.addImage({
         path: "images/template_card.png",
         x: 1,
         y: 1.6,
@@ -1513,7 +1513,7 @@ class PPTBuilder {
         console.log("report creatUser", users);
         if (users.length > 0) {
           console.log("addText", users[0].name);
-          slide.addText(users[0].name, {
+          await slide.addText(users[0].name, {
             x: 1.3,
             y: 2.2,
             fontSize: 24,
