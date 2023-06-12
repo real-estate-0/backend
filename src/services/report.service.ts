@@ -17,6 +17,16 @@ const convertFormat = (value: any) => {
   return moment(value).format("YYYY-MM-DD");
 };
 
+const getLandPer = (report: IReport, divider: string | number) => {
+  console.log("getLandPer", report.building.price, report.building.platArea);
+  if (!report.building.price || !divider) return 0;
+  const gArea = convertAreaToPy(String(divider) || "0", true);
+  //@ts-ignore
+  console.log("getLandPer", report.building.price, gArea);
+  //@ts-ignore
+  return (report.building.price * 10000) / gArea;
+};
+
 const getBcRat = (building: TBuilding | undefined) => {
   if (isNull(building?.bcRat)) {
     if (building?.archArea && building?.platArea) {
@@ -56,8 +66,11 @@ const isNull = (value: any) => {
   return false;
 };
 
-const convertAreaToPy = (n: string | undefined) => {
+const convertAreaToPy = (n: string | undefined, asNum = false) => {
   if (!n) return "";
+  if (asNum) {
+    return (parseFloat(n) * 0.3025).toFixed(1);
+  }
   return (parseFloat(n) * 0.3025).toFixed(1) + "평";
 };
 
@@ -203,7 +216,7 @@ class PPTBuilder {
   COLOR_BLUE = "d5edfc";
 
   columnOptions = {
-    fontSize: 7,
+    fontSize: 9,
     align: "center",
     valign: "middle",
     border: { pt: 1, color: this.COLOR_BLACK },
@@ -211,7 +224,7 @@ class PPTBuilder {
   };
 
   headerOptions = {
-    fontSize: 7,
+    fontSize: 9,
     align: "center",
     valign: "middle",
     border: { pt: 1, color: this.COLOR_BLACK },
@@ -269,9 +282,9 @@ class PPTBuilder {
     slide.addImage({
       path: "images/template_sale_bottom.png",
       x: 0.1,
-      y: "92%",
+      y: "93%",
       w: "98%",
-      h: "8%",
+      h: "7%",
     });
     const buildingName = this.report?.location?.road?.bdNm;
     const jibunAddr = this.report?.location?.road?.jibunAddr?.replace(
@@ -359,10 +372,11 @@ class PPTBuilder {
         options: this.columnOptions,
       },
     ]);
+
     slide.addTable(locationRows, {
       x: 3.0,
       y: 1.1,
-      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+      colW: [0.2, 0.7, 0.9, 0.7, 0.9],
     });
 
     const landRows = [];
@@ -399,11 +413,9 @@ class PPTBuilder {
         text:
           addFraction(
             (
-              (getLastPublicPrice(this.report?.publicPrice || []) *
-                parseFloat(this.report?.building?.platArea || "0")) /
-              10000
+              getLastPublicPrice(this.report?.publicPrice || []) / 10000
             ).toFixed(0)
-          ) + "만원",
+          ) + "만",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -427,7 +439,7 @@ class PPTBuilder {
     slide.addTable(landRows, {
       x: 3.0,
       y: 1.7,
-      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+      colW: [0.2, 0.7, 0.9, 0.7, 0.9],
     });
 
     const buildingRows = [];
@@ -573,8 +585,8 @@ class PPTBuilder {
 
     slide.addTable(buildingRows, {
       x: 3.0,
-      y: 2.3,
-      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+      y: 2.4,
+      colW: [0.2, 0.7, 0.9, 0.7, 0.9],
     });
 
     const salesRows = [];
@@ -614,7 +626,12 @@ class PPTBuilder {
         options: this.headerOptions,
       },
       {
-        text: "!!평단가값",
+        text:
+          addFraction(
+            getLandPer(this.report, this.report.building.platArea || 0).toFixed(
+              0
+            ) || "0"
+          ) + "만",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -625,7 +642,12 @@ class PPTBuilder {
         options: this.headerOptions,
       },
       {
-        text: addFraction(this.report?.building?.pricePer || "0") + "만",
+        text:
+          addFraction(
+            getLandPer(this.report, this.report.building.totArea || 0).toFixed(
+              0
+            ) || "0"
+          ) + "만",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -636,7 +658,7 @@ class PPTBuilder {
     slide.addTable(salesRows, {
       x: 6.5,
       y: 1.1,
-      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+      colW: [0.2, 0.7, 0.9, 0.7, 0.9],
     });
 
     const rentRows = [];
@@ -710,7 +732,7 @@ class PPTBuilder {
     slide.addTable(rentRows, {
       x: 6.5,
       y: 1.9,
-      colW: [0.2, 0.6, 1.0, 0.6, 1.0],
+      colW: [0.2, 0.7, 0.9, 0.7, 0.9],
     });
 
     const pointRows = [];
@@ -737,7 +759,7 @@ class PPTBuilder {
       x: 6.5,
       y: 2.5,
       colW: [0.1, 3.2],
-      h: 1.1,
+      h: 1.4,
     });
     //렌트상세정보
     const rentInfoRows = [];
@@ -747,7 +769,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
-          fontSize: 6,
+          fontSize: 7,
         },
       },
       {
@@ -755,7 +777,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
-          fontSize: 5,
+          fontSize: 7,
         },
       },
       {
@@ -763,7 +785,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
-          fontSize: 6,
+          fontSize: 7,
         },
       },
       {
@@ -771,7 +793,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
-          fontSize: 6,
+          fontSize: 7,
         },
       },
       {
@@ -779,7 +801,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
-          fontSize: 6,
+          fontSize: 7,
         },
       },
       {
@@ -787,7 +809,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
-          fontSize: 6,
+          fontSize: 7,
         },
       },
       {
@@ -795,7 +817,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
-          fontSize: 6,
+          fontSize: 7,
         },
       },
       {
@@ -803,7 +825,7 @@ class PPTBuilder {
         options: {
           ...this.headerOptions,
           fill: this.COLOR_GRAY,
-          fontSize: 6,
+          fontSize: 7,
         },
       },
     ]);
@@ -884,7 +906,7 @@ class PPTBuilder {
 
     slide.addTable(rentInfoRows, {
       x: 0.1,
-      y: 3.7,
+      y: 4.0,
       colW: [0.4, 0.5, 0.5, 0.5, 0.5, 1.2, 0.7, 0.7],
       rowH: 0.1,
     });
@@ -893,21 +915,21 @@ class PPTBuilder {
     slide.addImage({
       path: "images/icon_location.png",
       x: 5.2,
-      y: 3.7,
+      y: 4.0,
       w: 0.2,
       h: 0.2,
     });
 
     slide.addText("위치", {
       x: 5.3,
-      y: 3.8,
+      y: 4.1,
       fontSize: 10,
     });
     this.report?.locImage &&
       slide.addImage({
         data: this.report?.locImage || null,
         x: 5.2,
-        y: 3.9,
+        y: 4.1,
         w: 2.3,
         h: 2.3,
       });
@@ -915,21 +937,21 @@ class PPTBuilder {
     slide.addImage({
       path: "images/icon_ji.png",
       x: 7.6,
-      y: 3.7,
+      y: 4.0,
       w: 0.2,
       h: 0.2,
     });
 
     slide.addText("지적도", {
       x: 7.7,
-      y: 3.8,
+      y: 4.1,
       fontSize: 10,
     });
     this.report?.jiImage &&
       slide.addImage({
         data: this.report?.jiImage || null,
         x: 7.6,
-        y: 3.9,
+        y: 4.1,
         w: 2.3,
         h: 2.3,
       });
@@ -1276,7 +1298,7 @@ class PPTBuilder {
           },
         },
         {
-          text: "월 총비용",
+          text: "월총비용",
           options: {
             ...this.headerOptions,
             fill: this.COLOR_RED,
@@ -1327,7 +1349,7 @@ class PPTBuilder {
             },
           },
           {
-            text: addFraction(f.management+f.month), //월 총비용
+            text: addFraction(f.management + f.month), //월 총비용
             options: {
               ...this.columnOptions,
               fontSize: 8,
