@@ -298,6 +298,7 @@ class ReportController extends Controller {
       pptx.stream().then((data) => {
         console.log("ppt response");
         res.writeHead(200, {
+          "Access-Control-Allow-Origin": "*",
           /*
           "Content-Disposition":
             "attachment;filename=" +
