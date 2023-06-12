@@ -306,6 +306,7 @@ class ReportController extends Controller {
             ".pptx",
             */
           "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "X-Requested-With",
           "Content-Length": data.length,
         });
         res.end(Buffer.from(data, "binary"));
