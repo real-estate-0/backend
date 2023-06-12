@@ -63,4 +63,4 @@ jobs:
           package: .
 
       - name: Delete zip file
-        run: rm release.zip
+        run: rm dist.zip
