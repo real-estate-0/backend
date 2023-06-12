@@ -1223,6 +1223,138 @@ class PPTBuilder {
         fontSize: 14,
         color: this.COLOR_RED,
       });
+      const rentInfoRows = [];
+      rentInfoRows.push([
+        {
+          text: "층별",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 8,
+            color: this.COLOR_WHITE,
+            bold: true,
+          },
+        },
+        {
+          text: "면적(평)",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 8,
+            color: this.COLOR_WHITE,
+            bold: true,
+          },
+        },
+        {
+          text: "보증금",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 8,
+            color: this.COLOR_WHITE,
+            bold: true,
+          },
+        },
+        {
+          text: "임대료",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 8,
+            color: this.COLOR_WHITE,
+            bold: true,
+          },
+        },
+        {
+          text: "관리비",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 8,
+            color: this.COLOR_WHITE,
+            bold: true,
+          },
+        },
+        {
+          text: "월 총비용",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            fontSize: 8,
+            color: this.COLOR_WHITE,
+            bold: true,
+          },
+        },
+      ]);
+      /**
+       * Rent info
+       */
+      this.report.floor.map((f) => {
+        rentInfoRows.push([
+          {
+            text: f.flrNoNm,
+            options: {
+              ...this.columnOptions,
+              fontSize: 8,
+            },
+          },
+          {
+            text: f.area, //면적
+            options: {
+              ...this.columnOptions,
+              fontSize: 8,
+            },
+          },
+          {
+            text: f.deposit, //보증금
+            options: {
+              ...this.columnOptions,
+              fontSize: 8,
+            },
+          },
+          {
+            text: f.month, //임대료
+            options: {
+              ...this.columnOptions,
+              fontSize: 8,
+            },
+          },
+          {
+            text: f.management, //관리비
+            options: {
+              ...this.columnOptions,
+              fontSize: 8,
+            },
+          },
+          {
+            text: addFraction(f.management+f.month), //월 총비용
+            options: {
+              ...this.columnOptions,
+              fontSize: 8,
+            },
+          },
+        ]);
+      });
+
+      rentInfoRows.push([
+        {
+          text: "합계",
+          options: {
+            ...this.headerOptions,
+            fill: this.COLOR_RED,
+            bold: true,
+            color: this.COLOR_WHITE,
+            fontSize: 8,
+          },
+        },
+      ]);
+
+      slide.addTable(rentInfoRows, {
+        x: 3.75,
+        y: 4.2,
+        colW: [0.5, 0.6, 0.6, 0.6, 0.6, 1.2, 0.7, 0.7],
+        rowH: 0.1,
+      });
 
       slide.addShape(this.pres.shapes.RECTANGLE, {
         x: 6.85,
