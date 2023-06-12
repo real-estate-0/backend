@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v1
         with:
-          node-version: '18.x'
+          node-version: "18.x"
 
       - name: npm install, build, and test
         run: |
@@ -34,13 +34,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: dist.zip 
+          path: dist.zip
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -51,17 +51,16 @@ jobs:
 
       #unzip artifact when deploying
       - name: Unzip artifact for deployment
-        run: unzip dist.zip  #Extract release.zip with unzip command
+        run: unzip dist.zip #Extract release.zip with unzip command
 
-      - name: 'Deploy to Azure Web App'
+      - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'ofbackend'
-          slot-name: 'Production'
+          app-name: "ofbackend"
+          slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_01C22BA7058C4D3EA12D8F1F119471E6 }}
           package: .
 
-      #unzip artifact when deploying
-      - name: Unzip artifact for deployment
-        run: unzip dist.zip  #Extract release.zip with unzip command
+      - name: Delete zip file
+        run: rm release.zip
