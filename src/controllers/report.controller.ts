@@ -308,6 +308,8 @@ class ReportController extends Controller {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Headers": "X-Requested-With",
           "Content-Length": data.length,
+          "Content-Type":
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         });
         res.end(Buffer.from(data, "binary"));
       });
