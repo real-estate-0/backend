@@ -206,20 +206,43 @@ class ReportService extends Service {
 class PPTBuilder {
   report: IReport;
   pres: any;
+
   COLOR_GREEN = "269a26";
   COLOR_GRAY = "eeeeee";
+  COLOR_DARK_GRAY = "a3a3a3";
   COLOR_WHITE = "ffffff";
   COLOR_BLACK = "000000";
   COLOR_LIGHT_GREEN = "c6e0b4";
   COLOR_HEAVY_GREEN = "a9d08e";
   COLOR_RED = "c00000";
   COLOR_BLUE = "d5edfc";
-
+  ALL_BORDER = [
+    {
+      pt: "1",
+      color: this.COLOR_DARK_GRAY,
+      type: "solid",
+    },
+    {
+      pt: "1",
+      color: this.COLOR_DARK_GRAY,
+      type: "solid",
+    },
+    {
+      pt: "1",
+      color: this.COLOR_DARK_GRAY,
+      type: "solid",
+    },
+    {
+      pt: "1",
+      color: this.COLOR_DARK_GRAY,
+      type: "solid",
+    },
+  ];
   columnOptions = {
     fontSize: 9,
     align: "center",
     valign: "middle",
-    border: { pt: 1, color: this.COLOR_BLACK },
+    border: { pt: 0.5, color: this.COLOR_DARK_GRAY },
     fill: this.COLOR_WHITE,
   };
 
@@ -227,7 +250,7 @@ class PPTBuilder {
     fontSize: 9,
     align: "center",
     valign: "middle",
-    border: { pt: 1, color: this.COLOR_BLACK },
+    border: { pt: 0.5, color: this.COLOR_DARK_GRAY },
     fill: this.COLOR_GRAY,
   };
   totalDepositResult = 0;
@@ -377,6 +400,10 @@ class PPTBuilder {
       x: 3.0,
       y: 1.1,
       colW: [0.2, 0.7, 0.9, 0.7, 0.9],
+      border: {
+        pt: "1",
+        color: this.COLOR_RED,
+      },
     });
 
     const landRows = [];
@@ -898,7 +925,55 @@ class PPTBuilder {
         text: "합계",
         options: {
           ...this.headerOptions,
-          fill: this.COLOR_GRAY,
+          fontSize: 6,
+        },
+      },
+      {
+        text: "",
+        options: {
+          ...this.columnOptions,
+          fontSize: 6,
+        },
+      },
+      {
+        text: "",
+        options: {
+          ...this.columnOptions,
+          fontSize: 6,
+        },
+      },
+      {
+        text: "",
+        options: {
+          ...this.columnOptions,
+          fontSize: 6,
+        },
+      },
+      {
+        text: "",
+        options: {
+          ...this.columnOptions,
+          fontSize: 6,
+        },
+      },
+      {
+        text: "",
+        options: {
+          ...this.columnOptions,
+          fontSize: 6,
+        },
+      },
+      {
+        text: "",
+        options: {
+          ...this.columnOptions,
+          fontSize: 6,
+        },
+      },
+      {
+        text: "",
+        options: {
+          ...this.columnOptions,
           fontSize: 6,
         },
       },
@@ -1363,9 +1438,7 @@ class PPTBuilder {
           text: "합계",
           options: {
             ...this.headerOptions,
-            fill: this.COLOR_RED,
             bold: true,
-            color: this.COLOR_WHITE,
             fontSize: 8,
           },
         },

@@ -333,6 +333,7 @@ class ReportController extends Controller {
             encodeURIComponent(report.location.address) +
             ".pptx",
             */
+          "Access-Control-Allow-Origin": "*",
           "Content-Length": data.length,
         });
         res.end(Buffer.from(data, "binary"));
