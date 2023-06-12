@@ -216,6 +216,7 @@ class PPTBuilder {
   COLOR_HEAVY_GREEN = "a9d08e";
   COLOR_RED = "c00000";
   COLOR_BLUE = "d5edfc";
+  COLOR_DARK_BLUE = "2e5e8b";
   ALL_BORDER = [
     {
       pt: "1",
@@ -630,7 +631,9 @@ class PPTBuilder {
         options: {
           ...this.columnOptions,
           colspan: 2,
-          fontSize: 12,
+          fontSize: 13,
+          bold: true,
+          color: this.COLOR_DARK_BLUE,
         },
       },
       {
@@ -644,6 +647,9 @@ class PPTBuilder {
         text: parseFloat(this.report?.pfper || "0").toFixed(2) + "%",
         options: {
           ...this.columnOptions,
+          fontSize: 13,
+          bold: true,
+          color: this.COLOR_DARK_BLUE,
         },
       },
     ]);
@@ -685,7 +691,7 @@ class PPTBuilder {
     slide.addTable(salesRows, {
       x: 6.5,
       y: 1.1,
-      colW: [0.2, 0.7, 0.9, 0.7, 0.9],
+      colW: [0.2, 0.8, 0.8, 0.8, 0.8],
     });
 
     const rentRows = [];
@@ -759,7 +765,7 @@ class PPTBuilder {
     slide.addTable(rentRows, {
       x: 6.5,
       y: 1.9,
-      colW: [0.2, 0.7, 0.9, 0.7, 0.9],
+      colW: [0.2, 0.8, 0.8, 0.8, 0.8],
     });
 
     const pointRows = [];
