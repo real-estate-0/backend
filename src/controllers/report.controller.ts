@@ -293,11 +293,10 @@ class ReportController extends Controller {
     );
     if (reports.length > 0) {
       const report = reports[0];
-      //const pptx = await reportService.createRentPPT(report);
-      const pptx = await reportService.createSalePPT(report);
+      const pptx = await reportService.createRentPPT(report);
+      //const pptx = await reportService.createSalePPT(report);
       //console.log("pptx", report);
       pptx.stream().then((data) => {
-        console.log("ppt response");
         res.writeHead(200, {
           /*
           "Content-Disposition":

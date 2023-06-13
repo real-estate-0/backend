@@ -188,8 +188,8 @@ class ReportService extends Service {
   };
   createRentPPT = async (report: IReport) => {
     if (report) {
-      const pptBuilder = new PPTBuilder(report);
-      return pptBuilder.getRentPPT();
+      const pptBuilder = await new PPTBuilder(report);
+      return await pptBuilder.getRentPPT();
     }
     return new ApiError(400, "NOT_FOUND");
   };
@@ -2504,19 +2504,19 @@ class PPTBuilder {
   };
 
   getRentPPT = async () => {
-    const slide1 = this.pres.addSlide();
+    const slide1 = await this.pres.addSlide();
     await this.renderTemplateByIndex(slide1, 1); //표지
 
-    const slide2 = this.pres.addSlide();
+    const slide2 = await this.pres.addSlide();
     await this.renderTemplateByIndex(slide2, 2); //Rent 목차
 
-    const slide3 = this.pres.addSlide();
+    const slide3 = await this.pres.addSlide();
     await this.renderTemplateByIndex(slide3, 3); //Leasing 1
 
-    const slide4 = this.pres.addSlide();
+    const slide4 = await this.pres.addSlide();
     await this.renderTemplateByIndex(slide4, 4); //Leasing 2
 
-    const slide5 = this.pres.addSlide();
+    const slide5 = await this.pres.addSlide();
     await this.renderTemplateByIndex(slide5, 5); //Contact
 
     /*
