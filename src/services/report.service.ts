@@ -441,7 +441,7 @@ class PPTBuilder {
         text:
           addFraction(
             (
-              (getLastPublicPrice(this.report?.publicPrice || []) / 10000)
+              getLastPublicPrice(this.report?.publicPrice || []) / 10000
             ).toFixed(0)
           ) + "만",
         options: {
@@ -926,6 +926,19 @@ class PPTBuilder {
       ]);
     });
 
+    let sumArea = 0;
+    let sumDeposit = 0;
+    let sumMonth = 0;
+    let sumManage = 0;
+    for (const f of this.report.floor) {
+      sumArea += parseFloat(f.area || "0");
+      sumDeposit += parseFloat(f.deposit || "0");
+      sumMonth += parseFloat(f.month || "0");
+      sumManage += parseFloat(f.management || "0");
+    }
+
+    console.log("Sum", sumArea, sumDeposit, sumMonth, sumManage);
+
     rentInfoRows.push([
       {
         text: "합계",
@@ -935,28 +948,28 @@ class PPTBuilder {
         },
       },
       {
-        text: "",
+        text: sumArea.toFixed(1),
         options: {
           ...this.columnOptions,
           fontSize: 6,
         },
       },
       {
-        text: "",
+        text: sumDeposit,
         options: {
           ...this.columnOptions,
           fontSize: 6,
         },
       },
       {
-        text: "",
+        text: sumMonth,
         options: {
           ...this.columnOptions,
           fontSize: 6,
         },
       },
       {
-        text: "",
+        text: sumManage,
         options: {
           ...this.columnOptions,
           fontSize: 6,
