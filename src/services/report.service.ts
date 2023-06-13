@@ -335,7 +335,7 @@ class PPTBuilder {
         x: 0.1,
         y: "11%",
         w: 2.8,
-        h: 2.8,
+        h: 3.0,
       });
 
     /**개요 */
@@ -441,7 +441,7 @@ class PPTBuilder {
         text:
           addFraction(
             (
-              getLastPublicPrice(this.report?.publicPrice || []) / 10000
+              (getLastPublicPrice(this.report?.publicPrice || []) / 10000)
             ).toFixed(0)
           ) + "만",
         options: {
@@ -1010,7 +1010,7 @@ class PPTBuilder {
       slide.addImage({
         data: this.report?.locImage || null,
         x: 5.2,
-        y: 4.1,
+        y: 4.2,
         w: 2.3,
         h: 2.3,
       });
@@ -1032,7 +1032,7 @@ class PPTBuilder {
       slide.addImage({
         data: this.report?.jiImage || null,
         x: 7.6,
-        y: 4.1,
+        y: 4.2,
         w: 2.3,
         h: 2.3,
       });

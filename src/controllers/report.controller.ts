@@ -293,7 +293,8 @@ class ReportController extends Controller {
     );
     if (reports.length > 0) {
       const report = reports[0];
-      const pptx = await reportService.createRentPPT(report);
+      //const pptx = await reportService.createRentPPT(report);
+      const pptx = await reportService.createSalePPT(report);
       //console.log("pptx", report);
       pptx.stream().then((data) => {
         console.log("ppt response");
@@ -306,10 +307,7 @@ class ReportController extends Controller {
             ".pptx",
             */
           "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Headers": "X-Requested-With",
           "Content-Length": data.length,
-          "Content-Type":
-            "application/vnd.openxmlformats-officedocument.presentationml.presentation",
         });
         res.end(Buffer.from(data, "binary"));
       });
