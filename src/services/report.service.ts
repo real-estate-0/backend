@@ -208,6 +208,7 @@ class PPTBuilder {
   report: IReport;
   pres: any;
 
+  COLOR_YELLOW = "e3d80e";
   COLOR_GREEN = "269a26";
   COLOR_GRAY = "eeeeee";
   COLOR_DARK_GRAY = "a3a3a3";
@@ -425,7 +426,10 @@ class PPTBuilder {
         },
       },
       {
-        text: this.report?.landInfo?.lndpclAr +"㎡ \n"+ convertAreaToPy(this.report?.landInfo?.lndpclAr)|| "",
+        text:
+          this.report?.landInfo?.lndpclAr +
+            "㎡ \n" +
+            convertAreaToPy(this.report?.landInfo?.lndpclAr) || "",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -876,28 +880,28 @@ class PPTBuilder {
           },
         },
         {
-          text: f.area, //면적
+          text: f.area + "\n" + convertAreaToPy(String(f.area) || "0"), //면적
           options: {
             ...this.columnOptions,
             fontSize: 6,
           },
         },
         {
-          text: f.deposit, //보증금
+          text: addFraction(f.deposit), //보증금
           options: {
             ...this.columnOptions,
             fontSize: 6,
           },
         },
         {
-          text: f.month, //임대료
+          text: addFraction(f.month), //임대료
           options: {
             ...this.columnOptions,
             fontSize: 6,
           },
         },
         {
-          text: f.management, //관리비
+          text: addFraction(f.management), //관리비
           options: {
             ...this.columnOptions,
             fontSize: 6,
@@ -1082,11 +1086,49 @@ class PPTBuilder {
     });
     await slide.addImage({
       path: "images/template_bottom.png",
-      x: "2%",
+      x: "0%",
       y: "88%",
-      w: "96%",
+      w: "100%",
       h: "10%",
     });
+
+    await slide.addShape(this.pres.ShapeType.line, {
+      x: 2.24,
+      y: 6.68,
+      h: 0.38,
+      w: 0,
+      line: { color: this.COLOR_YELLOW, width: 1 },
+    });
+
+    await slide.addText("정태원 전무", {
+      x: 2.25,
+      y: 6.75,
+      fontSize: 9,
+      bold: true,
+      color: this.COLOR_WHITE,
+    });
+    await slide.addText("02-545-0970", {
+      x: 2.25,
+      y: 6.87,
+      fontSize: 9,
+      bold: true,
+      color: this.COLOR_WHITE,
+    });
+    await slide.addText("010-9556-8311", {
+      x: 2.25,
+      y: 6.99,
+      fontSize: 9,
+      bold: true,
+      color: this.COLOR_WHITE,
+    });
+    await slide.addText("goracfa@nate.com", {
+      x: 2.25,
+      y: 7.1,
+      fontSize: 9,
+      bold: true,
+      color: this.COLOR_WHITE,
+    });
+
     if (index === 2) {
       //Rent list
       this.report &&
@@ -1240,7 +1282,7 @@ class PPTBuilder {
           },
         },
         {
-         text: "총 "+this.report?.building?.parkingLotCnt+"대" || "",
+          text: "총 " + this.report?.building?.parkingLotCnt + "대" || "",
           options: {
             ...this.columnOptions,
             fontSize: 10,
@@ -1370,7 +1412,7 @@ class PPTBuilder {
           },
         },
         {
-          text: "면적(평)",
+          text: "면적(㎡/평)",
           options: {
             ...this.headerOptions,
             fill: this.COLOR_RED,
@@ -1433,28 +1475,28 @@ class PPTBuilder {
             },
           },
           {
-            text: f.area, //면적
+            text: f.area + "㎡ / " + convertAreaToPy(String(f.area) || "0"), //면적
             options: {
               ...this.columnOptions,
               fontSize: 8,
             },
           },
           {
-            text: f.deposit, //보증금
+            text: addFraction(f.deposit), //보증금
             options: {
               ...this.columnOptions,
               fontSize: 8,
             },
           },
           {
-            text: f.month, //임대료
+            text: addFraction(f.month), //임대료
             options: {
               ...this.columnOptions,
               fontSize: 8,
             },
           },
           {
-            text: f.management, //관리비
+            text: addFraction(f.management), //관리비
             options: {
               ...this.columnOptions,
               fontSize: 8,
