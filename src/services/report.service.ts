@@ -521,7 +521,7 @@ class PPTBuilder {
         text: convertFormat(this.report?.building?.useAprDay || ""),
         options: {
           ...this.columnOptions,
-          colspan: 3,
+          colspan: 1,
         },
       },
       {
@@ -568,7 +568,7 @@ class PPTBuilder {
         text:
           "지하 " +
           this.report?.building?.ugrndFlrCnt +
-          "/ 지상 " +
+          " / 지상 " +
           this.report.building?.grndFlrCnt,
         options: {
           ...this.columnOptions,
@@ -586,7 +586,7 @@ class PPTBuilder {
         },
       },
       {
-        text: this?.report?.building?.parkingLotCnt || "",
+        text: "총 " +this?.report?.building?.parkingLotCnt+"대" || "",
         options: {
           ...this.columnOptions,
           colspan: 3,
@@ -671,7 +671,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "평당(연면적)",
+        text: "평당\n(연면적)",
         options: this.headerOptions,
       },
       {
@@ -764,7 +764,7 @@ class PPTBuilder {
 
     slide.addTable(rentRows, {
       x: 6.5,
-      y: 1.9,
+      y: 1.85,
       colW: [0.2, 0.8, 0.8, 0.8, 0.8],
     });
 
@@ -790,9 +790,9 @@ class PPTBuilder {
 
     slide.addTable(pointRows, {
       x: 6.5,
-      y: 2.5,
+      y: 2.4,
       colW: [0.1, 3.2],
-      h: 1.4,
+      h: 1.5,
     });
     //렌트상세정보
     const rentInfoRows = [];
@@ -903,7 +903,10 @@ class PPTBuilder {
           },
         },
         {
-          text: f.etcPurps, //용도
+          text:
+            f?.etcPurps?.indexOf("(") >= 2
+              ? f?.etcPurps?.slice(0, f.etcPurps.indexOf("("))
+              : f?.etcPurps || "",
           options: {
             ...this.columnOptions,
             fontSize: 6,
@@ -998,10 +1001,16 @@ class PPTBuilder {
       },
     ]);
 
+    slide.addText("임대현황", {
+      x: 0,
+      y: 4.1,
+      fontSize: 10,
+    });
+
     slide.addTable(rentInfoRows, {
       x: 0.1,
-      y: 4.0,
-      colW: [0.4, 0.5, 0.5, 0.5, 0.5, 1.2, 0.7, 0.7],
+      y: 4.2,
+      colW: [0.4, 0.6, 0.5, 0.5, 0.5, 1.1, 0.7, 0.7],
       rowH: 0.1,
     });
 
