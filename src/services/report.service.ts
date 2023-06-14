@@ -425,7 +425,7 @@ class PPTBuilder {
         },
       },
       {
-        text: this.report?.landInfo?.lndpclAr || "",
+        text: this.report?.landInfo?.lndpclAr +"㎡ \n"+ convertAreaToPy(this.report?.landInfo?.lndpclAr)|| "",
         options: {
           ...this.columnOptions,
           colspan: 1,
