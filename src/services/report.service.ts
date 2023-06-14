@@ -75,6 +75,7 @@ const convertAreaToPy = (n: string | undefined, asNum = false) => {
 };
 
 const addFraction = (value: number | string | undefined) => {
+  console.log("addFraction", value);
   if (!value) return "";
   let result: number;
   if (typeof value === "string") result = parseFloat(value);
@@ -326,7 +327,7 @@ class PPTBuilder {
     });
     const buildingImage =
       this.report?.roadview.length > 0 ? this.report?.roadview[0] : undefined;
-    console.log("buildingImage", buildingImage);
+    //console.log("buildingImage", buildingImage);
 
     buildingImage &&
       slide.addImage({
@@ -586,7 +587,7 @@ class PPTBuilder {
         },
       },
       {
-        text: "총 " +this?.report?.building?.parkingLotCnt+"대" || "",
+        text: "총 " + this?.report?.building?.parkingLotCnt + "대" || "",
         options: {
           ...this.columnOptions,
           colspan: 3,
@@ -1165,7 +1166,10 @@ class PPTBuilder {
           },
         },
         {
-          text: (this.report.building.groundArea || "") + "㎡",
+          text:
+            (this.report.building.platArea || "") +
+            "㎡ / " +
+            convertAreaToPy(String(this.report.building.platArea) || "0"),
           options: {
             ...this.columnOptions,
             fontSize: 10,
@@ -1186,7 +1190,10 @@ class PPTBuilder {
           },
         },
         {
-          text: (this.report.building.totArea || "") + "㎡",
+          text:
+            (this.report.building.totArea || "") +
+            "㎡ / " +
+            convertAreaToPy(String(this.report.building.totArea) || "0"),
           options: {
             ...this.columnOptions,
             fontSize: 10,
@@ -1208,9 +1215,11 @@ class PPTBuilder {
         },
         {
           text:
-            this.report?.building?.grndFlrCnt ||
-            "" + "/" + this.report?.building?.ugrndFlrCnt ||
-            "",
+            "지하 " +
+            this.report?.building?.ugrndFlrCnt +
+            "층 / 지상 " +
+            this.report.building?.grndFlrCnt +
+            "층",
           options: {
             ...this.columnOptions,
             fontSize: 10,
@@ -1231,7 +1240,7 @@ class PPTBuilder {
           },
         },
         {
-          text: this.report?.building?.parkingLotCnt || "",
+         text: "총 "+this.report?.building?.parkingLotCnt+"대" || "",
           options: {
             ...this.columnOptions,
             fontSize: 10,
@@ -1452,7 +1461,7 @@ class PPTBuilder {
             },
           },
           {
-            text: addFraction(f.management + f.month), //월 총비용
+            text: addFraction(parseFloat(f.management) + parseFloat(f.month)), //월 총비용
             options: {
               ...this.columnOptions,
               fontSize: 8,
@@ -1460,14 +1469,69 @@ class PPTBuilder {
           },
         ]);
       });
-
+      let sumArea = 0;
+      let sumDeposit = 0;
+      let sumMonth = 0;
+      let sumManage = 0;
+      for (const f of this.report.floor) {
+        sumArea += parseFloat(f.area || "0");
+        sumDeposit += parseFloat(f.deposit || "0");
+        sumMonth += parseFloat(f.month || "0");
+        sumManage += parseFloat(f.management || "0");
+      }
       rentInfoRows.push([
         {
           text: "합계",
           options: {
             ...this.headerOptions,
-            bold: true,
             fontSize: 8,
+            fill: this.COLOR_RED,
+            color: this.COLOR_WHITE,
+          },
+        },
+        {
+          text: addFraction(sumArea),
+          options: {
+            ...this.columnOptions,
+            fontSize: 8,
+            fill: this.COLOR_RED,
+            color: this.COLOR_WHITE,
+          },
+        },
+        {
+          text: addFraction(sumDeposit),
+          options: {
+            ...this.columnOptions,
+            fontSize: 8,
+            fill: this.COLOR_RED,
+            color: this.COLOR_WHITE,
+          },
+        },
+        {
+          text: addFraction(sumMonth),
+          options: {
+            ...this.columnOptions,
+            fontSize: 8,
+            fill: this.COLOR_RED,
+            color: this.COLOR_WHITE,
+          },
+        },
+        {
+          text: addFraction(sumManage),
+          options: {
+            ...this.columnOptions,
+            fontSize: 8,
+            fill: this.COLOR_RED,
+            color: this.COLOR_WHITE,
+          },
+        },
+        {
+          text: addFraction(sumManage + sumMonth),
+          options: {
+            ...this.columnOptions,
+            fontSize: 8,
+            fill: this.COLOR_RED,
+            color: this.COLOR_WHITE,
           },
         },
       ]);
