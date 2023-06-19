@@ -445,9 +445,12 @@ class PPTBuilder {
       {
         text:
           addFraction(
-            (
-              getLastPublicPrice(this.report?.publicPrice || []) / 10000
-            ).toFixed(0)
+            convertAreaToPy(
+              String(
+                getLastPublicPrice(this.report?.publicPrice || []) / 10000
+              ),
+              true
+            )
           ) + "만",
         options: {
           ...this.columnOptions,
