@@ -24,7 +24,11 @@ const createUser = {
     role: Joi.string().required(),
     referReportIds: Joi.array().items(Joi.string()),
     phone: Joi.string(),
+    manager: Joi.string(),
+    area: Joi.string(),
+    etc: Joi.string(),
     address: Joi.string(),
+    money: Joi.string(),
   }),
 };
 

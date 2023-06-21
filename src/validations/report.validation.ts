@@ -29,7 +29,7 @@ const getReports = {
     _id: Joi.string(),
     fields: Joi.string(),
     search: Joi.string().allow(null, ""),
-    guests: Joi.string().allow(null),
+    guest: Joi.string().allow(null),
   }),
 };
 

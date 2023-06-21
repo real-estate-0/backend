@@ -135,6 +135,7 @@ routes.stack.forEach((mid) => {
 app.use("/api/v1", routes);
 
 app.get("*", function (req, res) {
+  console.log("app received url", __dirname);
   res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 /*

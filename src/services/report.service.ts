@@ -136,10 +136,17 @@ class ReportService extends Service {
   };
 
   getReportsByGuest = async (userId: string) => {
-    const queryResult: any[] = await Report.find({}, ["name"]);
+    const queryResult: any[] = await Report.find({}, [
+      "name",
+      "guests",
+      "_id",
+      "title",
+    ]);
     const result: any[] = [];
     for (const doc of queryResult) {
+      console.log("getReportsByGuest", doc, userId);
       if (doc.guests) {
+        console.log("getReportsByGuest", doc.guests, userId);
         for (const guest of doc.guests) {
           if (guest.userId === userId) {
             result.push(doc);
