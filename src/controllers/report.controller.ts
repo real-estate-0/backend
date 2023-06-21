@@ -232,6 +232,7 @@ class ReportController extends Controller {
       for await (const file of req.files) {
         console.log("upload f", file);
         const fileText = [];
+        /*
         new PdfReader().parseBuffer(file.buffer, (err, item) => {
           if (err) console.error("pdf error:", err);
           else if (!item) {
@@ -247,10 +248,12 @@ class ReportController extends Controller {
             fileText.push(item.text);
           }
         });
+        */
 
         await upload(req.params.reportObjectId, file);
         const uploadResult = {
           fileName: file.originalname,
+          mimetype: file.mimetype,
           url: `https://${account}.blob.core.windows.net/${req.params.reportObjectId}/${file.originalname}`,
         };
         result.push(uploadResult);
