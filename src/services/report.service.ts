@@ -141,6 +141,7 @@ class ReportService extends Service {
       "guests",
       "_id",
       "title",
+      "attachments",
     ]);
     const result: any[] = [];
     for (const doc of queryResult) {
@@ -434,9 +435,11 @@ class PPTBuilder {
       },
       {
         text:
+          /*
           this.report?.landInfo?.lndpclAr +
             "㎡ \n" +
-            convertAreaToPy(this.report?.landInfo?.lndpclAr) || "",
+            */
+          convertAreaToPy(this.report?.landInfo?.lndpclAr) || "",
         options: {
           ...this.columnOptions,
           colspan: 1,
@@ -890,7 +893,7 @@ class PPTBuilder {
           },
         },
         {
-          text: f.area + "\n" + convertAreaToPy(String(f.area) || "0"), //면적
+          text: convertAreaToPy(String(f.area) || "0"), //면적
           options: {
             ...this.columnOptions,
             fontSize: 6,
@@ -1219,8 +1222,8 @@ class PPTBuilder {
         },
         {
           text:
-            (this.report.building.platArea || "") +
-            "㎡ / " +
+            // (this.report.building.platArea || "") +
+            // "㎡ / " +
             convertAreaToPy(String(this.report.building.platArea) || "0"),
           options: {
             ...this.columnOptions,
@@ -1243,8 +1246,8 @@ class PPTBuilder {
         },
         {
           text:
-            (this.report.building.totArea || "") +
-            "㎡ / " +
+            //(this.report.building.totArea || "") +
+            //"㎡ / " +
             convertAreaToPy(String(this.report.building.totArea) || "0"),
           options: {
             ...this.columnOptions,
@@ -1485,7 +1488,9 @@ class PPTBuilder {
             },
           },
           {
-            text: f.area + "㎡ / " + convertAreaToPy(String(f.area) || "0"), //면적
+            text:
+              //f.area + "㎡ / " +
+              convertAreaToPy(String(f.area) || "0"), //면적
             options: {
               ...this.columnOptions,
               fontSize: 8,

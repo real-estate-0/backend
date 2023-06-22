@@ -23,6 +23,11 @@ const createReport = {
     pfper: Joi.string().allow(null, ""),
   }),
 };
+const createPDF = {
+  body: Joi.object().keys({
+    data: Joi.any(),
+  }),
+};
 
 const getReports = {
   query: Joi.object().keys({
@@ -79,6 +84,7 @@ const createPPT = {
 export {
   schema,
   createReport,
+  createPDF,
   getReports,
   updateReport,
   updateReportAll,
