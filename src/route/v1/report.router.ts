@@ -42,8 +42,10 @@ reportRouter
   .route("/:reportObjectId/rentppt")
   .post(validate(reportSchema.createPPT), reportController.createRentPPT);
 
+/*
 reportRouter
   .route("/mergepdf")
   .post(validate(reportSchema.createPDF), reportController.createPDF);
+  */
 
 export default reportRouter;

@@ -15,7 +15,6 @@ import searchService from "../services/search.service";
 import { PdfReader } from "pdfreader";
 import axios from "axios";
 //import PDFMerger from "pdf-merger-js";
-import pdftk from "node-pdftk";
 import fs from "fs";
 
 const logger = createLogger("controller", "report.controller");
@@ -337,40 +336,6 @@ class ReportController extends Controller {
     const data = req.body.data || [];
     //const merger = new PDFMerger();
     const buffers = [];
-    for (const attachment of data) {
-      const file = await this.downloadFile(
-        encodeURI(attachment.url),
-        attachment.fileName
-      );
-      buffers.push(file);
-      console.log("file download complete", typeof file);
-      console.log("file added");
-    }
-    try {
-      //const buffer = await merger.saveAsBuffer();
-      pdftk
-        .input(buffers)
-        .output()
-        .then((buf) => {
-          const path = "merged.pdf";
-          fs.open(path, "w", function (err, fd) {
-            fs.write(fd, buf, 0, buf.length, null, function (err) {
-              fs.close(fd, function () {
-                console.log("wrote the file successfully");
-              });
-            });
-          });
-          res.writeHead(200, {
-            "Content-Disposition": "attachment;filename=merged.pdf",
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/pdf",
-          });
-          //@ts-ignore
-          res.end(Buffer.from(buffer, "binary"));
-        });
-    } catch (err) {
-      console.log("err", err);
-    }
   });
 
   createSalePPT = catchAsync(async (req, res) => {
