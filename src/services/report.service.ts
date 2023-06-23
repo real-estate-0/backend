@@ -889,35 +889,40 @@ class PPTBuilder {
           text: f.flrNoNm,
           options: {
             ...this.columnOptions,
-            fontSize: 6,
+            fontSize: 8,
+            bold: true,
           },
         },
         {
           text: convertAreaToPy(String(f.area) || "0"), //면적
           options: {
             ...this.columnOptions,
-            fontSize: 6,
+            fontSize: 8,
+            bold: true,
           },
         },
         {
           text: addFraction(f.deposit), //보증금
           options: {
             ...this.columnOptions,
-            fontSize: 6,
+            fontSize: 8,
+            bold: true,
           },
         },
         {
           text: addFraction(f.month), //임대료
           options: {
             ...this.columnOptions,
-            fontSize: 6,
+            fontSize: 8,
+            bold: true,
           },
         },
         {
           text: addFraction(f.management), //관리비
           options: {
             ...this.columnOptions,
-            fontSize: 6,
+            fontSize: 8,
+            bold: true,
           },
         },
         {
@@ -927,21 +932,24 @@ class PPTBuilder {
               : f?.etcPurps || "",
           options: {
             ...this.columnOptions,
-            fontSize: 6,
+            fontSize: 8,
+            bold: true,
           },
         },
         {
           text: f.input, //입주사
           options: {
             ...this.columnOptions,
-            fontSize: 6,
+            fontSize: 8,
+            bold: true,
           },
         },
         {
           text: f.end, //만기
           options: {
             ...this.columnOptions,
-            fontSize: 6,
+            fontSize: 8,
+            bold: true,
           },
         },
       ]);
@@ -966,56 +974,64 @@ class PPTBuilder {
             text: "",
             options: {
               ...this.columnOptions,
-              fontSize: 6,
+              fontSize: 8,
+              bold: true,
             },
           },
           {
             text: "",
             options: {
               ...this.columnOptions,
-              fontSize: 6,
+              fontSize: 8,
+              bold: true,
             },
           },
           {
             text: "",
             options: {
               ...this.columnOptions,
-              fontSize: 6,
+              fontSize: 8,
+              bold: true,
             },
           },
           {
             text: "",
             options: {
               ...this.columnOptions,
-              fontSize: 6,
+              fontSize: 8,
+              bold: true,
             },
           },
           {
             text: "",
             options: {
               ...this.columnOptions,
-              fontSize: 6,
+              fontSize: 8,
+              bold: true,
             },
           },
           {
             text: "",
             options: {
               ...this.columnOptions,
-              fontSize: 6,
+              fontSize: 8,
+              bold: true,
             },
           },
           {
             text: "",
             options: {
               ...this.columnOptions,
-              fontSize: 6,
+              fontSize: 8,
+              bold: true,
             },
           },
           {
             text: "",
             options: {
               ...this.columnOptions,
-              fontSize: 6,
+              fontSize: 8,
+              bold: true,
             },
           },
         ]);
@@ -1032,56 +1048,64 @@ class PPTBuilder {
         text: "합계",
         options: {
           ...this.headerOptions,
-          fontSize: 6,
+          fontSize: 8,
+          bold: true,
         },
       },
       {
         text: sumArea.toFixed(1),
         options: {
           ...this.columnOptions,
-          fontSize: 6,
+          fontSize: 8,
+          bold: true,
         },
       },
       {
         text: sumDeposit,
         options: {
           ...this.columnOptions,
-          fontSize: 6,
+          fontSize: 8,
+          bold: true,
         },
       },
       {
         text: sumMonth,
         options: {
           ...this.columnOptions,
-          fontSize: 6,
+          fontSize: 8,
+          bold: true,
         },
       },
       {
         text: sumManage,
         options: {
           ...this.columnOptions,
-          fontSize: 6,
+          fontSize: 8,
+          bold: true,
         },
       },
       {
         text: "",
         options: {
           ...this.columnOptions,
-          fontSize: 6,
+          fontSize: 8,
+          bold: true,
         },
       },
       {
         text: "",
         options: {
           ...this.columnOptions,
-          fontSize: 6,
+          fontSize: 8,
+          bold: true,
         },
       },
       {
         text: "",
         options: {
           ...this.columnOptions,
-          fontSize: 6,
+          fontSize: 8,
+          bold: true,
         },
       },
     ]);
@@ -1095,8 +1119,8 @@ class PPTBuilder {
     slide.addTable(rentInfoRows, {
       x: 0.1,
       y: 4.2,
-      colW: [0.4, 0.6, 0.5, 0.5, 0.5, 1.1, 0.7, 0.7],
-      rowH: 0.1,
+      colW: [0.5, 0.6, 0.5, 0.5, 0.5, 1.1, 0.7, 0.6],
+      rowH: 0.2,
     });
 
     //위치
