@@ -959,7 +959,74 @@ class PPTBuilder {
     }
 
     console.log("Sum", sumArea, sumDeposit, sumMonth, sumManage);
+    if (rentInfoRows.length < 9) {
+      for (let i = 0; i < 9 - rentInfoRows.length; i++) {
+        rentInfoRows.push([
+          {
+            text: "",
+            options: {
+              ...this.columnOptions,
+              fontSize: 6,
+            },
+          },
+          {
+            text: "",
+            options: {
+              ...this.columnOptions,
+              fontSize: 6,
+            },
+          },
+          {
+            text: "",
+            options: {
+              ...this.columnOptions,
+              fontSize: 6,
+            },
+          },
+          {
+            text: "",
+            options: {
+              ...this.columnOptions,
+              fontSize: 6,
+            },
+          },
+          {
+            text: "",
+            options: {
+              ...this.columnOptions,
+              fontSize: 6,
+            },
+          },
+          {
+            text: "",
+            options: {
+              ...this.columnOptions,
+              fontSize: 6,
+            },
+          },
+          {
+            text: "",
+            options: {
+              ...this.columnOptions,
+              fontSize: 6,
+            },
+          },
+          {
+            text: "",
+            options: {
+              ...this.columnOptions,
+              fontSize: 6,
+            },
+          },
+        ]);
+      }
+    }
 
+    if (rentInfoRows.length > 9) {
+      for (let i = 0; i < rentInfoRows.length - 9; i++) {
+        rentInfoRows.splice(9);
+      }
+    }
     rentInfoRows.push([
       {
         text: "합계",
@@ -1413,6 +1480,7 @@ class PPTBuilder {
         color: this.COLOR_RED,
       });
       const rentInfoRows = [];
+
       rentInfoRows.push([
         {
           text: "층별",
@@ -1526,6 +1594,59 @@ class PPTBuilder {
           },
         ]);
       });
+      if (rentInfoRows.length < 9) {
+        for (let i = 0; i < 9 - rentInfoRows.length; i++) {
+          rentInfoRows.push([
+            {
+              text: "",
+              options: {
+                ...this.columnOptions,
+                fontSize: 8,
+              },
+            },
+            {
+              text: "",
+              options: {
+                ...this.columnOptions,
+                fontSize: 8,
+              },
+            },
+            {
+              text: "",
+              options: {
+                ...this.columnOptions,
+                fontSize: 8,
+              },
+            },
+            {
+              text: "",
+              options: {
+                ...this.columnOptions,
+                fontSize: 8,
+              },
+            },
+            {
+              text: "",
+              options: {
+                ...this.columnOptions,
+                fontSize: 8,
+              },
+            },
+            {
+              text: "",
+              options: {
+                ...this.columnOptions,
+                fontSize: 8,
+              },
+            },
+          ]);
+        }
+      }
+      if (rentInfoRows.length > 9) {
+        for (let i = 0; i < rentInfoRows.length - 9; i++) {
+          rentInfoRows.splice(9);
+        }
+      }
       let sumArea = 0;
       let sumDeposit = 0;
       let sumMonth = 0;
