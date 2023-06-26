@@ -463,10 +463,11 @@ class DataController extends Controller {
           headers: {
             Accept: "*",
           },
-          timeout: 10000,
+          timeout: 15000,
         });
         if (result.data) {
           const building = xml2json(parseXml(result.data), "");
+          console.log('building result', building)
           return res
             .status(httpStatus.OK)
             .send({ building: building.response.body.items.item });
@@ -502,9 +503,11 @@ class DataController extends Controller {
           timeout: 5000,
         });
         if (result.data) {
-          //@ts-ignore
           //console.log("publicprice result", result.data);
-          console.log("publicprice result ok", result.data);
+          console.log("publicprice result ok", JSON.stringify(result.data));
+          if (!result.data.indvdLandPrices?.field) {
+            return res.status(httpStatus.NOT_FOUND).send({ price: [] });
+          }
           return res
             .status(httpStatus.OK)
             .send({ price: result.data.indvdLandPrices.field });
@@ -513,7 +516,7 @@ class DataController extends Controller {
         console.log("publicprice err", err);
         return res
           .status(httpStatus.NOT_FOUND)
-          .send({ error: JSON.stringify(err) });
+          .send({ price: [], error: JSON.stringify(err) });
       }
     }
   });
