@@ -1061,7 +1061,7 @@ class PPTBuilder {
         },
       },
       {
-        text: sumDeposit,
+        text: addFraction(sumDeposit),
         options: {
           ...this.columnOptions,
           fontSize: 8,
@@ -1069,7 +1069,7 @@ class PPTBuilder {
         },
       },
       {
-        text: sumMonth,
+        text: addFraction(sumMonth),
         options: {
           ...this.columnOptions,
           fontSize: 8,
@@ -1077,7 +1077,7 @@ class PPTBuilder {
         },
       },
       {
-        text: sumManage,
+        text: addFraction(sumManage),
         options: {
           ...this.columnOptions,
           fontSize: 8,
@@ -1119,7 +1119,7 @@ class PPTBuilder {
     slide.addTable(rentInfoRows, {
       x: 0.1,
       y: 4.2,
-      colW: [0.5, 0.6, 0.5, 0.5, 0.5, 1.1, 0.7, 0.6],
+      colW: [0.5, 0.6, 0.6, 0.5, 0.5, 1.1, 0.7, 0.5],
       rowH: 0.2,
     });
 
