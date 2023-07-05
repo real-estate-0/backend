@@ -967,8 +967,10 @@ class PPTBuilder {
     }
 
     console.log("Sum", sumArea, sumDeposit, sumMonth, sumManage);
+    console.log("RentiInfoRows", rentInfoRows.length);
     if (rentInfoRows.length < 9) {
-      for (let i = 0; i < 9 - rentInfoRows.length; i++) {
+      const len = rentInfoRows.length
+      for (let i = 0; i < 9 - len; i++) {
         rentInfoRows.push([
           {
             text: "",
@@ -1038,11 +1040,13 @@ class PPTBuilder {
       }
     }
 
+    console.log("RentiInfoRows after0", rentInfoRows.length);
     if (rentInfoRows.length > 9) {
       for (let i = 0; i < rentInfoRows.length - 9; i++) {
         rentInfoRows.splice(9);
       }
     }
+    console.log("RentiInfoRows after", rentInfoRows.length);
     rentInfoRows.push([
       {
         text: "합계",
@@ -1053,7 +1057,7 @@ class PPTBuilder {
         },
       },
       {
-        text: sumArea.toFixed(1),
+        text: addFraction(convertAreaToPy(String(sumArea))),
         options: {
           ...this.columnOptions,
           fontSize: 8,
@@ -1692,7 +1696,7 @@ class PPTBuilder {
           },
         },
         {
-          text: addFraction(sumArea),
+          text: addFraction(convertAreaToPy(String(sumArea))),
           options: {
             ...this.columnOptions,
             fontSize: 8,
