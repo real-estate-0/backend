@@ -871,6 +871,7 @@ class PPTBuilder {
           fontSize: 7,
         },
       },
+      /*
       {
         text: "만기",
         options: {
@@ -879,6 +880,7 @@ class PPTBuilder {
           fontSize: 7,
         },
       },
+      */
     ]);
     /**
      * Rent info
@@ -944,6 +946,7 @@ class PPTBuilder {
             bold: true,
           },
         },
+        /*
         {
           text: f.end, //만기
           options: {
@@ -952,6 +955,7 @@ class PPTBuilder {
             bold: true,
           },
         },
+        */
       ]);
     });
 
@@ -1123,7 +1127,7 @@ class PPTBuilder {
     slide.addTable(rentInfoRows, {
       x: 0.1,
       y: 4.2,
-      colW: [0.5, 0.6, 0.6, 0.5, 0.5, 1.1, 0.7, 0.5],
+      colW: [0.5, 0.6, 0.6, 0.6, 0.6, 1.3, 0.8],
       rowH: 0.2,
     });
 
