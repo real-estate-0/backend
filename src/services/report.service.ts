@@ -455,11 +455,11 @@ class PPTBuilder {
       {
         text:
           addFraction(
-            convertAreaToPy(
-              String(
-                getLastPublicPrice(this.report?.publicPrice || []) / 10000
-              ),
-              true
+            String(
+              (
+                (getLastPublicPrice(this.report?.publicPrice || []) * 3.306) /
+                10000
+              ).toFixed(0)
             )
           ) + "만",
         options: {
@@ -973,7 +973,7 @@ class PPTBuilder {
     console.log("Sum", sumArea, sumDeposit, sumMonth, sumManage);
     console.log("RentiInfoRows", rentInfoRows.length);
     if (rentInfoRows.length < 9) {
-      const len = rentInfoRows.length
+      const len = rentInfoRows.length;
       for (let i = 0; i < 9 - len; i++) {
         rentInfoRows.push([
           {
@@ -2062,7 +2062,9 @@ class PPTBuilder {
         options: this.headerOptions,
       },
       {
-        text: addFraction(getLastPublicPrice(report?.publicPrice || [])) + "원",
+        text:
+          addFraction(getLastPublicPrice(report?.publicPrice || []) * 3.306) +
+          "원",
         options: { ...this.columnOptions, align: "right" },
       },
       {
