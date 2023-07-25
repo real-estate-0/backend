@@ -772,7 +772,7 @@ class PPTBuilder {
         },
       },
       {
-        text: addFraction(this.totalManagementResult) + "만",
+        text: addFraction(this.totalEtcResult) + "만",
         options: {
           ...this.columnOptions,
           colspan: 1,
