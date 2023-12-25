@@ -1212,7 +1212,7 @@ class PPTBuilder {
       line: { color: this.COLOR_YELLOW, width: 1 },
     });
 
-    await slide.addText("정태원 전무", {
+    await slide.addText("정태원 대표", {
       x: 2.25,
       y: 6.75,
       fontSize: 9,
