@@ -483,19 +483,25 @@ class DataController extends Controller {
 
   getLandPriceInfo = catchAsync(async (req, res) => {
     if (req.body.pnu && req.body.year) {
+      /*
       const KEY =
         "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
       const API_URL =
         "http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr";
+        */
+      const KEY = "E56B6B1B-CE04-34A4-B55D-E6BC2F99377B"
+      const API_URL = "https://api.vworld.kr/ned/data/getIndvdLandPriceAttr"
       try {
         const result = await axios.get(API_URL, {
           params: new URLSearchParams({
-            serviceKey: KEY,
+            //serviceKey: KEY,
+            key: KEY,
             pnu: req.body.pnu, //"1111017700102110000",
             stdrYear: req.body.year,
             format: "json",
             numOfRows: "10",
-            pageNoe: "1",
+            pageNo: "1",
+            domain: "https://office-korea.azurewebsites.net"
           }),
           headers: {
             Accept: "*",
@@ -1146,28 +1152,37 @@ class DataController extends Controller {
     }
   });
   getLandInfo = catchAsync(async (req, res) => {
+    /*
     const API_URL =
       "http://apis.data.go.kr/1611000/nsdi/eios/LadfrlService/ladfrlList.xml";
     const KEY =
       "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
+      */
+     const API_URL = "https://api.vworld.kr/ned/data/getLandCharacteristics"
+     const KEY = "E56B6B1B-CE04-34A4-B55D-E6BC2F99377B"
+
     if (req.body.pnu) {
       try {
         const result = await axios.get(API_URL, {
           params: new URLSearchParams({
-            serviceKey: KEY,
+            //serviceKey: KEY,
+            key: KEY,
+            stdrYear: String(new Date().getFullYear()-1),
             pnu: req.body.pnu,
-            cnflcAt: "1",
+            //cnflcAt: "1",
             format: "json",
             numOfRows: "100",
-            pageNoe: "1",
+            pageNo: "1",
+            domain: "https://office-korea.azurewebsites.net"
           }),
           headers: {
             Accept: "*",
           },
           timeout: 5000,
         });
+        console.log('result!!!!', result)
         if (result.data) {
-          const landInfo = xml2json(parseXml(result.data), "");
+          const landInfo = result.data;//xml2json(parseXml(result.data), "");
           return res.status(httpStatus.OK).send({ landInfo: landInfo });
         }
       } catch (err) {
