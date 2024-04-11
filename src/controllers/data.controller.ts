@@ -1118,20 +1118,26 @@ class DataController extends Controller {
 
   getLandPlanInfo = catchAsync(async (req, res) => {
     if (req.body.pnu) {
-      const KEY =
+
+     const KEY = "E56B6B1B-CE04-34A4-B55D-E6BC2F99377B"
+     const API_URL = "https://api.vworld.kr/ned/data/getLandUseAttr" 
+     /*
+     const KEY =
         "UQoQhO/CpOPm65pe+obx1jBuKFhT+2tXx2jIFwwsrkp5Q/TfZw8hYAv3j4hSN+n0Cs35+6ZeuKGGGb07pX+qCg==";
       const API_URL =
         "http://apis.data.go.kr/1611000/nsdi/LandUseService/attr/getLandUseAttr";
+        */
 
       try {
         const result = await axios.get(API_URL, {
           params: new URLSearchParams({
-            serviceKey: KEY,
+            key: KEY,
             pnu: req.body.pnu,
             cnflcAt: "1",
             format: "json",
             numOfRows: "100",
             pageNoe: "1",
+            domain: "https://office-korea.azurewebsites.net"
           }),
           headers: {
             Accept: "*",
@@ -1139,6 +1145,7 @@ class DataController extends Controller {
           timeout: 5000,
         });
         if (result.data) {
+          console.log('getLandPlanInfo data', result.data)
           //@ts-ignore
           return res
             .status(httpStatus.OK)
